@@ -1,4 +1,4 @@
 import { registerRootComponent } from 'expo';
-import gestor_telas  from './gestor_telas'
+import App  from './App'
 
-registerRootComponent(gestor_telas);
+registerRootComponent(App);
