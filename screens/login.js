@@ -15,6 +15,7 @@ const [pass, setPass] = useState('')
 
   return (
     <View style={styles.container}>
+        <Text style={styles.title}>Cadastro</Text>
        <TextInput
         style={styles.input}
         placeholder='Digite Seu Nome'
@@ -71,5 +72,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'black',
+  },
+   title: {
+    color: 'black',
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });
