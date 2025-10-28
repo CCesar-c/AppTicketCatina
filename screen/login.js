@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React from 'react';
@@ -40,7 +39,6 @@ const [pass, setPass] = useState('')
        <TouchableOpacity style={styles.butao}>
         <Text style={styles.text}>Cadastrar</Text>
        </TouchableOpacity>
-    
     </View>
   );
 }
