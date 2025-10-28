@@ -5,7 +5,6 @@ import Login from './screen/login';
 export default function App() {
   return (
     <Login />
-
   );
 }
 
