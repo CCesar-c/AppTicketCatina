@@ -5,62 +5,68 @@ import { supabase } from '../Back-end/supabase';
 import { useEffect } from 'react';
 
 
-export default function Login( { navigation } ) {
+export default function Login({ navigation }) {
 
-  useEffect(() => {
-    async function loadUsers() {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*');
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [pass, setPass] = useState('')
 
-      if (error) console.log('❌ Error:', error.message);
-      else console.log('✅ Data:', data);
+  async function loadUsers() {
+    if (!name || !email || !pass) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
+    const { data, error } = await supabase
+      .from('users')
+      .select('*');
+
+    if (error) {
+      console.log('❌ Error:', error.message);
+    }
+    else {
+      console.log('✅ Data:', data);
     }
 
-    loadUsers();
-  }, []);
+    if (name === data[0].Users && email === data[0].Emails && pass === data[0].Senha) {
+      //user normal
+      navigation.navigate('Home')
+      alert("Acceso para o Usuario")
+    }
+    else if (name === data[1].Users && email === data[1].Emails && pass === data[1].Senha) {
+      // Administrador
+      navigation.navigate('adminHome')
+      alert("Acceso para o ADM")
+    }
 
-const [name, setName] = useState('')
-const [email, setEmail] = useState('')
-const [pass, setPass] = useState('')
-
-function loginUser() {
-  if (!name || !email || !pass) {
-    Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-    return;
   }
-  else {
-  navigation.navigate('Home')
-  }
-}
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>Cadastro</Text>
-       <TextInput
+      <Text style={styles.title}>Cadastro</Text>
+      <TextInput
         style={styles.input}
         placeholder='Digite Seu Nome'
         value={name}
         onChangeText={setName}
         keyboardType='default'
       />
-           <TextInput
+      <TextInput
         style={styles.input}
         placeholder='Digite Seu Email'
         value={email}
         onChangeText={setEmail}
         keyboardType='default'
       />
-           <TextInput
+      <TextInput
         style={styles.input}
         placeholder='Digite Sua Senha'
         value={pass}
         onChangeText={setPass}
         keyboardType='numeric'
       />
-       <TouchableOpacity style={styles.butao} onPress={() => loginUser()}>
+      <TouchableOpacity style={styles.butao} onPress={() => loadUsers()}>
         <Text style={styles.text}>Cadastrar</Text>
-       </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },  
+  },
   input: {
     height: 40,
     width: 200,
@@ -86,14 +92,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     margin: 10,
-    borderWidth: 1, 
-    borderColor: 'black', 
+    borderWidth: 1,
+    borderColor: 'black',
     borderRadius: 5,
   },
   text: {
     color: 'black',
   },
-   title: {
+  title: {
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
