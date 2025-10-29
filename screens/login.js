@@ -71,6 +71,7 @@ export default function Login({ navigation }) {
         placeholder='Digite Sua Senha'
         value={pass}
         onChangeText={setPass}
+        secureTextEntry
         keyboardType='numeric'
       />
       <TouchableOpacity style={styles.butao} onPress={() => loadUsers()}>
