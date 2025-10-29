@@ -8,18 +8,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
 
-  async function verfNome() {
-    var verf_nome = await AsyncStorage.getItem("nome")
-    return verf_nome;
-  }
-
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
-  useEffect(async () => {
-    await AsyncStorage.setItem("nome", name)
-  }, name)
+  // useEffect(async () => {
+  //   await AsyncStorage.setItem("nome", name)
+  // }, name)
 
   async function loadUsers() {
     if (!name || !email || !pass) {
