@@ -3,13 +3,23 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Login({ navigation }) {
 
+  async function verfNome() {
+    var verf_nome = await AsyncStorage.getItem("nome")
+    return verf_nome;
+  }
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
+
+  useEffect(async() => {
+    await AsyncStorage.setItem("nome", name)
+  }, name)
 
   async function loadUsers() {
     if (!name || !email || !pass) {
@@ -27,17 +37,16 @@ export default function Login({ navigation }) {
       console.log('✅ Data:', data);
     }
 
-    if (name === data[0].Users && email === data[0].Emails && pass === data[0].Senha) {
+    if (email === data[0].Emails && pass === data[0].Senha) {
       //user normal
       navigation.navigate('Home')
       alert("Acceso para o Usuario")
     }
-    else if (name === data[1].Users && email === data[1].Emails && pass === data[1].Senha) {
+    else if ( email === data[1].Emails && pass === data[1].Senha) {
       // Administrador
       navigation.navigate('adminHome')
       alert("Acceso para o ADM")
     }
-
   }
 
   return (
