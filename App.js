@@ -1,9 +1,10 @@
-
 import { StyleSheet, Text, View } from 'react-native';
-
-
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './screens/home';
 import Login from './screens/login';
 
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
