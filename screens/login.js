@@ -56,7 +56,10 @@ export default function Login({ navigation }) {
         style={styles.input}
         placeholder='Digite Seu Nome'
         value={name}
-        onChangeText={setName}
+        onChangeText={() => {
+          if(name.length > 3)
+          setName
+        }}
         keyboardType='default'
       />
       <TextInput
