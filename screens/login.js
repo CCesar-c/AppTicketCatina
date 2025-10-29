@@ -1,12 +1,9 @@
+import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { supabase } from '../Back-end/supabase';
 import { useEffect } from 'react';
 
-const Stack = createStackNavigator();
 
 export default function Login( { navigation } ) {
 
@@ -26,6 +23,16 @@ export default function Login( { navigation } ) {
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
 const [pass, setPass] = useState('')
+
+function loginUser() {
+  if (!name || !email || !pass) {
+    Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+    return;
+  }
+  else {
+  navigation.navigate('Home')
+  }
+}
 
   return (
     <View style={styles.container}>
@@ -51,10 +58,7 @@ const [pass, setPass] = useState('')
         onChangeText={setPass}
         keyboardType='numeric'
       />
-       <TouchableOpacity style={styles.butao} onPress={() =>{
-        
-       }} >
-        
+       <TouchableOpacity style={styles.butao} onPress={() => loginUser()}>
         <Text style={styles.text}>Cadastrar</Text>
        </TouchableOpacity>
     </View>
