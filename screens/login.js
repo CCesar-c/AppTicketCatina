@@ -7,7 +7,7 @@ import { subapase } from '../Back-end/supabase';
 
 const Stack = createStackNavigator();
 
-export default function Login() {
+export default function Login( { navigation } ) {
 
 async function adduser() {
   const {data, error} = await subapase
