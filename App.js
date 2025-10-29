@@ -1,7 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
+
 import { StyleSheet, Text, View } from 'react-native';
-import Login from './screen/login';
-import { useEffect } from 'react';
+
+
+import Login from './screens/login';
+
 
 export default function App() {
   return (
