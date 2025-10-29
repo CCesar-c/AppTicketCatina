@@ -3,10 +3,18 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'reac
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { subapase } from '../Back-end/supabase';
 
 const Stack = createStackNavigator();
 
 export default function Login() {
+
+async function adduser() {
+  const {data, error} = await subapase
+  .from("users")
+  .select("*")
+  console.log("respons" + data);
+}
 
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
