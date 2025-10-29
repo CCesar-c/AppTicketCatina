@@ -17,7 +17,7 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
-  useEffect(async() => {
+  useEffect(async () => {
     await AsyncStorage.setItem("nome", name)
   }, name)
 
@@ -42,7 +42,7 @@ export default function Login({ navigation }) {
       navigation.navigate('Home')
       alert("Acceso para o Usuario")
     }
-    else if ( email === data[1].Emails && pass === data[1].Senha) {
+    else if (email === data[1].Emails && pass === data[1].Senha) {
       // Administrador
       navigation.navigate('adminHome')
       alert("Acceso para o ADM")
@@ -56,10 +56,7 @@ export default function Login({ navigation }) {
         style={styles.input}
         placeholder='Digite Seu Nome'
         value={name}
-        onChangeText={() => {
-          if(name.length > 3)
-          setName
-        }}
+        onChangeText={setName}
         keyboardType='default'
       />
       <TextInput
