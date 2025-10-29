@@ -3,19 +3,25 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'reac
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { subapase } from '../Back-end/supabase';
+import { supabase } from '../Back-end/supabase';
+import { useEffect } from 'react';
 
 const Stack = createStackNavigator();
 
 export default function Login( { navigation } ) {
 
-async function adduser() {
-  const {data, error} = await subapase
-  .from("users")
-  .select("*")
-  console.log("respons: " + data);
-  console.log("ERROR: " + error)
-}
+  useEffect(() => {
+    async function loadUsers() {
+      const { data, error } = await supabase
+        .from('users')
+        .select('*');
+
+      if (error) console.log('❌ Error:', error.message);
+      else console.log('✅ Data:', data);
+    }
+
+    loadUsers();
+  }, []);
 
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
@@ -45,7 +51,10 @@ const [pass, setPass] = useState('')
         onChangeText={setPass}
         keyboardType='numeric'
       />
-       <TouchableOpacity style={styles.butao}>
+       <TouchableOpacity style={styles.butao} onPress={() =>{
+        
+       }} >
+        
         <Text style={styles.text}>Cadastrar</Text>
        </TouchableOpacity>
     </View>
