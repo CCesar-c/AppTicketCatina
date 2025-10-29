@@ -13,7 +13,8 @@ async function adduser() {
   const {data, error} = await subapase
   .from("users")
   .select("*")
-  console.log("respons" + data);
+  console.log("respons: " + data);
+  console.log("ERROR: " + error)
 }
 
 const [name, setName] = useState('')
