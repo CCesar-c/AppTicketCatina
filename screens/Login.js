@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({ navigation }) {
 
+  // ctr + fn + /
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
@@ -23,7 +24,8 @@ export default function Login({ navigation }) {
     }
     const { data, error } = await supabase
       .from('users')
-      .select('*');
+      .select('*')
+
 
     if (error) {
       console.log('❌ Error:', error.message);
@@ -32,15 +34,17 @@ export default function Login({ navigation }) {
       console.log('✅ Data:', data);
     }
 
-    if (email === data[0].Emails && pass === data[0].Senha) {
+    if (email === data[1].Emails && pass === data[1].Senha) {
       //user normal
       navigation.navigate('Home')
       alert("Acceso para o Usuario")
     }
-    else if (email === data[1].Emails && pass === data[1].Senha) {
+    else if (email === data[0].Emails && pass === data[0].Senha) {
       // Administrador
       navigation.navigate('adminHome')
       alert("Acceso para o ADM")
+    } else {
+      alert("Usuario ou Senha Incorretos")
     }
   }
 
