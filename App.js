@@ -3,17 +3,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './screens/Home';
 import Login from './screens/login';
-import AdminHome from './screens/AdminHome';
+import AdminHome from './screens/adminHome';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login} />
+      <Stack.Navigator initialRouteName="login">
+        <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="AdminHome" component={AdminHome} />
+        <Stack.Screen name="adminHome" component={AdminHome} />
       </Stack.Navigator>
     </NavigationContainer>
   );
