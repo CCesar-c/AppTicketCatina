@@ -14,7 +14,7 @@ export default function Login({ navigation }) {
   const [pass, setPass] = useState('')
 
   // useEffect(async () => {
-  //   await AsyncStorage.setItem("nome", name)
+  //   
   // }, name)
 
   async function loadUsers() {
@@ -47,7 +47,17 @@ export default function Login({ navigation }) {
       alert("Usuario ou Senha Incorretos")
     }
   }
+  async function storeData() {
+    await AsyncStorage.setItem('@storage_Key', name)
+  }
 
+  async function loadData() {
+    const name = await AsyncStorage.getItem('@storage_Key');
+    setName(name);
+  }
+
+  if (!name)
+    loadData();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro</Text>
@@ -73,7 +83,10 @@ export default function Login({ navigation }) {
         secureTextEntry
         keyboardType='numeric'
       />
-      <TouchableOpacity style={styles.butao} onPress={() => loadUsers()}>
+      <TouchableOpacity style={styles.butao} onPress={() => {
+        loadUsers()
+        storeData()
+      }}>
         <Text style={styles.text}>Cadastrar</Text>
       </TouchableOpacity>
     </View>

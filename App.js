@@ -5,7 +5,6 @@ import DrawerNavigator from './screens/Drawer';
 import Login from './screens/Login';
 import AdminHome from './screens/AdminHome';
 import DetalhesCompras from './screens/DetalhesCompras'
-import { Button } from 'react-native-web';
 
 const Stack = createStackNavigator();
 
