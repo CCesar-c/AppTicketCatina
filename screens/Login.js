@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
+import NewButton from '../components/componets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -20,8 +21,6 @@ export default function Login({ navigation }) {
     const { data, error } = await supabase
       .from('users')
       .select('*')
-
-
     if (error) {
       console.log('❌ Error:', error.message);
     }
@@ -78,12 +77,10 @@ export default function Login({ navigation }) {
         secureTextEntry
         keyboardType='numeric'
       />
-      <TouchableOpacity style={styles.butao} onPress={() => {
+      <NewButton children="Cadastrar" style={styles.butao} onPress={() => {
         loadUsers()
         storeData()
-      }}>
-        <Text style={styles.text}>Cadastrar</Text>
-      </TouchableOpacity>
+      }} />
     </View>
   );
 }
