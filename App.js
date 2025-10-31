@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/Home';
+import DrawerNavigator from './screens/Drawer';
 import Login from './screens/Login';
 import AdminHome from './screens/AdminHome';
 import DetalhesCompras from './screens/DetalhesCompras'
@@ -12,17 +12,14 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="Home" component={Home} options={{
-          headerRight: () => (
-            <Button style={{ fontSize: 22, marginRight: 15 }}>DetalhesCompras</Button>
-          ),
-        }} />
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
-        <Stack.Screen name="adminHome" component={AdminHome} />
+        <Stack.Screen name="AdminHome" component={AdminHome} />
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }
 

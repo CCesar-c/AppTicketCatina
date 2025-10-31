@@ -36,12 +36,12 @@ export default function Login({ navigation }) {
 
     if (email === data[1].Emails && pass === data[1].Senha) {
       //user normal
-      navigation.navigate('Home')
+      navigation.navigate('Drawer')
       alert("Acceso para o Usuario")
     }
     else if (email === data[0].Emails && pass === data[0].Senha) {
       // Administrador
-      navigation.navigate('adminHome')
+      navigation.navigate('AdminHome')
       alert("Acceso para o ADM")
     } else {
       alert("Usuario ou Senha Incorretos")
