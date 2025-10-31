@@ -1,8 +1,6 @@
-import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
-import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -13,9 +11,6 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
-  // useEffect(async () => {
-  //   
-  // }, name)
 
   async function loadUsers() {
     if (!name || !email || !pass) {
