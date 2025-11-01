@@ -22,8 +22,7 @@ export default function Home() {
 
 const styles = StyleSheet.create({
   container: {
-
-    textAlign: 'left',
+    flexDirection: 'row',
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'flex-start',

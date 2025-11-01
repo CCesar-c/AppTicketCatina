@@ -20,10 +20,10 @@ export default function Perfil() {
 
       <Text style={{
         fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
-      }}>{name}</Text>
+      }}>Nome: {name}</Text>
       <Text style={{
         fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
-      }}>{turma}</Text>
+      }}>Turma: {turma}</Text>
     </View>
   );
 }
