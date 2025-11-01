@@ -1,23 +1,29 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Perfil() {
   const [name, setName] = useState('')
+  const [turma, setTurma] = useState('')
 
-  async function loadData() {
-    const name = await AsyncStorage.getItem('@storage_Key');
-    setName(name);
-  }
-  if (!name)
-    loadData();
+  useEffect(() => {
+    (async () => {
+      const NewName = await AsyncStorage.getItem('@storage_Key');
+      setName(NewName);
+      const NewTurma = await AsyncStorage.getItem('@storage_Turma');
+      setTurma(NewTurma);
+    })();
+  }, []);
   return (
     <View style={styles.container}>
 
       <Text style={{
         fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
       }}>{name}</Text>
+      <Text style={{
+        fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
+      }}>{turma}</Text>
     </View>
   );
 }

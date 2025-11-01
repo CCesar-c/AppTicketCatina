@@ -13,31 +13,33 @@ export default function TabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarActiveTintColor: '#00ccffff',
+        tabBarInactiveTintColor: '#6e6868ff',
         headerShown: false,
-        tabBarShowLabel: false,
-      }} >
-      <Tab.Screen 
-        name="Home" 
-        component={Home} 
+      }}
+    >
+      <Tab.Screen
+        name="Home1"
+        component={Home}
         options={{
-          tabBarLabel: 'Início',
+          tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Entypo name="home" size={size} color={color} />
           ),
         }}
       />
-      <Tab.Screen 
-        name="Histórico" 
-        component={Historico} 
+      <Tab.Screen
+        name="Histórico"
+        component={Historico}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="history" size={size} color={color}/>
+            <AntDesign name="history" size={size} color={color} />
           ),
         }}
       />
-      <Tab.Screen 
-        name="Configurações" 
-        component={Configs} 
+      <Tab.Screen
+        name="Configurações"
+        component={Configs}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" size={size} color={color} />
