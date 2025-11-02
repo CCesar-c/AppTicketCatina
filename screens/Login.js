@@ -56,13 +56,13 @@ export default function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro</Text>
-      {/* <TextInput
+       <TextInput
         style={styles.input}
         placeholder='Digite Seu Nome'
         value={name || "Nome nao encontrado"}
         onChangeText={setName}
         keyboardType='default'
-      /> */}
+      /> 
       <TextInput
         style={styles.input}
         placeholder='Digite Seu Email'
