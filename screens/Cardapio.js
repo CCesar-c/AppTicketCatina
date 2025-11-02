@@ -25,6 +25,8 @@ export default function Cardapio() {
     fetchFotos();
   }, []);
 
+  
+
   return (
     <View style={{ height: '100vh' }}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -37,7 +39,7 @@ export default function Cardapio() {
             />
             <Text style={styles.text}>
               🍽️ Nome: {item.Nome}{"\n"}
-              💰 Preço: {item.Valor + " contos"}
+              💰 Preço: {item.Valor + " Reais"}
             </Text>
             <NewButton style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }} onPress={() => alert(`Adicionado ${item.Nome} ao carrinho!`)}>
               {"Adicionar ao Carrinho"}

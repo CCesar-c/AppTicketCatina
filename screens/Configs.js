@@ -30,11 +30,11 @@ export default function Configs() {
       <TextInput
         style={{ borderColor: "black", borderWidth: 1, borderRadius: 10, padding: 10 }}
         placeholder="Alterar Nome de usuario"
-        onChangeText={(text) => { setName(text) }} />
+        onChangeText={setName} />
       <TextInput
         style={{ borderColor: "black", borderWidth: 1, padding: 10, borderRadius: 10 }}
         placeholder="Alterar Turma do usuario"
-        onChangeText={(text) => { setTurma(text) }} />
+        onChangeText={setTurma} />
       <NewButton onPress={saveName} activeOpacity={0.6} style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Salvar</NewButton>
     </View>
   );
