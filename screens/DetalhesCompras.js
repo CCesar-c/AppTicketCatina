@@ -1,7 +1,7 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 export default function DetalhesCompras() {
-    return(
+    return (
         <View>
             <Text>SIm</Text>
         </View>
