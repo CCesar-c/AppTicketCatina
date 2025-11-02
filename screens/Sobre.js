@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Sobre() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>POV: esta necesitando pito </Text>
     </View>
   );
 }

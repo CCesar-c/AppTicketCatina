@@ -9,25 +9,23 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Saldo: </Text>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Ticket: </Text>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Saldo: 100</Text>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Ticket: 2</Text>
       <View style={styles.row}>
 
         <View style={styles.collum}>
-          <TouchableOpacity style={styles.button}>
+          <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
             <FontAwesome name="dollar" size={24} color="white" />
-          </TouchableOpacity>
+          </NewButton>
           <Text style={styles.text}>Carregar creditos</Text>
         </View>
 
         <View style={styles.collum}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
-          <AntDesign name="shop" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.text}>Comprar na cantina</Text>
+          <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
+            <AntDesign name="shop" size={24} color="white" />
+          </NewButton>
+          <Text style={styles.text}>Comprar na cantina</Text>
         </View>
-       
-
       </View>
     </View>
   );

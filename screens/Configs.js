@@ -9,6 +9,10 @@ export default function Configs() {
   const [turma, setTurma] = useState('')
 
   async function saveName() {
+    if (!name || !turma) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
     await AsyncStorage.setItem('@storage_Key', name);
     await AsyncStorage.setItem('@storage_Turma', turma);
   }
@@ -22,13 +26,16 @@ export default function Configs() {
   }, []);
   return (
     <View style={styles.container}>
-      <TextInput 
-      placeholder="Nome de usuario" 
-      onChangeText={(text) => { setName(text) }} />
-      <TextInput 
-      placeholder="Turma do usuario" 
-      onChangeText={(text) => { setTurma(text) }} />
-      <NewButton onPress={saveName} activeOpacity={0.6}>Salvar</NewButton>
+      <Text>Configurações</Text>
+      <TextInput
+        style={{ borderColor: "black", borderWidth: 1, borderRadius: 10, padding: 10 }}
+        placeholder="Alterar Nome de usuario"
+        onChangeText={(text) => { setName(text) }} />
+      <TextInput
+        style={{ borderColor: "black", borderWidth: 1, padding: 10, borderRadius: 10 }}
+        placeholder="Alterar Turma do usuario"
+        onChangeText={(text) => { setTurma(text) }} />
+      <NewButton onPress={saveName} activeOpacity={0.6} style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Salvar</NewButton>
     </View>
   );
 }
@@ -36,6 +43,7 @@ export default function Configs() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    gap: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
