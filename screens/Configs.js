@@ -22,8 +22,12 @@ export default function Configs() {
   }, []);
   return (
     <View style={styles.container}>
-      <TextInput placeholder="Nome de usuario" onChangeText={(text) => { setName(text) }} />
-      <TextInput placeholder="Turma do usuario" onChangeText={(text) => { setTurma(text) }} />
+      <TextInput 
+      placeholder="Nome de usuario" 
+      onChangeText={(text) => { setName(text) }} />
+      <TextInput 
+      placeholder="Turma do usuario" 
+      onChangeText={(text) => { setTurma(text) }} />
       <NewButton onPress={saveName} activeOpacity={0.6}>Salvar</NewButton>
     </View>
   );

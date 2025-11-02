@@ -6,7 +6,7 @@ import { NewButton } from '../components/componets'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 
 
-export default function Home() {
+export default function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Saldo: </Text>
@@ -21,7 +21,7 @@ export default function Home() {
         </View>
 
         <View style={styles.collum}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
           <AntDesign name="shop" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.text}>Comprar na cantina</Text>
