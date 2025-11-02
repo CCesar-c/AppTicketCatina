@@ -3,43 +3,65 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import NewButton from '../components/componets';
 
-export default function Cardapio() {
+export default function Cardapio({ navigation }) {
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
 
   useEffect(() => {
-    const fetchFotos = async () => {
-      const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a'); // varias fotos
-      const json = await res.json();
-      setFotos(json.meals || []);
-    };
+    // const fetchFotos = async () => {
+    //   // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
+    //   // const json = await res.json();
+    //   // setFotos(json.meals || []);
+    //   for (let index = 0; index < 30; index++) {
+    //     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+    //     const json = await res.json();
+    //     setFotos((prevFotos) => {
+    //       return [...prevFotos, ...(json.meals || [])]
+    //     });
+    //   }
 
-    const fetchData = async () => {
-      const { data, error } = await supabase
+    // };
+    // fetchFotos();
+
+    const fetchGeneral = async () => {
+      const { data: comidas } = await supabase
         .from('Comidas')
         .select('*');
-      setResult(data || []);
-    };
-
-    fetchData();
-    fetchFotos();
+      const { data: files } = await supabase
+        .storage
+        .from('Imagens')
+        .list();
+      const url = files.map((file) => {
+        const { data: singleImage } = supabase
+          .storage
+          .from('Imagens')
+          .getPublicUrl(file.name);
+        return { name: file.name, publicUrl: singleImage.publicUrl };
+      });
+      setFotos(url || []);
+      setResult(comidas || []);
+    }
+    fetchGeneral();
   }, []);
 
   return (
-    <View style={{ height: '100vh' }}>
-      <ScrollView contentContainerStyle={styles.container}>
+    <View style={{ height: '80%', backgroundColor: '#57bdcfff' }}>
+      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => (
           <View key={item.id} style={styles.card}>
             <Image
               resizeMode='contain'
-              source={{ uri: fotos[index % fotos.length]?.strMealThumb }}
+              source={{ uri: fotos.find((foto) => foto.name === item.Nome + ".jpeg")?.publicUrl }}
               style={styles.image}
             />
             <Text style={styles.text}>
-              🍽️ Nome: {item.Nome}{"\n"}
-              💰 Preço: {item.Valor + " contos"}
+              🍽️ Nome: {item.Nome}
+              {"\n"}
+              💰 Preço: {(item.Valor + Math.random() * 5).toFixed(2) + " contos"}
             </Text>
-            <NewButton style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }} onPress={() => alert(`Adicionado ${item.Nome} ao carrinho!`)}>
+            <NewButton
+              style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
+              onPress={() => { navigation.navigate('DetalhesCompras'); alert(`Adicionado ${item.Nome} ao carrinho!`); }}>
               {"Adicionar ao Carrinho"}
             </NewButton>
           </View>
@@ -70,6 +92,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: { width: '100%', height: 200, borderRadius: 10, marginBottom: 10 },
-  text: { fontSize: 16, fontWeight: 'bold', textAlign: 'center' },
+  image: {
+    width: '100%', height: 200, borderRadius: 10, marginBottom: 10
+  },
+  text: {
+    fontSize: 16, fontWeight: 'bold', textAlign: 'center'
+  },
 });
