@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import NewButton from '../components/componets';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Cardapio({ navigation }) {
   const [result, setResult] = useState([]);
@@ -44,7 +45,7 @@ export default function Cardapio({ navigation }) {
     fetchGeneral();
   }, []);
 
-  
+
 
   return (
     <View style={{ height: '80%', backgroundColor: '#57bdcfff' }}>
@@ -62,7 +63,7 @@ export default function Cardapio({ navigation }) {
             </Text>
             <NewButton
               style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-              onPress={() => { navigation.navigate('DetalhesCompras'); alert(`Adicionado ${item.Nome} ao carrinho!`); }}>
+              onPress={async () => { navigation.navigate('DetalhesCompras'); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome) }}>
               {"Adicionar ao Carrinho"}
             </NewButton>
           </View>
