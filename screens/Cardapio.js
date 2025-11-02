@@ -26,11 +26,12 @@ export default function Cardapio() {
   }, []);
 
   return (
-    <View style={{ height: '80vh' }}>
+    <View style={{ height: '100vh' }}>
       <ScrollView contentContainerStyle={styles.container}>
         {result.map((item, index) => (
           <View key={item.id} style={styles.card}>
             <Image
+              resizeMode='contain'
               source={{ uri: fotos[index % fotos.length]?.strMealThumb }}
               style={styles.image}
             />
@@ -50,11 +51,14 @@ export default function Cardapio() {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
     paddingVertical: 10,
-    alignItems: 'center', // solo horizontal
+
   },
   card: {
-    width: '90%',
+    width: '200px',
     marginBottom: 15,
     padding: 10,
     borderRadius: 10,
