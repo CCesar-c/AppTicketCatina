@@ -60,7 +60,7 @@ export default function Cardapio({ navigation }) {
             />
             <Text style={styles.text}>
               🍽️ Nome: {item.Nome}{"\n"}
-              💰 Preço: {(item.Valor + Math.random() * 7).toFixed(2) + " contos"}
+              💰 Preço: {item.Valor + " contos"}
             </Text>
             <NewButton
               style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
@@ -68,7 +68,7 @@ export default function Cardapio({ navigation }) {
                 const fotoFind = fotos.find((foto) => foto.name === item.Nome + ".jpeg")?.publicUrl
                 navigation.navigate('DetalhesCompras', {
                   nombre: item.Nome,
-                  valor: (item.Valor + Math.random() * 7).toFixed(2),
+                  valor: item.Valor ,
                   fotoproduto: fotoFind,
                 }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
               }}>
