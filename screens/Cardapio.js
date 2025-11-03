@@ -57,7 +57,6 @@ export default function Cardapio({ navigation }) {
                 navigation.navigate('DetalhesCompras', {
                   nombre: item.Nome,
                   valor: item.Valor,
-                  fotoproduto: fotoFind,
                 }); 
                 alert(`Adicionado ${item.Nome} ao carrinho!`); 
                 await AsyncStorage.setItem('produto', item.Nome)
