@@ -62,12 +62,11 @@ export default function Cardapio({ navigation }) {
                 style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
                 onPress={async () => {
                   navigation.navigate('DetalhesCompras', {
-                    nombre: item.Nome,
-                    valor: item.Valor,
-                    fotoproduto: foto,
-                  }); alert(`Adicionado ${item.Nome} ao carrinho!`); 
-                  await AsyncStorage.setItem('produto', item.Nome)
-                  await AsyncStorage.setItem('preco' ,item.Valor)
+                    nombre: item.strMeal,
+                    fotoproduto: item.strMealThumb,
+                  }); alert(`Adicionado ${item.strMeal} ao carrinho!`); 
+                  await AsyncStorage.setItem('produto',  item.strMeal)
+                  await AsyncStorage.setItem('preco' ,1)
                 }}>
                 {"Adicionar ao Carrinho"}
               </NewButton>
