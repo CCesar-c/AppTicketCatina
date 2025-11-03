@@ -60,6 +60,7 @@ export default function Cardapio({ navigation }) {
                 }); 
                 alert(`Adicionado ${item.Nome} ao carrinho!`); 
                 await AsyncStorage.setItem('produto', item.Nome)
+                await AsyncStorage.setItem('preco', item.Valor)
               }}>
               {"Adicionar ao Carrinho"}
             </NewButton>
