@@ -43,11 +43,11 @@ export default function Login({ navigation }) {
   }
 
   async function storeData() {
-    await AsyncStorage.setItem('@storage_Key', name)
+    await AsyncStorage.setItem('@storage_Name', name)
   }
 
   async function loadData() {
-    const name = await AsyncStorage.getItem('@storage_Key');
+    const name = await AsyncStorage.getItem('@storage_Name');
     setName(name);
   }
 

@@ -16,12 +16,12 @@ export default function Configs() {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    await AsyncStorage.setItem('@storage_Key', name);
+    await AsyncStorage.setItem('@storage_Name', name);
     await AsyncStorage.setItem('@storage_Turma', turma);
   }
   useEffect(() => {
     (async () => {
-      const NewName = await AsyncStorage.getItem('@storage_Key');
+      const NewName = await AsyncStorage.getItem('@storage_Name');
       setName(NewName);
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
       setTurma(NewTurma);
@@ -29,12 +29,12 @@ export default function Configs() {
   }, []);
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.text, { color: theme.text }]} >Configurações</Text>
       <NewButton children={
         darkMode ? '🌞' : '🌙'
       } onPress={() => {
         mudarTema()
       }} />
-      <Text style={[styles.text, { color: theme.text }]} >Configurações</Text>
       <TextInput
         style={{ borderColor: "black", borderWidth: 1, borderRadius: 10, padding: 10 }}
         placeholder="Alterar Nome de usuario"

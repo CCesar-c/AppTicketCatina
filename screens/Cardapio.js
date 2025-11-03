@@ -2,8 +2,8 @@ import { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import NewButton from '../components/componets';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from '../contexts/themeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Cardapio({ navigation }) {
 
@@ -70,7 +70,7 @@ export default function Cardapio({ navigation }) {
                   nombre: item.Nome,
                   valor: item.Valor ,
                   fotoproduto: fotoFind,
-                }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
+                }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("produto", item.Nome)
               }}>
               {"Adicionar ao Carrinho"}
             </NewButton>
