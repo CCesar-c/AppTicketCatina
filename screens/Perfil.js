@@ -9,7 +9,7 @@ export default function Perfil() {
 
   useEffect(() => {
     (async () => {
-      const NewName = await AsyncStorage.getItem('@storage_Key');
+      const NewName = await AsyncStorage.getItem('@storage_Name');
       setName(NewName);
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
       setTurma(NewTurma);
