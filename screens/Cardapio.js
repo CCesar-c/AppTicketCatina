@@ -53,11 +53,10 @@ export default function Cardapio({ navigation }) {
             </Text>
             <NewButton
               style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-              onPress={async () => {l
+              onPress={async () => {
                 navigation.navigate('DetalhesCompras', {
                   nombre: item.Nome,
                   valor: item.Valor,
-                  fotoproduto: fotoFind,
                 }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
               }}>
               {"Adicionar ao Carrinho"}
