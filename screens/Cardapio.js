@@ -11,36 +11,36 @@ export default function Cardapio({ navigation }) {
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    const fetchFotos = async () => {
-      // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
-      // const json = await res.json();
-      // setFotos(json.meals || []);
-      for (let index = 0; index < 30; index++) {
-        const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
-        const json = await res.json();
-        setResult((prevFotos) => {
-          return [...prevFotos, ...(json.meals || [])]
-        });
-      }
+    // const fetchFotos = async () => {
+    //   const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
+    //   const json = await res.json();
+    //   setResult(json.meals || []);
+    //   // for (let index = 0; index < 30; index++) {
+    //   //   const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+    //   //   const json = await res.json();
+    //   //   setResult((prevFotos) => {
+    //   //     return [...prevFotos, ...(json.meals || [])]
+    //   //   });
+    //   // }
 
-    };
-    fetchFotos();
-    console.log
+    // };
+    // fetchFotos();
+    // console.log
 
-    // const fetchGeneral = async () => {
-    //   const { data: comidas } = await supabase
-    //     .from('Comidas')
-    //     .select('*');
-    //   const { data: bebidas } = await supabase
-    //     .from('Bebidas')
-    //     .select('*');
-    //   const { data: outros } = await supabase
-    //     .from('Outras opcoes')
-    //     .select('*');
+    const fetchGeneral = async () => {
+      const { data: comidas } = await supabase
+        .from('Comidas')
+        .select('*');
+      const { data: bebidas } = await supabase
+        .from('Bebidas')
+        .select('*');
+      const { data: outros } = await supabase
+        .from('Outras opcoes')
+        .select('*');
 
-    //   setResult([...(comidas || []), ...(bebidas || []), ...(outros || [])]);
-    // }
-    // fetchGeneral();
+      setResult([...(comidas || []), ...(bebidas || []), ...(outros || [])]);
+    }
+    fetchGeneral();
   }, []);
 
   return (
