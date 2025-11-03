@@ -21,7 +21,6 @@ export default function App() {
         <Stack.Screen name="AdminHome" component={AdminHome} />
         <Stack.Screen name="Cardapio" component={Cardapio} />
         <Stack.Screen name="Creditos" component={Creditos} />
-
       </Stack.Navigator>
     </NavigationContainer>
 

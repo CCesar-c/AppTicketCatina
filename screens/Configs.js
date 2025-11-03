@@ -1,10 +1,14 @@
-
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect } from 'react';
 import NewButton from '../components/componets';
+import { ThemeContext } from '../contexts/themeContext';
+import { darkTheme, lightTheme } from '../components/themes';
 
 export default function Configs() {
+  const { theme, darkMode, mudarTema } = useContext(ThemeContext);
+
   const [name, setName] = useState('')
   const [turma, setTurma] = useState('')
 
@@ -25,8 +29,8 @@ export default function Configs() {
     })();
   }, []);
   return (
-    <View style={styles.container}>
-      <Text>Configurações</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.text, {color: theme.text}]} >Configurações</Text>
       <TextInput
         style={{ borderColor: "black", borderWidth: 1, borderRadius: 10, padding: 10 }}
         placeholder="Alterar Nome de usuario"
@@ -36,6 +40,11 @@ export default function Configs() {
         placeholder="Alterar Turma do usuario"
         onChangeText={setTurma} />
       <NewButton onPress={saveName} activeOpacity={0.6} style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Salvar</NewButton>
+      <Button
+        title="Alternar Tema"
+        color={theme.buttonBackground}
+        onPress={mudarTema}
+      />
     </View>
   );
 }
@@ -47,5 +56,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
