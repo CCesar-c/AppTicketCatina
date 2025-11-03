@@ -8,10 +8,14 @@ import { ThemeContext } from '../contexts/themeContext';
 export default function Home({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
+
+  const [saldo, setSaldo] = useState(0);
+  const [ticket, setTicket] = useState(0);
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Saldo: 100</Text>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: 2</Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Saldo: {saldo}</Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {ticket}</Text>
       <View style={styles.row}>
 
         <View style={styles.collum}>

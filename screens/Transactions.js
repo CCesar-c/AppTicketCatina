@@ -10,7 +10,7 @@ export default function Transactions() {
     useEffect(() => {
     (async () => {
       const newProduto = await AsyncStorage.getItem('produto');
-      setProduto(JSON.parse(newProduto) || []);
+      setProduto(JSON.parse(newProduto) || ['Nenhum produto encontrado']);
     })();
   }, []);
   return (
@@ -21,8 +21,8 @@ export default function Transactions() {
         data={produto}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-            <View style={{ padding: 10, borderWidth: 1, padding: 45, margin: 5, borderColor: 'black', height: 40, width: 300, textAlign: 'center', justifyContent: 'center', alignItems: 'center', }}>
-            <Text style={{ borderBottomWidth: 1 }}>{item}</Text>
+            <View style={styles.container}>
+            <Text style={styles.text}>{item} oi</Text>
           </View>
         )} />
     </View>
@@ -36,4 +36,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    fontSize: 18,
+    color: 'black',
+  }
 });

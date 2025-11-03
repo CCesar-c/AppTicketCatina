@@ -12,19 +12,20 @@ export default function Cardapio({ navigation }) {
 
   useEffect(() => {
     // const fetchFotos = async () => {
-    //   // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
-    //   // const json = await res.json();
-    //   // setFotos(json.meals || []);
-    //   for (let index = 0; index < 30; index++) {
-    //     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
-    //     const json = await res.json();
-    //     setFotos((prevFotos) => {
-    //       return [...prevFotos, ...(json.meals || [])]
-    //     });
-    //   }
+    //   const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
+    //   const json = await res.json();
+    //   setResult(json.meals || []);
+    //   // for (let index = 0; index < 30; index++) {
+    //   //   const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+    //   //   const json = await res.json();
+    //   //   setResult((prevFotos) => {
+    //   //     return [...prevFotos, ...(json.meals || [])]
+    //   //   });
+    //   // }
 
     // };
     // fetchFotos();
+    // console.log
 
     const fetchGeneral = async () => {
       const { data: comidas } = await supabase
@@ -45,24 +46,32 @@ export default function Cardapio({ navigation }) {
   return (
     <View style={[{ height: '30%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
-        {result.map((item, index) => (
-          <View key={item.id} style={styles.card}>
-            <Text style={styles.text}>
-              🍽️ Nome: {item.Nome}{"\n"}
-              💰 Preço: {item.Valor + " contos"}
-            </Text>
-            <NewButton
-              style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-              onPress={async () => {
-                navigation.navigate('DetalhesCompras', {
-                  nombre: item.Nome,
-                  valor: item.Valor,
-                }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
-              }}>
-              {"Adicionar ao Carrinho"}
-            </NewButton>
-          </View>
-        ))
+        {result.map((item) => {
+          return (
+            <View key={item.id} style={styles.card}>
+              <Image
+                // source={item}
+                style={styles.image}
+                resizeMode="cover"
+              />
+              <Text style={styles.text}>
+                🍽️ Nome: {item.Nome}{"\n"}
+                💰 Preço: {item.Valor + " contos"}
+              </Text>
+              <NewButton
+                style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
+                onPress={async () => {
+                  navigation.navigate('DetalhesCompras', {
+                    nombre: item.Nome,
+                    valor: item.Valor,
+                    fotoproduto: foto,
+                  }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
+                }}>
+                {"Adicionar ao Carrinho"}
+              </NewButton>
+            </View>
+          )
+        })
         }
       </ScrollView >
     </View >
