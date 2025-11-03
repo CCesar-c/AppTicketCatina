@@ -5,24 +5,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Transactions() {
 
-  const [produto, setProduto] = useState([])
+  const [produto, setProduto] = useState('')
+  const [produtos, setProdutos] = useState([''])
+  const [preco, setPreco] = useState('')
+  const [precos, setPrecos] = useState([''])
+
 
     useEffect(() => {
     (async () => {
       const newProduto = await AsyncStorage.getItem('produto');
-      setProduto(JSON.parse(newProduto) || ['Nenhum produto encontrado']);
-    })();
-  }, []);
+      setProdutos([...produtos, newProduto])
+      const newPreco = await AsyncStorage.getItem('preco');
+      setPrecos([...precos, newPreco])
+  })();
+}, []);
   return (
 
    
     <View style={styles.container}>
        <FlatList
-        data={produto}
+        data={produtos}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
             <View style={styles.container}>
-            <Text style={styles.text}>{item} oi</Text>
+            <Text style={styles.text}>Produto: {item}</Text>
+          </View>
+        )} />
+           <FlatList
+        data={precos}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+            <View style={styles.container}>
+            <Text style={styles.text}>Preço: {item}</Text>
           </View>
         )} />
     </View>
