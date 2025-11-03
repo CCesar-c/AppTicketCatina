@@ -1,10 +1,11 @@
 
 import { StyleSheet, Text, View } from 'react-native';
-
+let Criadores = ("🖥️ Cesar / 🖥️ Davi Grah / 🖥️ Gustavo Camargo");
 export default function Sobre() {
   return (
     <View style={styles.container}>
-      <Text>POV: esta necesitando pito </Text>
+      <Text>Criadores: {Criadores}</Text>
+      
     </View>
   );
 }
