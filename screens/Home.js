@@ -1,44 +1,65 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useState, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NewButton } from '../components/componets'
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
+import { ThemeContext } from '../contexts/themeContext';
 
+export default function Home({ navigation }) {
 
-// const Tab = createBottomTabNavigator();
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator >
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-export default function Home() {
+  const { theme } = useContext(ThemeContext);
   return (
-    <View style={styles.container}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', margin: 10 }}>Saldo de tickets: </Text>
-      <NewButton onPress={() => { alert("querro goza") }} activeOpacity={0.6}>
-        Carregar creditos
-      </NewButton>
-      <NewButton onPress={() => { alert("querro goza") }} activeOpacity={0.6} >
-        Comprar na cantina
-      </NewButton>
-    </View>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Saldo: 100</Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: 2</Text>
+      <View style={styles.row}>
+
+        <View style={styles.collum}>
+          <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
+            <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
+          </NewButton>
+          <Text style={[styles.text, { color: theme.buttonText }]}>Carregar creditos</Text>
+        </View>
+
+        <View style={styles.collum}>
+          <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
+            <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
+          </NewButton>
+          <Text style={[styles.text, { color: theme.buttonText }]}>Comprar na cantina</Text>
+        </View>
+      </View>
+    </View >
   );
 }
 
 
 const styles = StyleSheet.create({
   container: {
-
-    textAlign: 'left',
+    flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'flex-start',
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 30,
+
+  },
+  collum: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  button: {
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    margin: 10,
+    fontWeight: 'bold',
+  }
+
 });

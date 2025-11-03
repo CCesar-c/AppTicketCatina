@@ -1,8 +1,7 @@
-import React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
-import { useEffect } from 'react';
+import NewButton from '../components/componets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -13,9 +12,6 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [pass, setPass] = useState('')
 
-  // useEffect(async () => {
-  //   await AsyncStorage.setItem("nome", name)
-  // }, name)
 
   async function loadUsers() {
     if (!name || !email || !pass) {
@@ -25,8 +21,6 @@ export default function Login({ navigation }) {
     const { data, error } = await supabase
       .from('users')
       .select('*')
-
-
     if (error) {
       console.log('❌ Error:', error.message);
     }
@@ -36,28 +30,39 @@ export default function Login({ navigation }) {
 
     if (email === data[1].Emails && pass === data[1].Senha) {
       //user normal
-      navigation.navigate('Home')
+      navigation.navigate('Drawer')
       alert("Acceso para o Usuario")
     }
     else if (email === data[0].Emails && pass === data[0].Senha) {
       // Administrador
-      navigation.navigate('adminHome')
+      navigation.navigate('AdminHome')
       alert("Acceso para o ADM")
     } else {
       alert("Usuario ou Senha Incorretos")
     }
   }
 
+  async function storeData() {
+    await AsyncStorage.setItem('@storage_Key', name)
+  }
+
+  async function loadData() {
+    const name = await AsyncStorage.getItem('@storage_Key');
+    setName(name);
+  }
+
+  if (!name)
+    loadData();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cadastro</Text>
-      <TextInput
+       <TextInput
         style={styles.input}
         placeholder='Digite Seu Nome'
-        value={name}
+        value={name || "Nome nao encontrado"}
         onChangeText={setName}
         keyboardType='default'
-      />
+      /> 
       <TextInput
         style={styles.input}
         placeholder='Digite Seu Email'
@@ -73,9 +78,10 @@ export default function Login({ navigation }) {
         secureTextEntry
         keyboardType='numeric'
       />
-      <TouchableOpacity style={styles.butao} onPress={() => loadUsers()}>
-        <Text style={styles.text}>Cadastrar</Text>
-      </TouchableOpacity>
+      <NewButton children="Cadastrar" style={styles.butao} onPress={() => {
+        loadUsers()
+        storeData()
+      }} />
     </View>
   );
 }

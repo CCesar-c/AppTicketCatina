@@ -1,26 +1,32 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './screens/Home';
-import Login from './screens/login';
-import AdminHome from './screens/adminHome';
+import ThemeProvider from './contexts/themeContext';
+import DrawerNavigator from './screens/Drawer';
+import Login from './screens/Login';
+import AdminHome from './screens/AdminHome';
+import DetalhesCompras from './screens/DetalhesCompras';
+import Cardapio from './screens/Cardapio';
+import Creditos from './screens/Creditos';
 
 const Stack = createStackNavigator();
 
 export default function App() {
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="Home" component={Home} options={{
-          headerRight: () => (
-            <Button style={{ fontSize: 22, marginRight: 15 }}>DetalhesCompras</Button>
-          ),
-        }} />
-        <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
-        <Stack.Screen name="adminHome" component={AdminHome} />
-      </Stack.Navigator>
+      <ThemeProvider>
+        <Stack.Navigator initialRouteName="Drawer">
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
+          <Stack.Screen name="AdminHome" component={AdminHome} />
+          <Stack.Screen name="Cardapio" component={Cardapio} />
+          <Stack.Screen name="Creditos" component={Creditos} />
+        </Stack.Navigator>
+      </ThemeProvider>
     </NavigationContainer>
+
   );
 }
 
