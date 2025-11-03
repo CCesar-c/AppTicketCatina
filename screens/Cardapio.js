@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import NewButton from '../components/componets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemeContext } from '../contexts/themeContext';
 
 export default function Cardapio({ navigation }) {
+
+  const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
 
@@ -45,10 +48,8 @@ export default function Cardapio({ navigation }) {
     fetchGeneral();
   }, []);
 
-
-
   return (
-    <View style={{ height: '80%', backgroundColor: '#57bdcfff' }}>
+    <View style={[{ height: '80%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => (
           <View key={item.id} style={styles.card}>
@@ -59,17 +60,25 @@ export default function Cardapio({ navigation }) {
             />
             <Text style={styles.text}>
               🍽️ Nome: {item.Nome}{"\n"}
-              💰 Preço: {item.Valor + " contos"}
+              💰 Preço: {(item.Valor + Math.random() * 7).toFixed(2) + " contos"}
             </Text>
             <NewButton
               style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-              onPress={async () => { navigation.navigate('DetalhesCompras'); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome) }}>
+              onPress={async () => {
+                const fotoFind = fotos.find((foto) => foto.name === item.Nome + ".jpeg")?.publicUrl
+                navigation.navigate('DetalhesCompras', {
+                  nombre: item.Nome,
+                  valor: (item.Valor + Math.random() * 7).toFixed(2),
+                  fotoproduto: fotoFind,
+                }); alert(`Adicionado ${item.Nome} ao carrinho!`); await AsyncStorage.setItem("carrinho", item.Nome)
+              }}>
               {"Adicionar ao Carrinho"}
             </NewButton>
           </View>
-        ))}
-      </ScrollView>
-    </View>
+        ))
+        }
+      </ScrollView >
+    </View >
   );
 }
 

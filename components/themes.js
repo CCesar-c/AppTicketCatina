@@ -1,14 +1,16 @@
 
 export const lightTheme = {
-  background: '#FFFFFF',
+  background: '#ffffffff',
   text: '#000000',
   buttonBackground: '#007AFF',
-  buttonText: '#FFFFFF',
+  buttonText: '#000000',
+  colorIcon: "#000000"
 };
 
 export const darkTheme = {
   background: '#121212',
-  text: '#FFFFFF',
+  text: '#ffffffff',
   buttonBackground: '#BB86FC',
-  buttonText: '#000000',
+  buttonText: '#ffffffff',
+  colorIcon: '#ffffffff'
 };
