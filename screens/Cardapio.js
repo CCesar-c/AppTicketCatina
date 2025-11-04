@@ -9,6 +9,19 @@ export default function Cardapio({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
+  const precoProduto = 15.0; // Valor do item
+  const realizarCompra = () => {
+    if (saldo >= precoProduto) {
+      setSaldo(saldo - precoProduto);
+      Alert.alert("Compra concluida!", `O valor pago foi R$${precoProduto.toFixed(2)}`);
+    } else {
+      Alert.alert(
+        "Saldo insuficiente",
+        "Você não tem créditos suficientes para realizar esta compra."
+      );
+    }
+  };
+
 
   useEffect(() => {
     // const fetchFotos = async () => {
@@ -48,67 +61,68 @@ export default function Cardapio({ navigation }) {
     fetchGeneral();
   }, 1);
 
+
   return (
     <View style={[{ height: '32.25%', backgroundColor: theme.background }]}>
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
-        {result.map((item, index) => {
-          return (
-            <View key={index} style={styles.card}>
-              <Image
-                source={{ uri: "https://www.unileverfoodsolutions.com.mx/tendencias/de-mexico-para-el-mundo/platillos-mexicanos/top10-platillos/jcr:content/parsys/content-aside-footer/columncontrol_copy/columnctrl_parsys_1/textimage_copy/image.transform/jpeg-optimized/image.1592429867593.jpg"}}
-                style={styles.image}
-                resizeMode="cover"
-              />
-              <Text style={styles.text}>
-                🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: {item.Valor + " contos"} 
-              </Text>
-              <NewButton
-                style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-                onPress={async () => {
-                  navigation.navigate('DetalhesCompras', {
-                    nombre: item.Nome,
-                    Preco:item.Valor
-                  }); alert(`Adicionado ${item.Nome} ao carrinho!`);
-                  await AsyncStorage.setItem('produto', item.Nome)
-                  await AsyncStorage.setItem('preco', item.Valor)
-                }}>
-                {"Adicionar ao Carrinho"}
-              </NewButton>
-            </View>
-          )
-        })
-        }
-      </ScrollView >
-    </View >
-  );
+        <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
+          {result.map((item, index) => {
+            return (
+              <View key={index} style={styles.card}>
+                <Image
+                  source={{ uri: "https://www.unileverfoodsolutions.com.mx/tendencias/de-mexico-para-el-mundo/platillos-mexicanos/top10-platillos/jcr:content/parsys/content-aside-footer/columncontrol_copy/columnctrl_parsys_1/textimage_copy/image.transform/jpeg-optimized/image.1592429867593.jpg" }}
+                  style={styles.image}
+                  resizeMode="cover"
+                />
+                <Text style={styles.text}>
+                  🍽️ Nome: {item.Nome}{"\n"}
+                  💰 Preço: {item.Valor + " contos"}
+                </Text>
+                <NewButton
+                  style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
+                  onPress={async () => {
+                    navigation.navigate('DetalhesCompras', {
+                      nombre: item.Nome,
+                      Preco: item.Valor
+                    }); alert(`Adicionado ${item.Nome} ao carrinho!`);
+                    await AsyncStorage.setItem('produto', item.Nome)
+                    await AsyncStorage.setItem('preco', item.Valor)
+                  }}>
+                  {"Adicionar ao Carrinho"}
+                </NewButton>
+              </View>
+            )
+          })
+          }
+        </ScrollView >
+      </View >
+      );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
+      const styles = StyleSheet.create({
+        container: {
+        flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+      paddingVertical: 10,
   },
 
-  card: {
-    width: 200,
-    marginBottom: 15,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: 'aliceblue',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
+      card: {
+        width: 200,
+      marginBottom: 15,
+      padding: 10,
+      borderRadius: 10,
+      backgroundColor: 'aliceblue',
+      shadowColor: '#000',
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 3,
+      justifyContent: 'center',
+      alignItems: 'center',
   },
-  image: {
-    width: 150, height: 200, borderRadius: 10, marginBottom: 10
+      image: {
+        width: 150, height: 200, borderRadius: 10, marginBottom: 10
   },
-  text: {
-    fontSize: 16, fontWeight: 'bold', textAlign: 'center'
+      text: {
+        fontSize: 16, fontWeight: 'bold', textAlign: 'center'
   },
 });
