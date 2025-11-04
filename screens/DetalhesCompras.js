@@ -2,8 +2,7 @@ import { View, Text, Image, StyleSheet } from "react-native";
 //import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 export default function DetalhesCompras() {
-    const result = useRoute();
-    const { fotoproduto, nombre, valor } = result.params;
+
     return (
         <View style={styles.container}>
             <Image
@@ -12,7 +11,8 @@ export default function DetalhesCompras() {
                 resizeMode="contain"
             />
             <Text style={styles.text}>{nombre}</Text>
-            <Text style={styles.text}>💰 {valor} contos</Text>
+
+            <Text style={styles.text}>💰 {Valor} contos</Text>
         </View>
     )
 }
