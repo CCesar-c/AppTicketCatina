@@ -48,6 +48,7 @@ export default function Cardapio({ navigation }) {
     fetchGeneral();
   }, 1);
 
+
   return (
     <View style={[{ height: '85%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
