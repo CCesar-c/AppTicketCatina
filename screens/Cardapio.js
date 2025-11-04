@@ -11,23 +11,7 @@ export default function Cardapio({ navigation }) {
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
 
-  useEffect(() => {
-    // const fetchFotos = async () => {
-    //   // https://www.themealdb.com/api/json/v1/1/random.php
-    //   // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
-    //   // const json = await res.json();
-    //   // setResult(json || []);
-    //   for (let index = 0; index < 20; index++) {
-    //     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
-    //     const json = await res.json();
-    //     setResult((prevFotos) => {
-    //       return [...prevFotos, ...(json.meals || [])]
-    //     });
-    //   }
-
-    // };
-    // fetchFotos();
-    
+  useEffect(() => {    
     const fetchGeneral = async () => {
       const { data } = await supabase
         .storage
