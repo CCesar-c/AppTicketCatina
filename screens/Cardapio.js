@@ -49,7 +49,7 @@ export default function Cardapio({ navigation }) {
   }, 1);
 
   return (
-    <View style={[{ height: '30%', backgroundColor: theme.background }]}>
+    <View style={[{ height: '32.25%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => {
           return (
