@@ -5,14 +5,12 @@ import Home from './Home';
 import Historico from './Transactions'
 import Configs from './Configs';
 import { Entypo, Ionicons, AntDesign } from '@expo/vector-icons';
-import ThemeProvider from '../contexts/themeContext';
 
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
-    <ThemeProvider>
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: '#00ccffff',
@@ -49,7 +47,6 @@ export default function TabNavigator() {
           }}
         />
       </Tab.Navigator>
-    </ThemeProvider>
   );
 }
 
