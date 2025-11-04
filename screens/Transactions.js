@@ -9,42 +9,50 @@ export default function Transactions() {
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
 
+  const carregarHistorico = async () => {
+    try {
+      const produtosStorage = await AsyncStorage.getItem('produto');
+      const precosStorage = await AsyncStorage.getItem('preco');
+      
+      if (produtosStorage) {
+        setProdutos(JSON.parse(produtosStorage));
+      }
+      if (precosStorage) {
+        setPrecos(JSON.parse(precosStorage));
+      }
+    } catch (error) {
+      console.error('Erro ao carregar histórico:', error);
+    }
+  };
+
   function Limpar() {
-    setProdutos(['']);
-    setPrecos(['']);
+    AsyncStorage.removeItem('produto');
+    AsyncStorage.removeItem('preco');
+    setProdutos([]);
+    setPrecos([]);
   }
 
   useEffect(() => {
-    (async () => {
-      const newProduto = await AsyncStorage.getItem('produto');
-      setProdutos([...produtos, newProduto])
-      const newPreco = await AsyncStorage.getItem('preco');
-      setPrecos([...precos, newPreco])
-    })();
+    carregarHistorico();
   }, []);
   return (
 
     <View style={styles.container}>
       <Text style={styles.title}>Histórico</Text>
-      <View style={styles.row}>
-        <FlatList
-          data={produtos}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <Text style={styles.text}>Produto: {item}</Text>
-            </View>
-          )} />
-        <FlatList
-          data={precos}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.container}>
-              <Text style={styles.text}>Preço: {item}</Text>
-            </View>
-          )} />
-      </View>
-      <TouchableOpacity onPress={Limpar}>
+      <FlatList
+        data={produtos.map((produto, index) => ({
+          produto: produto,
+          preco: precos[index]
+        }))}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.text}>Produto: {item.produto}</Text>
+            <Text style={styles.text}>Preço: R$ {item.preco}</Text>
+          </View>
+        )}
+      />
+      <TouchableOpacity  style={styles.butao} onPress={Limpar}>
         <Text>Limpar</Text>
       </TouchableOpacity>
     </View>
@@ -54,21 +62,37 @@ export default function Transactions() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  itemContainer: {
+    backgroundColor: '#f8f9fa',
+    padding: 15,
+    marginVertical: 5,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#dee2e6',
+    flexDirection: 'row',
     justifyContent: 'space-between',
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'black',
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 30,
-
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-  }
+  },
+   butao: {
+    alignItems: 'center',
+    width: 100,
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 5,
+  },
 });
