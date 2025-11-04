@@ -12,7 +12,7 @@ export default function DetalhesCompras() {
             />
             <Text style={styles.text}>{nombre}</Text>
 
-            <Text style={styles.text}>💰 {Valor} contos</Text>
+            <Text style={styles.text}>💰 {Valor}$</Text>
         </View>
     )
 }

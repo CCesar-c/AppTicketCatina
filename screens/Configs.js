@@ -36,11 +36,11 @@ export default function Configs() {
         mudarTema()
       }} />
       <TextInput
-        style={{ borderColor: "black", borderWidth: 1, borderRadius: 10, padding: 10 }}
+        style={[styles.input, { color: theme.text }, { borderColor: theme.text }]}
         placeholder="Alterar Nome de usuario"
         onChangeText={setName} />
       <TextInput
-        style={{ borderColor: "black", borderWidth: 1, padding: 10, borderRadius: 10 }}
+         style={[styles.input, { color: theme.text }, { borderColor: theme.text }]}
         placeholder="Alterar Turma do usuario"
         onChangeText={setTurma} />
       <NewButton onPress={saveName} activeOpacity={0.6} style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Salvar</NewButton>
@@ -60,4 +60,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  input: {
+    borderColor: "black",
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10
+  }
 });

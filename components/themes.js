@@ -2,7 +2,7 @@
 export const lightTheme = {
   background: '#F7EEE9',
   text: '#000000',
-  buttonBackground: '#007AFF',
+  buttonBackground: 'white',
   buttonText: '#000000',
   colorIcon: "#000000"
 };
