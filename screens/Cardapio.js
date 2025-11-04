@@ -97,7 +97,7 @@ export default function Cardapio({ navigation }) {
                     
                     alert(`Adicionado ${item.Nome} ao carrinho!`);
                   } catch (error) {
-                    console.error('Erro ao salvar item:', error);
+                    console.error('Erro ao salvar item:' + error);
                     alert('Erro ao adicionar item ao carrinho');
                   }
                 }}>
