@@ -4,6 +4,7 @@ export default function Sobre() {
   return (
     <View style={styles.container}>
       <Text>Criadores: {Criadores}</Text>
+      <Text>Compativel com todas as aplicações (Menos o PC do Davi)</Text>
       
     </View>
   );
