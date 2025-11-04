@@ -11,37 +11,42 @@ export default function Cardapio({ navigation }) {
   const [result, setResult] = useState([]);
 
   useEffect(() => {
-    const fetchFotos = async () => {
-      // https://www.themealdb.com/api/json/v1/1/random.php
-      // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
-      // const json = await res.json();
-      // setResult(json || []);
-      for (let index = 0; index < 20; index++) {
-        const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
-        const json = await res.json();
-        setResult((prevFotos) => {
-          return [...prevFotos, ...(json.meals || [])]
-        });
-      }
+    // const fetchFotos = async () => {
+    //   // https://www.themealdb.com/api/json/v1/1/random.php
+    //   // const res = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=b');
+    //   // const json = await res.json();
+    //   // setResult(json || []);
+    //   for (let index = 0; index < 20; index++) {
+    //     const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+    //     const json = await res.json();
+    //     setResult((prevFotos) => {
+    //       return [...prevFotos, ...(json.meals || [])]
+    //     });
+    //   }
 
-    };
-    fetchFotos();
+    // };
+    // fetchFotos();
 
-    // const fetchGeneral = async () => {
-    //   const { data: comidas } = await supabase
-    //     .from('Comidas')
-    //     .select('*');
-    //   const { data: bebidas } = await supabase
-    //     .from('Bebidas')
-    //     .select('*');
-    //   const { data: outros } = await supabase
-    //     .from('Outras opcoes')
-    //     .select('*');
+    const fetchGeneral = async () => {
+      const { data: img } = await supabase
+        .storage
+        .from("Imagens")
+        .list()
 
-    //   setResult([...(comidas || []), ...(bebidas || []), ...(outros || [])]);
-    // }
-    // fetchGeneral();
-  },  1);
+      const { data: comidas } = await supabase
+        .from('Comidas')
+        .select('*');
+      const { data: bebidas } = await supabase
+        .from('Bebidas')
+        .select('*');
+      const { data: outros } = await supabase
+        .from('Outras opcoes')
+        .select('*');
+
+      setResult([...(comidas || []), ...(bebidas || []), ...(outros || [])]);
+    }
+    fetchGeneral();
+  }, 1);
 
   return (
     <View style={[{ height: '85%', backgroundColor: theme.background }]}>
@@ -50,7 +55,7 @@ export default function Cardapio({ navigation }) {
           return (
             <View key={index} style={styles.card}>
               <Image
-                source={{uri: item.strMealThumb }}
+                source={{ uri: item.strMealThumb }}
                 style={styles.image}
                 resizeMode="cover"
               />
@@ -64,9 +69,9 @@ export default function Cardapio({ navigation }) {
                   navigation.navigate('DetalhesCompras', {
                     nombre: item.strMeal,
                     fotoproduto: item.strMealThumb,
-                  }); alert(`Adicionado ${item.strMeal} ao carrinho!`); 
-                  await AsyncStorage.setItem('produto',  item.strMeal)
-                  await AsyncStorage.setItem('preco' ,1)
+                  }); alert(`Adicionado ${item.strMeal} ao carrinho!`);
+                  await AsyncStorage.setItem('produto', item.strMeal)
+                  await AsyncStorage.setItem('preco', 1)
                 }}>
                 {"Adicionar ao Carrinho"}
               </NewButton>
