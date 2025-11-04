@@ -65,44 +65,43 @@ export default function Cardapio({ navigation }) {
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
-                resizeMode="cover"
+                resizeMode='contain'
               />
               <Text style={styles.text}>
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Valor + " contos"}
               </Text>
               <NewButton
-                  style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-                  onPress={async () => {
-                    navigation.navigate('DetalhesCompras', {
-                      nombre: item.Nome,
-                      Preco: item.Valor
-                    });
+                style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
+                onPress={async () => {
+                  navigation.navigate('DetalhesCompras', {
+                    nombre: item.Nome,
+                    Valor: item.Valor,
+                    img: fotos.find((i) => i.name.includes(item.Nome))?.url
+                  });                     try {
+                    // Carregar arrays existentes
+                    const produtosAtuais = await AsyncStorage.getItem('produto');
+                    const precosAtuais = await AsyncStorage.getItem('preco');
                     
-                    try {
-                      // Carregar arrays existentes
-                      const produtosAtuais = await AsyncStorage.getItem('produto');
-                      const precosAtuais = await AsyncStorage.getItem('preco');
-                      
-                      // Converter para array ou criar novo se não existir
-                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
-                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
-                      
-                      // Adicionar novos itens
-                      arrayProdutos.push(item.Nome);
-                      arrayPrecos.push(item.Valor);
-                      
-                      // Salvar arrays atualizados
-                      await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
-                      await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
-                      
-                      alert(`Adicionado ${item.Nome} ao carrinho!`);
-                    } catch (error) {
-                      console.error('Erro ao salvar item:', error);
-                      alert('Erro ao adicionar item ao carrinho');
-                    }
-                  }}>
-         
+                    // Converter para array ou criar novo se não existir
+                    const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                    const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                    
+                    // Adicionar novos itens
+                    arrayProdutos.push(item.Nome);
+                    arrayPrecos.push(item.Valor);
+                    
+                    // Salvar arrays atualizados
+                    await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
+                    await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
+                    
+                    alert(`Adicionado ${item.Nome} ao carrinho!`);
+                  } catch (error) {
+                    console.error('Erro ao salvar item:', error);
+                    alert('Erro ao adicionar item ao carrinho');
+                  }
+                }}>
+                
                 {"Adicionar ao Carrinho"}
               </NewButton>
             </View>
