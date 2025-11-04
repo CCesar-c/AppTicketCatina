@@ -78,10 +78,30 @@ export default function Cardapio({ navigation }) {
                     nombre: item.Nome,
                     Valor: item.Valor,
                     img: fotos.find((i) => i.name.includes(item.Nome))?.url
-                  }); alert(`Adicionado ${item.Nome} ao carrinho!`);
-                  await AsyncStorage.setItem('produto', item.Nome)
-                  await AsyncStorage.setItem('preco', item.Valor)
+                  });                     try {
+                    // Carregar arrays existentes
+                    const produtosAtuais = await AsyncStorage.getItem('produto');
+                    const precosAtuais = await AsyncStorage.getItem('preco');
+                    
+                    // Converter para array ou criar novo se não existir
+                    const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                    const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                    
+                    // Adicionar novos itens
+                    arrayProdutos.push(item.Nome);
+                    arrayPrecos.push(item.Valor);
+                    
+                    // Salvar arrays atualizados
+                    await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
+                    await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
+                    
+                    alert(`Adicionado ${item.Nome} ao carrinho!`);
+                  } catch (error) {
+                    console.error('Erro ao salvar item:', error);
+                    alert('Erro ao adicionar item ao carrinho');
+                  }
                 }}>
+                
                 {"Adicionar ao Carrinho"}
               </NewButton>
             </View>
@@ -90,9 +110,7 @@ export default function Cardapio({ navigation }) {
         }
       </ScrollView >
     </View >
-  );
-
-}
+  )};
 
 const styles = StyleSheet.create({
   container: {
