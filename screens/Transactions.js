@@ -5,10 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Transactions() {
 
-  const [produto, setProduto] = useState('')
-  const [produtos, setProdutos] = useState([''])
-  const [preco, setPreco] = useState('')
-  const [precos, setPrecos] = useState([''])
+
+  const [produtos, setProdutos] = useState([])
+  const [precos, setPrecos] = useState([])
 
 
     useEffect(() => {
