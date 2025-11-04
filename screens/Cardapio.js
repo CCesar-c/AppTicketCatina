@@ -9,6 +9,19 @@ export default function Cardapio({ navigation }) {
 
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
+  const precoProduto = 15.0; // Valor do item
+  const realizarCompra = () => {
+    if (saldo >= precoProduto) {
+      setSaldo(saldo - precoProduto);
+      Alert.alert("Compra concluida!", `O valor pago foi R$${precoProduto.toFixed(2)}`);
+    } else {
+      Alert.alert(
+        "Saldo insuficiente",
+        "Você não tem créditos suficientes para realizar esta compra."
+      );
+    }
+  };
+
 
   useEffect(() => {
     // const fetchFotos = async () => {
@@ -49,6 +62,8 @@ export default function Cardapio({ navigation }) {
   }, 1);
 
   return (
+
+    
     <View style={[{ height: '85%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => {

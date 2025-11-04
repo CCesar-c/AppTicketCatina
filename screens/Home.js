@@ -12,6 +12,8 @@ export default function Home({ navigation }) {
   const [saldo, setSaldo] = useState(0);
   const [ticket, setTicket] = useState(0);
 
+  AsyncStorage.setItem('saldo', saldo)
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Saldo: {saldo}</Text>
