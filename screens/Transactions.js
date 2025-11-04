@@ -6,8 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Transactions() {
 
 
-  const [produtos, setProdutos] = useState([''])
-  const [precos, setPrecos] = useState([''])
+  const [produtos, setProdutos] = useState([])
+  const [precos, setPrecos] = useState([])
 
   function Limpar() {
     setProdutos(['']);
