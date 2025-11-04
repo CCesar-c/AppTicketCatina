@@ -2,11 +2,11 @@ import { View, Text, Image, StyleSheet } from "react-native";
 //import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 export default function DetalhesCompras() {
-
+    const { nombre, Valor, img } = useRoute().params;
     return (
         <View style={styles.container}>
             <Image
-                source={{ uri: fotoproduto }}
+                source={{ uri: img }}
                 style={styles.image}
                 resizeMode="contain"
             />

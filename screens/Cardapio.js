@@ -65,7 +65,7 @@ export default function Cardapio({ navigation }) {
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
-                resizeMode="cover"
+                resizeMode='contain'
               />
               <Text style={styles.text}>
                 🍽️ Nome: {item.Nome}{"\n"}
@@ -76,7 +76,8 @@ export default function Cardapio({ navigation }) {
                 onPress={async () => {
                   navigation.navigate('DetalhesCompras', {
                     nombre: item.Nome,
-                    Valor: item.Valor
+                    Valor: item.Valor,
+                    img: fotos.find((i) => i.name.includes(item.Nome))?.url
                   }); alert(`Adicionado ${item.Nome} ao carrinho!`);
                   await AsyncStorage.setItem('produto', item.Nome)
                   await AsyncStorage.setItem('preco', item.Valor)
