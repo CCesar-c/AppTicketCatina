@@ -63,7 +63,7 @@ export default function Cardapio({ navigation }) {
                 />
                 <Text style={styles.text}>
                   🍽️ Nome: {item.Nome}{"\n"}
-                  💰 Preço: {item.Valor + " contos"}
+                  💰 Preço: {item.Valor + "$"}
                 </Text>
                 <NewButton
                   style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
