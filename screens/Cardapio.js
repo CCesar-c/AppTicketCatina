@@ -111,7 +111,7 @@ export default function Cardapio({ navigation }) {
         }
       </ScrollView >
     </View >
-  );
+  )};
 
 const styles = StyleSheet.create({
   container: {
