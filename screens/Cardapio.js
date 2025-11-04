@@ -61,32 +61,32 @@ export default function Cardapio({ navigation }) {
     fetchGeneral();
   }, 1);
 
+
   return (
 
-    
-    <View style={[{ height: '85%', backgroundColor: theme.background }]}>
+    <View style={[{ height: '30%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => {
           return (
             <View key={index} style={styles.card}>
               <Image
-                source={{ uri: item.strMealThumb }}
+                source={{ uri: "https://www.unileverfoodsolutions.com.mx/tendencias/de-mexico-para-el-mundo/platillos-mexicanos/top10-platillos/jcr:content/parsys/content-aside-footer/columncontrol_copy/columnctrl_parsys_1/textimage_copy/image.transform/jpeg-optimized/image.1592429867593.jpg"}}
                 style={styles.image}
                 resizeMode="cover"
               />
               <Text style={styles.text}>
-                🍽️ Nome: {item.strMeal}{"\n"}
-                {/* 💰 Preço: {item.Valor + " contos"} */}
+                🍽️ Nome: {item.Nome}{"\n"}
+                💰 Preço: {item.Valor + " contos"} 
               </Text>
               <NewButton
                 style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
                 onPress={async () => {
                   navigation.navigate('DetalhesCompras', {
-                    nombre: item.strMeal,
-                    fotoproduto: item.strMealThumb,
-                  }); alert(`Adicionado ${item.strMeal} ao carrinho!`);
-                  await AsyncStorage.setItem('produto', item.strMeal)
-                  await AsyncStorage.setItem('preco', 1)
+                    nombre: item.Nome,
+                    Preco:item.Valor
+                  }); alert(`Adicionado ${item.Nome} ao carrinho!`);
+                  await AsyncStorage.setItem('produto', item.Nome)
+                  await AsyncStorage.setItem('preco', item.Valor)
                 }}>
                 {"Adicionar ao Carrinho"}
               </NewButton>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    width: '200px',
+    width: 200,
     marginBottom: 15,
     padding: 10,
     borderRadius: 10,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: '100%', height: 200, borderRadius: 10, marginBottom: 10
+    width: 150, height: 200, borderRadius: 10, marginBottom: 10
   },
   text: {
     fontSize: 16, fontWeight: 'bold', textAlign: 'center'
