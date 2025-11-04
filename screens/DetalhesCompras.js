@@ -1,9 +1,28 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 //import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import { supabase } from '../Back-end/supabase';
 export default function DetalhesCompras() {
+    const [fotoUrl, setFotoUrl] = useState("");
+    useEffect(() => {
+        const buscarFoto = async () => {
+          
+          const url = "https://meuservidor.com/imagens/aluno1.jpg";
+          setFotoUrl(url);
+        };
+        buscarFoto();
+      }, []);
+    
     const result = useRoute();
-    const { fotoproduto, nombre, Valor } = result.params;
+    const { fotoproduto, nombre, valor } = result.params;
+    
+        const fetchGeneral = async () => {
+          const { data: img } = await supabase
+            .storage
+            .from("Imagens")
+            .list('*')
+        }
+        fetchGeneral();
     return (
         <View style={styles.container}>
             <Image
