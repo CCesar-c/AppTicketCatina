@@ -5,8 +5,8 @@ export function NewButton({ style, children, onPress, ...props }) {
     const { theme } = useContext(ThemeContext);
     return (
         <View>
-            <TouchableOpacity style={[style, { backgroundColor: theme.buttonBackground }]} onPress={onPress} {...props}  >
-                <Text style={[{ textAlign: 'center', padding: 10, }, { color: theme.buttonText }]} >
+            <TouchableOpacity style={[style, { alignItems: 'center', justifyContent: 'center', backgroundColor: theme.buttonBackground, borderRadius: 10, height: 50, textAlign: 'center', width: 100 }]} onPress={onPress} {...props}  >
+                <Text style={[{ color: theme.buttonText }]} >
                     {children}
                 </Text>
             </TouchableOpacity>
