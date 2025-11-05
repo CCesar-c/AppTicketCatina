@@ -3,11 +3,12 @@ import { ThemeContext } from '../contexts/themeContext';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from  '../contexts/themeContext';
-import { useContext } from 'react';import NewButton from '../components/componets';
+import { useContext } from 'react';
+import NewButton from '../components/componets';
 
 
 export default function Transactions() {
-  const { theme } = useContext(ThemeContext);  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);  
 
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
