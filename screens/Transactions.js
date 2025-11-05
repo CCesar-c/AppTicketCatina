@@ -46,13 +46,13 @@ export default function Transactions() {
         }))}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.text}>Produto: {item.produto}</Text>
-            <Text style={styles.text}>Preço: R$ {item.preco}</Text>
+          <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
+            <Text style={[styles.text, {color:  theme.text}]}>Produto: {item.produto}</Text>
+            <Text style={[styles.text, {color:  theme.text}]}>Preço: R$ {item.preco}</Text>
           </View>
         )}
       />
-      <NewButton children={"limpar"} onPress={() => {
+      <NewButton children={"Limpar"} onPress={() => {
         Limpar()
       }} />
     </View>
