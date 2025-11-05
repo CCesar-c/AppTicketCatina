@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { ThemeContext } from '../contexts/themeContext';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
