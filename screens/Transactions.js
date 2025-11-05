@@ -38,7 +38,7 @@ export default function Transactions() {
   return (
 
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[{ color: theme.text }]}>Histórico</Text>
+      <Text style={[ styles.title, { color: theme.text }]}>Histórico</Text>
       <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,

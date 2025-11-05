@@ -5,17 +5,25 @@ import Home from './Home';
 import Historico from './Transactions'
 import Configs from './Configs';
 import { Entypo, Ionicons, AntDesign } from '@expo/vector-icons';
+import { ThemeContext } from '../contexts/themeContext';
+import { useContext } from 'react';
 
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+
+  const { theme } = useContext(ThemeContext);
+
   return (
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: '#00ccffff',
-          tabBarInactiveTintColor: '#6e6868ff',
+          tabBarActiveTintColor: theme.text, 
+          tabBarInactiveTintColor: theme.text, 
           headerShown: false,
+          tabBarStyle: { backgroundColor: theme.background}
+          
+
         }}
       >
         <Tab.Screen
