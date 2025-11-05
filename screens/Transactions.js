@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { ThemeContext } from  '../contexts/themeContext';
+import { useContext } from 'react';
 
 export default function Transactions() {
 
+  const { theme } = useContext(ThemeContext);
 
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
@@ -37,8 +39,8 @@ export default function Transactions() {
   }, []);
   return (
 
-    <View style={styles.container}>
-      <Text style={styles.title}>Histórico</Text>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
+      <Text style={[styles.title, {color: theme.text}]}>Histórico</Text>
       <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,
@@ -46,14 +48,14 @@ export default function Transactions() {
         }))}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Text style={styles.text}>Produto: {item.produto}</Text>
-            <Text style={styles.text}>Preço: R$ {item.preco}</Text>
+          <View style={[styles.itemContainer, {backgroundColor: theme.background}]}>
+            <Text style={[styles.text, {color: theme.text}]}>Produto: {item.produto}</Text>
+            <Text style={[styles.text, {color: theme.text}]}>Preço: R$ {item.preco}</Text>
           </View>
         )}
       />
-      <TouchableOpacity  style={styles.butao} onPress={Limpar}>
-        <Text>Limpar</Text>
+      <TouchableOpacity  style={[styles.butao, {backgroundColor: theme.background}, {borderColor: theme.text}]} onPress={Limpar}>
+        <Text style={[styles.text, {color: theme.text}]}>Limpar</Text>
       </TouchableOpacity>
     </View>
   );
