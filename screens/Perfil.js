@@ -1,9 +1,11 @@
 
 import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ThemeContext } from '../contexts/themeContext';
 
 export default function Perfil() {
+  const { theme } = useContext(ThemeContext);
   const [name, setName] = useState('')
   const [turma, setTurma] = useState('')
 
@@ -16,14 +18,10 @@ export default function Perfil() {
     })();
   }, []);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
 
-      <Text style={{
-        fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
-      }}>Nome: {name}</Text>
-      <Text style={{
-        fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left',
-      }}>Turma: {turma}</Text>
+      <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Nome: {name}</Text>
+      <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Turma: {turma}</Text>
     </View>
   );
 }

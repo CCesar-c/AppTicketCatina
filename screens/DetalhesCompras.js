@@ -1,17 +1,21 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/themeContext";
+
 export default function DetalhesCompras() {
     const { nombre, Valor, img } = useRoute().params;
+    const { theme } = useContext(ThemeContext);
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Image
                 source={{ uri: img }}
                 style={styles.image}
                 resizeMode="contain"
             />
-            <Text style={styles.text}>{nombre}</Text>
+            <Text style={[styles.text, { color:theme.text }]}>{nombre}</Text>
 
-            <Text style={styles.text}>💰 {Valor}$</Text>
+            <Text style={[styles.text, { color:theme.text }]}>💰{Valor}$</Text>
         </View>
     )
 }

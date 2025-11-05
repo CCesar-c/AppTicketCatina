@@ -1,4 +1,4 @@
-
+// config.js
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useContext } from 'react';
