@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ThemeContext } from  '../contexts/themeContext';
-import { useContext } from 'react';
 import NewButton from '../components/componets';
 
 
 export default function Transactions() {
-  const { theme } = useContext(ThemeContext);  
-
+  const { theme } = useContext(ThemeContext);
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
 
@@ -39,8 +36,8 @@ export default function Transactions() {
   }, [])
   return (
 
-    <View style={[[styles.container, {backgroundColor: theme.background}], { backgroundColor: theme.background }]}>
-      <Text style={[[{ color: theme.text }], {color: theme.text}]}>Histórico</Text>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[{ color: theme.text }]}>Histórico</Text>
       <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,
@@ -48,15 +45,15 @@ export default function Transactions() {
         }))}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={[styles.itemContainer, {backgroundColor: theme.background}]}>
-            <Text style={[styles.text, {color: theme.text}]}>Produto: {item.produto}</Text>
-            <Text style={[styles.text, {color: theme.text}]}>Preço: R$ {item.preco}</Text>
+          <View style={styles.itemContainer}>
+            <Text style={styles.text}>Produto: {item.produto}</Text>
+            <Text style={styles.text}>Preço: R$ {item.preco}</Text>
           </View>
         )}
       />
-      <TouchableOpacity  style={[styles.butao, {backgroundColor: theme.background}, {borderColor: theme.text}]} onPress={Limpar}>
-        <Text style={[styles.text, {color: theme.text}]}>Limpar</Text>
-      </TouchableOpacity>
+      <NewButton children={"limpar"} onPress={() => {
+        Limpar()
+      }} />
     </View>
   );
 }
