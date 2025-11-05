@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { ThemeContext } from '../contexts/themeContext';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from  '../contexts/themeContext';
-import { useContext } from 'react';
+import { useContext } from 'react';import NewButton from '../components/componets';
+
 
 export default function Transactions() {
-
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);  const { theme } = useContext(ThemeContext);
 
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
@@ -15,7 +16,7 @@ export default function Transactions() {
     try {
       const produtosStorage = await AsyncStorage.getItem('produto');
       const precosStorage = await AsyncStorage.getItem('preco');
-      
+
       if (produtosStorage) {
         setProdutos(JSON.parse(produtosStorage));
       }
@@ -33,14 +34,13 @@ export default function Transactions() {
     setProdutos([]);
     setPrecos([]);
   }
-
-  useEffect(() => {
+  useEffect(()=>{
     carregarHistorico();
-  }, []);
+  }, [])
   return (
 
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
-      <Text style={[styles.title, {color: theme.text}]}>Histórico</Text>
+    <View style={[[styles.container, {backgroundColor: theme.background}], { backgroundColor: theme.background }]}>
+      <Text style={[[{ color: theme.text }], {color: theme.text}]}>Histórico</Text>
       <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+
   },
   itemContainer: {
     backgroundColor: '#f8f9fa',
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-   butao: {
+  butao: {
     alignItems: 'center',
     width: 100,
     backgroundColor: 'white',

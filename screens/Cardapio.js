@@ -10,7 +10,7 @@ export default function Cardapio({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-
+  const [guardar, setGuardar] = useState([])
   useEffect(() => {
     const fetchGeneral = async () => {
       const { data } = await supabase
@@ -53,7 +53,7 @@ export default function Cardapio({ navigation }) {
               />
               <Text style={styles.text}>
                 🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: { item.Valor + " R$" }
+                💰 Preço: {item.Valor + " R$"}
               </Text>
               <NewButton
                 style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
@@ -62,9 +62,9 @@ export default function Cardapio({ navigation }) {
                     nombre: item.Nome,
                     Valor: item.Valor,
                     img: fotos.find((i) => i.name.includes(item.Nome))?.url
-                  }); try {
-
-                    // Carregar arrays existentes
+                  });
+                  try {
+                    //Carregar arrays existentes
                     const produtosAtuais = await AsyncStorage.getItem('produto');
                     const precosAtuais = await AsyncStorage.getItem('preco');
 
