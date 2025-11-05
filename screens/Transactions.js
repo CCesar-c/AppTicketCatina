@@ -8,60 +8,38 @@ import NewButton from '../components/componets';
 export default function Transactions() {
   const { theme } = useContext(ThemeContext);
   const [produtos, setProdutos] = useState([])
-  // const [precos, setPrecos] = useState([])
+  const [precos, setPrecos] = useState([])
 
-  // const carregarHistorico = async () => {
-  //   try {
-  //     const produtosStorage = await AsyncStorage.getItem('produto');
-  //     const precosStorage = await AsyncStorage.getItem('preco');
+  const carregarHistorico = async () => {
+    try {
+      const produtosStorage = await AsyncStorage.getItem('produto');
+      const precosStorage = await AsyncStorage.getItem('preco');
 
-  //     if (produtosStorage) {
-  //       setProdutos(JSON.parse(produtosStorage));
-  //     }
-  //     if (precosStorage) {
-  //       setPrecos(JSON.parse(precosStorage));
-  //     }
-  //   } catch (error) {
-  //     console.error('Erro ao carregar histórico:', error);
-  //   }
-  // };
-
-  // function Limpar() {
-  //   AsyncStorage.removeItem('produto');
-  //   AsyncStorage.removeItem('preco');
-  //   setProdutos([]);
-  //   setPrecos([]);
-  // }
-
-  useEffect(() => {
-    const carregarProdutos = async () => {
-      try {
-        const res = await AsyncStorage.getItem('produto');
-        if (res) {
-          setProdutos(JSON.parse(res));
-        } else {
-          setProdutos([]);
-        }
-      } catch (error) {
-        console.error('Erro ao carregar produtos:', error);
-        setProdutos([]);
+      if (produtosStorage) {
+        setProdutos(JSON.parse(produtosStorage));
       }
-    };
-    carregarProdutos();
-  }, []);
+      if (precosStorage) {
+        setPrecos(JSON.parse(precosStorage));
+      }
+    } catch (error) {
+      console.error('Erro ao carregar histórico:', error);
+    }
+  };
+
+  function Limpar() {
+    AsyncStorage.removeItem('produto');
+    AsyncStorage.removeItem('preco');
+    setProdutos([]);
+    setPrecos([]);
+  }
+  useEffect(()=>{
+    carregarHistorico();
+  }, [])
   return (
 
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[{ color: theme.text }]}>Histórico</Text>
-      {produtos.map((item, index) => {
-        return (
-          <View key={index} style={styles.itemContainer}>
-            <Text style={styles.text}>Produto: {item.nombre}</Text>
-            <Text style={styles.text}>Preço: R$ {item.Valor}</Text>
-          </View>
-        )
-      })}
-      {/* <FlatList
+      <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,
           preco: precos[index]
@@ -73,7 +51,7 @@ export default function Transactions() {
             <Text style={styles.text}>Preço: R$ {item.preco}</Text>
           </View>
         )}
-      /> */}
+      />
       <NewButton children={"limpar"} onPress={() => {
         Limpar()
       }} />

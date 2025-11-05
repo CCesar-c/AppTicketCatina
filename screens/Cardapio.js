@@ -64,28 +64,21 @@ export default function Cardapio({ navigation }) {
                     img: fotos.find((i) => i.name.includes(item.Nome))?.url
                   });
                   try {
-                    const Newcount = () => ({
-                      nombre: item.Nome,
-                      Valor: item.Valor,
-                    })
-                    setGuardar(...guardar, Newcount)
-                    await AsyncStorage.setItem('produto', JSON.stringify(guardar));
+                    //Carregar arrays existentes
+                    const produtosAtuais = await AsyncStorage.getItem('produto');
+                    const precosAtuais = await AsyncStorage.getItem('preco');
 
-                    // Carregar arrays existentes
-                    // const produtosAtuais = await AsyncStorage.getItem('produto');
-                    // const precosAtuais = await AsyncStorage.getItem('preco');
+                    // Converter para array ou criar novo se não existir
+                    const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                    const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
 
-                    // // Converter para array ou criar novo se não existir
-                    // const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
-                    // const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                    // Adicionar novos itens
+                    arrayProdutos.push(item.Nome);
+                    arrayPrecos.push(item.Valor);
 
-                    // // Adicionar novos itens
-                    // arrayProdutos.push(item.Nome);
-                    // arrayPrecos.push(item.Valor);
-
-                    // // Salvar arrays atualizados
-                    // await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
-                    // await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
+                    // Salvar arrays atualizados
+                    await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
+                    await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
 
                     alert(`Adicionado ${item.Nome} ao carrinho!`);
                   } catch (error) {
