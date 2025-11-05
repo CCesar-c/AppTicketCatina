@@ -6,18 +6,12 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from '../contexts/themeContext';
 
 export default function Home({ navigation }) {
-
   const { theme } = useContext(ThemeContext);
 
-  const [saldo, setSaldo] = useState(0);
-  const [ticket, setTicket] = useState(0);
-
-  AsyncStorage.setItem('saldo', saldo)
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Saldo: {saldo}</Text>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {ticket}</Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: </Text>
       <View style={styles.row}>
 
         <View style={styles.collum}>

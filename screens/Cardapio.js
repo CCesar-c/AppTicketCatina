@@ -55,40 +55,45 @@ export default function Cardapio({ navigation }) {
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Valor + " R$"}
               </Text>
-              <NewButton
-                style={{ width: '120px', height: '60px', backgroundColor: '#28a745', borderRadius: 5, marginTop: 10, }}
-                onPress={async () => {
-                  navigation.navigate('DetalhesCompras', {
-                    nombre: item.Nome,
-                    Valor: item.Valor,
-                    img: fotos.find((i) => i.name.includes(item.Nome))?.url
-                  });
-                  try {
-                    //Carregar arrays existentes
-                    const produtosAtuais = await AsyncStorage.getItem('produto');
-                    const precosAtuais = await AsyncStorage.getItem('preco');
+              <View style={{ flexDirection:'row' }} >
+                <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                  onPress={async () => {
+                    try {
+                      //Carregar arrays existentes
+                      const produtosAtuais = await AsyncStorage.getItem('produto');
+                      const precosAtuais = await AsyncStorage.getItem('preco');
 
-                    // Converter para array ou criar novo se não existir
-                    const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
-                    const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                      // Converter para array ou criar novo se não existir
+                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
 
-                    // Adicionar novos itens
-                    arrayProdutos.push(item.Nome);
-                    arrayPrecos.push(item.Valor);
+                      // Adicionar novos itens
+                      arrayProdutos.push(item.Nome);
+                      arrayPrecos.push(item.Valor);
 
-                    // Salvar arrays atualizados
-                    await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
-                    await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
+                      // Salvar arrays atualizados
+                      await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
+                      await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
 
-                    alert(`Adicionado ${item.Nome} ao carrinho!`);
-                  } catch (error) {
-                    console.error('Erro ao salvar item:' + error);
-                    alert('Erro ao adicionar item ao carrinho');
-                  }
-                }}>
-
-                {"Adicionar ao Carrinho"}
-              </NewButton>
+                      alert(`Adicionado ${item.Nome} ao carrinho!`);
+                    } catch (error) {
+                      console.error('Erro ao salvar item:' + error);
+                      alert('Erro ao adicionar item ao carrinho');
+                    }
+                  }}>{"Comprar este produto"}
+                </NewButton>
+                <NewButton
+                  style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                  onPress={() => {
+                    navigation.navigate('DetalhesCompras', {
+                      nombre: item.Nome,
+                      Valor: item.Valor,
+                      img: fotos.find((i) => i.name.includes(item.Nome))?.url
+                    });
+                  }}>
+                  {"Detalhes do produto"}
+                </NewButton>
+              </View>
             </View>
           )
         })

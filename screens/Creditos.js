@@ -11,10 +11,10 @@ export default function Creditos() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.text, {color: theme.text}]} >Comprar Créditos</Text>
-      <NewButton style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Comprar 10 Créditos</NewButton>
-      <NewButton style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Comprar 50 Créditos</NewButton>
-      <NewButton style={{ paddingVertical: 10, paddingHorizontal: 30, backgroundColor: 'white', borderRadius: 10, borderColor: "black", borderWidth: 1 }} >Comprar 100 Créditos</NewButton>
+      <Text style={[styles.text, { color: theme.text }]} >Comprar Créditos</Text>
+      <NewButton>Comprar 10 Créditos</NewButton>
+      <NewButton>Comprar 50 Créditos</NewButton>
+      <NewButton>Comprar 100 Créditos</NewButton>
     </View>
   );
 }
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text:{
+  text: {
     fontSize: 20,
 
   }
