@@ -18,7 +18,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Drawer"
+        initialRouteName="AdminHome"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
