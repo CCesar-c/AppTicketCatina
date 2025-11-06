@@ -32,13 +32,13 @@ export default function Transactions() {
     setProdutos([]);
     setPrecos([]);
   }
-  useEffect(()=>{
+  useEffect(() => {
     carregarHistorico();
   }, [])
   return (
 
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[ styles.title, { color: theme.text }]}>Histórico</Text>
+      <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
       <FlatList
         data={produtos.map((produto, index) => ({
           produto: produto,
@@ -47,8 +47,8 @@ export default function Transactions() {
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-            <Text style={[styles.text, {color:  theme.text}]}>Produto: {item.produto}</Text>
-            <Text style={[styles.text, {color:  theme.text}]}>Preço: R$ {item.preco}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
           </View>
         )}
       />
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    height: '100%',
     backgroundColor: '#fff',
 
   },

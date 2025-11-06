@@ -26,6 +26,11 @@
     },
     "web": {
       "favicon": "assets/foto cantina.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7bd6c3d2-46fd-4aa8-b9d6-93338dfbb41c"
+      }
     }
   }
 }
