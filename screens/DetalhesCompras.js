@@ -2,10 +2,14 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useContext } from "react";
 import { ThemeContext } from "../contexts/themeContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DetalhesCompras() {
     const { nombre, Valor, img } = useRoute().params;
     const { theme } = useContext(ThemeContext);
+    AsyncStorage.getItem("saldo").then((res) => {
+        saldo = res;
+    });
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Image
@@ -16,6 +20,8 @@ export default function DetalhesCompras() {
             <Text style={[styles.text, { color:theme.text }]}>{nombre}</Text>
 
             <Text style={[styles.text, { color:theme.text }]}>💰{Valor}$</Text>
+
+            <Text style={[styles.text, { color:theme.text }]}>💳{saldo}</Text>
         </View>
     )
 }
