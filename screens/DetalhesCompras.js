@@ -7,9 +7,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function DetalhesCompras() {
     const { nombre, Valor, img } = useRoute().params;
     const { theme } = useContext(ThemeContext);
-    AsyncStorage.getItem("saldo").then((res) => {
-        saldo = res;
-    });
+    // AsyncStorage.getItem("saldo").then((res) => {
+    //     saldo = res;
+    // });
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
             <Image
@@ -20,8 +20,8 @@ export default function DetalhesCompras() {
             <Text style={[styles.text, { color:theme.text }]}>{nombre}</Text>
 
             <Text style={[styles.text, { color:theme.text }]}>💰{Valor}$</Text>
-
-            <Text style={[styles.text, { color:theme.text }]}>💳{saldo}</Text>
+                                                       {/* falta ligar com o banco de dados */}
+            {/* <Text style={[styles.text, { color:theme.text }]}>💳{saldo}</Text> */}
         </View>
     )
 }
