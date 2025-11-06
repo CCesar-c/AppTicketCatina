@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useState, useContext } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NewButton } from '../components/componets'
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
@@ -7,11 +7,21 @@ import { ThemeContext } from '../contexts/themeContext';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
+  const [saldo, setSaldo] = useState(0)
+  
+  // useEffect(async() =>{
+  //   await AsyncStorage.removeItem("saldo")
+  // },[])
 
-
+  async function saldoGet() {
+    const res =  parseFloat(await AsyncStorage.getItem('saldo'))
+    setSaldo(res);
+  }
+  saldoGet();
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: </Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>saldo: {saldo} </Text>
       <View style={styles.row}>
 
         <View style={styles.collum}>

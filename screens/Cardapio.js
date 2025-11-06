@@ -46,28 +46,36 @@ export default function Cardapio({ navigation }) {
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
                   onPress={async () => {
-                    try {
-                      //Carregar arrays existentes
-                      const produtosAtuais = await AsyncStorage.getItem('produto');
-                      const precosAtuais = await AsyncStorage.getItem('preco');
+                    const saldo = parseFloat(await AsyncStorage.getItem("saldo"))
+                    if (saldo >= item.Valor) {
+                      await AsyncStorage.setItem("saldo", parseFloat(saldo - item.Valor))
+                      await AsyncStorage.setItem("data", new Date())
+                      try {
+                        //Carregar arrays existentes
+                        const produtosAtuais = await AsyncStorage.getItem('produto');
+                        const precosAtuais = await AsyncStorage.getItem('preco');
 
-                      // Converter para array ou criar novo se não existir
-                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
-                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                        // Converter para array ou criar novo se não existir
+                        const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                        const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
 
-                      // Adicionar novos itens
-                      arrayProdutos.push(item.Nome);
-                      arrayPrecos.push(item.Valor);
+                        // Adicionar novos itens
+                        arrayProdutos.push(item.Nome);
+                        arrayPrecos.push(item.Valor);
 
-                      // Salvar arrays atualizados
-                      await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
-                      await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
+                        // Salvar arrays atualizados
+                        await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
+                        await AsyncStorage.setItem('preco', JSON.stringify(arrayPrecos));
 
-                      alert(`Adicionado ${item.Nome} ao carrinho!`);
-                    } catch (error) {
-                      console.error('Erro ao salvar item:' + error);
-                      alert('Erro ao adicionar item ao carrinho');
+                        alert(`Adicionado ${item.Nome} ao carrinho!`);
+                      } catch (error) {
+                        console.error('Erro ao salvar item:' + error);
+                        alert('Erro ao adicionar item ao carrinho');
+                      }
+                    }else{
+                      alert("Saldo insuficiente!!\n-Porfavor compre creditos")
                     }
+
                   }}>{"Comprar este produto"}
                 </NewButton>
                 <NewButton
@@ -83,7 +91,8 @@ export default function Cardapio({ navigation }) {
                 </NewButton>
               </View>
             </View>
-          )})}
+          )
+        })}
       </ScrollView >
     </View >
   )
