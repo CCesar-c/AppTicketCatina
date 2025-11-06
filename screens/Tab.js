@@ -19,11 +19,9 @@ export default function TabNavigator() {
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: theme.text, 
-          tabBarInactiveTintColor: theme.text, 
+          tabBarInactiveTintColor:theme.text, 
           headerShown: false,
           tabBarStyle: { backgroundColor: theme.background}
-          
-
         }}
       >
         <Tab.Screen
@@ -57,12 +55,3 @@ export default function TabNavigator() {
       </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
