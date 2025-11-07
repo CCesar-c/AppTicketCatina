@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ThemeProvider, { ThemeContext } from './contexts/themeContext';
 import DrawerNavigator from './screens/Drawer';
 import Login from './screens/Login';
-import AdminHome from './screens/AdminHome';
+import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import Cardapio from './screens/Cardapio';
 import Creditos from './screens/Creditos';
@@ -18,7 +18,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="AdminHome"
+        initialRouteName="RouterAdmin"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
@@ -27,7 +27,7 @@ function RootNavigator() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
-        <Stack.Screen name="AdminHome" component={AdminHome} />
+        <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={Cardapio} />
         <Stack.Screen name="Creditos" component={Creditos} />
       </Stack.Navigator>

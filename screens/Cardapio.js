@@ -19,9 +19,9 @@ export default function Cardapio({ navigation }) {
       });
       setFotos(urls);
 
-      const { data: comidas } = await supabase.from('Comidas').select('*');
-      const { data: bebidas } = await supabase.from('Bebidas').select('*');
-      const { data: outros } = await supabase.from('Outras opcoes').select('*');
+      const { data: comidas } = await supabase.from('Comidas').select('*').eq("Disponivel", true);
+      const { data: bebidas } = await supabase.from('Bebidas').select('*').eq("Disponivel", true);
+      const { data: outros } = await supabase.from('Outras opcoes').select('*').eq("Disponivel", true);
 
       setResult([...(comidas || []), ...(bebidas || []), ...(outros || [])]);
     };
@@ -29,7 +29,7 @@ export default function Cardapio({ navigation }) {
   }, []);
 
   return (
-    <View style={[{ height: '32.125%', backgroundColor: theme.background }]}>
+    <View style={[{ height: '32%', backgroundColor: theme.background }]}>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
         {result.map((item, index) => {
           return (
@@ -72,7 +72,7 @@ export default function Cardapio({ navigation }) {
                         console.error('Erro ao salvar item:' + error);
                         alert('Erro ao adicionar item ao carrinho');
                       }
-                    }else{
+                    } else {
                       alert("Saldo insuficiente!!\n-Porfavor compre creditos")
                     }
 
@@ -100,9 +100,11 @@ export default function Cardapio({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    height: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     paddingVertical: 10,
   },
 
