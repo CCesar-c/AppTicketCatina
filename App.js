@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ThemeProvider, { ThemeContext } from './contexts/themeContext';
@@ -6,11 +5,9 @@ import DrawerNavigator from './screens/Drawer';
 import Login from './screens/Login';
 import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
-import Cardapio from './screens/Cardapio';
+import RouterCardapio from './screens/Cardapio';
 import Creditos from './screens/Creditos';
 import { useContext } from 'react';
-
-
 
 function RootNavigator() {
   const { theme } = useContext(ThemeContext);
@@ -28,7 +25,7 @@ function RootNavigator() {
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
-        <Stack.Screen name="Cardapio" component={Cardapio} />
+        <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
         <Stack.Screen name="Creditos" component={Creditos} />
       </Stack.Navigator>
     </NavigationContainer>

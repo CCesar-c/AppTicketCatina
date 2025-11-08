@@ -4,13 +4,13 @@ export const lightTheme = {
   text: '#000000',
   buttonBackground: 'white',
   buttonText: '#000000',
-  borderColor:'black',
+  borderColor: 'black',
 };
 
 export const darkTheme = {
   background: '#121212',
   text: '#ffffffff',
-  buttonBackground: '#BB86FC',
+  buttonBackground: '#1bf0ffff',
   buttonText: '#ffffffff',
-  borderColor:'white',
+  borderColor: 'white',
 };

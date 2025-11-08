@@ -22,7 +22,7 @@ export default function DrawerNavigator() {
         drawerActiveTintColor: theme.text,
         drawerInactiveTintColor: theme.text,
       }}>
-      <Drawer.Screen name="Home" component={Tab} />
+      <Drawer.Screen name="Tab" component={Tab} options={{ title: "Home" }} />
       <Drawer.Screen name="Perfil" component={Perfil} />
       <Drawer.Screen name="Sobre o App" component={Sobre} />
     </Drawer.Navigator>

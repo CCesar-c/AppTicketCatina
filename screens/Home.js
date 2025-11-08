@@ -1,41 +1,50 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NewButton } from '../components/componets'
+import { NewButton } from '../components/componets';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from '../contexts/themeContext';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const [saldo, setSaldo] = useState(0)
-  const [time, setTime] = useState(0)
+  const [creditos, setCreditos] = useState(0);
+  const [tickets, setTickets] = useState(0);
+  const [time, setTime] = useState(0);
 
-  // useEffect(async() =>{
-  //   await AsyncStorage.removeItem("saldo")
-  // },[])
-  async function saldoGet() {
-    const res = parseFloat(await AsyncStorage.getItem('saldo'))
-    setSaldo(res);
+  async function creditosGet() {
+    const res = await AsyncStorage.getItem('creditos');
+    setCreditos(parseFloat(res) || 0);
+  }
+
+  async function ticketsGet() {
+    const res = await AsyncStorage.getItem('tickets');
+    setTickets(parseFloat(res) || 0);
   }
 
   useEffect(() => {
-    saldoGet()
-    // Se ejecuta cada 5 segundos (5000 ms)
+    creditosGet();
+    ticketsGet();
+
     const interval = setInterval(() => {
-      setTime((prev) => prev + 1);
-      saldoGet();
+      setTime(prev => prev + 1);
+      creditosGet();
     }, 5000);
 
-    // Limpieza al desmontar el componente
-    return () => clearInterval(interval);
-  }, []);
+    const contador = setInterval(async () => {
+      const newTickets = (tickets ?? 0) + 1;
+      setTickets(newTickets);
+      await AsyncStorage.setItem("tickets", String(newTickets));
+    }, 60000);
 
+    return () => {
+      clearInterval(interval);
+      clearInterval(contador);
+    };
+  }, []);
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: </Text>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>saldo: {saldo} </Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Creditos: {creditos} </Text>
       <View style={styles.row}>
-
         <View style={styles.collum}>
           <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
             <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />

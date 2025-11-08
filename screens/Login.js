@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import NewButton from '../components/componets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemeContext } from '../contexts/themeContext';
 
 
 export default function Login({ navigation }) {
-
+  const { theme } = useContext(ThemeContext);
   // ctr + fn + /
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -54,24 +55,24 @@ export default function Login({ navigation }) {
   if (!name)
     loadData();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastro</Text>
-       <TextInput
-        style={styles.input}
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Cadastro</Text>
+      <TextInput
+        style={[styles.input, { color: theme.text }]}
         placeholder='Digite Seu Nome'
         value={name || "Nome nao encontrado"}
         onChangeText={setName}
         keyboardType='default'
-      /> 
+      />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: theme.text }]}
         placeholder='Digite Seu Email'
         value={email}
         onChangeText={setEmail}
         keyboardType='default'
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { color: theme.text }]}
         placeholder='Digite Sua Senha'
         value={pass}
         onChangeText={setPass}

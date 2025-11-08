@@ -16,42 +16,42 @@ export default function TabNavigator() {
   const { theme } = useContext(ThemeContext);
 
   return (
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: theme.text, 
-          tabBarInactiveTintColor:theme.text, 
-          headerShown: false,
-          tabBarStyle: { backgroundColor: theme.background}
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: theme.text,
+        tabBarInactiveTintColor: theme.text,
+        headerShown: false,
+        tabBarStyle: { backgroundColor: theme.background }
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Entypo name="home" size={size} color={theme.text} />
+          ),
         }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ color, size }) => (
-              <Entypo name="home" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Histórico"
-          component={Historico}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <AntDesign name="history" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Configurações"
-          component={Configs}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="settings" size={size} color={color} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+      />
+      <Tab.Screen
+        name="Histórico"
+        component={Historico}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="history" size={size} color={theme.text} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Configurações"
+        component={Configs}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="settings" size={size} color={theme.text} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }

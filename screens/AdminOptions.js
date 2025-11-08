@@ -5,7 +5,9 @@ import { ThemeContext } from '../contexts/themeContext';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import NewButton from '../components/componets';
 import { TextInput } from 'react-native-web';
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
+
 
 function AdminHome() {
   const { theme } = useContext(ThemeContext);
@@ -52,35 +54,40 @@ function AdminHome() {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
-        <Text style={{ color: theme.text }}>Tela do Admin</Text>
+      <Text style={[styles.text, { color: theme.text }]}>Tela do Admin</Text>
+      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
+
         <FlatList
           data={result}
           keyExtractor={(_, index) => index.toString()}
           numColumns={6}
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <View style={[styles.card, { backgroundColor: theme.buttonBackground }]}>
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
                 resizeMode="contain"
               />
-              <Text style={styles.text}>
+              <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Valor} R$
               </Text>
 
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ color: theme.text }}>Aparece para o usuário: </Text>
-                <NewButton onPress={() => handleToggle(item)}>
+              <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
+                <NewButton style={{ height: 40, width: 40 }} onPress={() => handleToggle(item)}>
                   {item.Disponivel ? "✅" : "❌"}
                 </NewButton>
+                {/* <NewButton style={{ height: 40, width: 40 }} onPress={async () => {
+                  //await supabase.from("Comidas").delete()
+                }} >
+                  <FontAwesome name="trash" size={20} color={`${theme.colorIcon}`} />
+                </NewButton> */}
               </View>
             </View>
           )
           }
         />
-      </ScrollView>
+      </ScrollView >
     </View >
   );
 }
@@ -122,7 +129,8 @@ function CreateNewFood() {
     const blob = await response.blob();
     const fileName = `${getNome}.jpg`;
 
-    const { data, error } = await supabase.storage
+    const { data, error } = await supabase
+      .storage
       .from("Imagens")
       .upload(fileName, blob, {
         contentType: 'image/jpeg',
@@ -188,7 +196,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20
   },
 
   card: {

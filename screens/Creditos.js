@@ -10,39 +10,39 @@ export default function Creditos() {
   const { theme } = useContext(ThemeContext);
 
   async function setSaldo(valor) {
-    
-    const saldo = parseFloat(await AsyncStorage.getItem("saldo")) || 0;
-    const result = saldo + valor;
-    await AsyncStorage.setItem("saldo", parseFloat(result));
+
+    const credito = parseFloat(await AsyncStorage.getItem("creditos")) || 0;
+    const result = credito + valor;
+    await AsyncStorage.setItem("creditos", parseFloat(result));
     alert("Compra efetuada com suscesso")
   }
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, gap:20 }]}>
+    <View style={[styles.container, { backgroundColor: theme.background, gap: 20 }]}>
       <Text style={[styles.text, { color: theme.text }]} >Comprar Créditos</Text>
-      <View style={{ flexDirection: 'row', gap:10 }} >
-        
+      <View style={{ flexDirection: 'row', gap: 10 }} >
+
         <NewButton onPress={() => {
           setSaldo(10)
         }} >Comprar 10 Créditos</NewButton>
-        
+
         <NewButton onPress={() => {
           setSaldo(100)
         }} >Comprar 100 Créditos</NewButton>
-        
+
         <NewButton onPress={() => {
           setSaldo(500)
         }} >Comprar 500 Créditos</NewButton>
       </View>
-      <View style={{ flexDirection: 'row',gap:10 }} >
-        
+      <View style={{ flexDirection: 'row', gap: 10 }} >
+
         <NewButton onPress={() => {
           setSaldo(1000)
         }} >Comprar 1.000 Créditos</NewButton>
-        
+
         <NewButton onPress={() => {
           setSaldo(5000)
         }} >Comprar 5.000 Créditos</NewButton>
-        
+
         <NewButton onPress={() => {
           setSaldo(10000)
         }} >Comprar 10.000 Créditos</NewButton>

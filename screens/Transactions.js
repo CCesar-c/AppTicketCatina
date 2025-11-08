@@ -10,6 +10,7 @@ export default function Transactions() {
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
   const [data, setdata] = useState([])
+  const [time, setTime] = useState(0);
 
   const carregarHistorico = async () => {
     try {
@@ -40,7 +41,13 @@ export default function Transactions() {
     setdata([])
   }
   useEffect(() => {
-    carregarHistorico();
+    const interval = setInterval(() => {
+      setTime(prev => prev + 1);
+      carregarHistorico();
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    }
   }, [])
   return (
 
