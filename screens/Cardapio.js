@@ -41,14 +41,14 @@ export default function Cardapio({ navigation }) {
               />
               <Text style={styles.text}>
                 🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: {item.Valor + " R$"}
+                💰 Preço: {item.Creditos + " R$"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
                   onPress={async () => {
                     const saldo = parseFloat(await AsyncStorage.getItem("saldo"))
-                    if (saldo >= item.Valor) {
-                      await AsyncStorage.setItem("saldo", parseFloat(saldo - item.Valor))
+                    if (saldo >= item.Creditos) {
+                      await AsyncStorage.setItem("saldo", parseFloat(saldo - item.Creditos))
                       await AsyncStorage.setItem("data", new Date())
                       try {
                         //Carregar arrays existentes
@@ -61,7 +61,7 @@ export default function Cardapio({ navigation }) {
 
                         // Adicionar novos itens
                         arrayProdutos.push(item.Nome);
-                        arrayPrecos.push(item.Valor);
+                        arrayPrecos.push(item.Creditos);
 
                         // Salvar arrays atualizados
                         await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
@@ -83,7 +83,7 @@ export default function Cardapio({ navigation }) {
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
-                      Valor: item.Valor,
+                      Valor: item.Creditos,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>

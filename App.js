@@ -10,15 +10,15 @@ import Cardapio from './screens/Cardapio';
 import Creditos from './screens/Creditos';
 import { useContext } from 'react';
 
-const Stack = createStackNavigator();
+
 
 function RootNavigator() {
   const { theme } = useContext(ThemeContext);
-
+  const Stack = createStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="RouterAdmin"
+        initialRouteName="Drawer"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
@@ -42,12 +42,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

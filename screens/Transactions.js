@@ -23,8 +23,8 @@ export default function Transactions() {
       if (precosStorage) {
         setPrecos(JSON.parse(precosStorage));
       }
-      if(dataStorage){
-        setdata(JSON.parse(precosStorage));
+      if (dataStorage) {
+        setdata(dataStorage);
       }
     } catch (error) {
       console.error('Erro ao carregar histórico:', error);
@@ -47,7 +47,7 @@ export default function Transactions() {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
       <FlatList
-        data={produtos.map((produto, index) => ({
+        data={produtos.map((produto, index,) => ({
           produto,
           preco: precos[index],
           data
@@ -57,7 +57,7 @@ export default function Transactions() {
           <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
             <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
             <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.data}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
           </View>
         )}
       />

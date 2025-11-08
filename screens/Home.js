@@ -8,16 +8,28 @@ import { ThemeContext } from '../contexts/themeContext';
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const [saldo, setSaldo] = useState(0)
-  
+  const [time, setTime] = useState(0)
+
   // useEffect(async() =>{
   //   await AsyncStorage.removeItem("saldo")
   // },[])
-
   async function saldoGet() {
-    const res =  parseFloat(await AsyncStorage.getItem('saldo'))
+    const res = parseFloat(await AsyncStorage.getItem('saldo'))
     setSaldo(res);
   }
-  saldoGet();
+
+  useEffect(() => {
+    saldoGet()
+    // Se ejecuta cada 5 segundos (5000 ms)
+    const interval = setInterval(() => {
+      setTime((prev) => prev + 1);
+      saldoGet();
+    }, 5000);
+
+    // Limpieza al desmontar el componente
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: </Text>
