@@ -48,7 +48,7 @@ export default function Configs() {
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
       setTurma(NewTurma);
       const Newimg = await AsyncStorage.getItem('@storage_img');
-      if (Newimg == ''){ alert("Carregar a Img denovo") } else{setImg(Newimg);}
+      if (Newimg == '') { alert("Carregar a Img denovo") } else { setImg(Newimg); }
     })();
   }, []);
 
@@ -70,13 +70,13 @@ export default function Configs() {
       ) : null}
 
       <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
         placeholder="Alterar Nome de usuário"
         value={name}
         onChangeText={setName}
       />
       <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
         placeholder="Alterar Turma do usuário"
         value={turma}
         onChangeText={setTurma}

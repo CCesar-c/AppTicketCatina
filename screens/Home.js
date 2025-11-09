@@ -9,7 +9,7 @@ export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const [creditos, setCreditos] = useState(0);
   const [tickets, setTickets] = useState(0);
-  const [time, setTime] = useState(0);
+  const [_, setTime] = useState(0);
 
   async function creditosGet() {
     const res = await AsyncStorage.getItem('creditos');
@@ -49,14 +49,14 @@ export default function Home({ navigation }) {
           <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
             <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
           </NewButton>
-          <Text style={[styles.text, { color: theme.buttonText }]}>Carregar creditos</Text>
+          <Text style={[styles.text, { color: theme.text }]}>Carregar creditos</Text>
         </View>
 
         <View style={styles.collum}>
           <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
             <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
           </NewButton>
-          <Text style={[styles.text, { color: theme.buttonText }]}>Comprar na cantina</Text>
+          <Text style={[styles.text, { color: theme.text }]}>Comprar na cantina</Text>
         </View>
       </View>
     </View >

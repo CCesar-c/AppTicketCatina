@@ -6,47 +6,31 @@ import { ThemeContext } from '../contexts/themeContext';
 import { FontAwesome, MaterialCommunityIcons, FontAwesome6 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MoneyContext, MoneyProvider } from '../contexts/ContextMoney';
+import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 
 function CardapioComidas({ navigation }) {
+
+  const { creditos } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
+
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  const [creditos, setCreditos] = useState()
-  const [_, setTime] = useState(0);
 
+  const { comidas, urls } = useContext(FoodContext);
   useEffect(() => {
-
-    const respons = async () => {
-      try {
-        const res = await AsyncStorage.getItem("creditos");
-        if (res) setCreditos(res);
-      } catch (error) {
-        console.error("Erro ao carregar saldo:", error);
-      }
-    };
-    respons();
-    const interval = setInterval(() => {
-      setTime(prev => prev + 1);
-      respons();
-    }, 2500);
-
     const fetchGeneral = async () => {
-      const { data } = await supabase.storage.from("Imagens").list();
-      const urls = data.map((file) => {
+      const cadaFoto = urls.map((file) => {
         const { data: publicUrl } = supabase.storage.from("Imagens").getPublicUrl(file.name);
         return { name: file.name, url: publicUrl.publicUrl };
       });
-      setFotos(urls);
-
-      const { data: comidas } = await supabase.from('Comidas').select('*').eq("Disponivel", true);
-
+      setFotos(cadaFoto || []);
       setResult(comidas || []);
+      // console.log(comidas)
     };
     fetchGeneral();
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+
+  }, [comidas, urls]);
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
@@ -55,27 +39,26 @@ function CardapioComidas({ navigation }) {
 
         {result.map((item, index) => {
           return (
-            <View key={index} style={[styles.card, { backgroundColor: theme.buttonBackground }]}>
+            <View key={index} style={[styles.card, { backgroundColor: theme.cards }]}>
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
                 resizeMode='contain'
               />
-              <Text style={[styles.text, { color: theme.text, textShadowColor: 'black', textShadowOffset: { height: 2, width: 2 } }]}>
+              <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Creditos + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
-                <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                <NewButton style={{ width: 100, height: 60, }}
                   onPress={async () => {
-                    const credito = parseFloat(await AsyncStorage.getItem("creditos"))
-                    if (credito >= item.Creditos) {
+                    if (creditos >= item.Creditos) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Comidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(credito - item.Creditos))
+                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -106,7 +89,7 @@ function CardapioComidas({ navigation }) {
                   }}>{"Comprar este produto"}
                 </NewButton>
                 <NewButton
-                  style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                  style={{ width: 100, height: 60 }}
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
@@ -126,45 +109,24 @@ function CardapioComidas({ navigation }) {
 };
 
 function CardapioBebidas({ navigation }) {
+  const { creditos } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  const [creditos, setCreditos] = useState()
-  const [_, setTime] = useState(0);
 
+  const { bebidas, urls } = useContext(FoodContext);
   useEffect(() => {
-
-    const respons = async () => {
-      try {
-        const res = await AsyncStorage.getItem("creditos");
-        if (res) setCreditos(res);
-      } catch (error) {
-        console.error("Erro ao carregar saldo:", error);
-      }
-    };
-    respons();
-    const interval = setInterval(() => {
-      setTime(prev => prev + 1);
-      respons();
-    }, 2500);
-
     const fetchGeneral = async () => {
-      const { data } = await supabase.storage.from("Imagens").list();
-      const urls = data.map((file) => {
+      const cadaFoto = urls.map((file) => {
         const { data: publicUrl } = supabase.storage.from("Imagens").getPublicUrl(file.name);
         return { name: file.name, url: publicUrl.publicUrl };
       });
-      setFotos(urls);
-
-      const { data: bebidas } = await supabase.from('Bebidas').select('*').eq("Disponivel", true);
-
+      setFotos(cadaFoto || []);
       setResult(bebidas || []);
     };
     fetchGeneral();
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+
+  }, [bebidas, urls]);
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
@@ -173,28 +135,26 @@ function CardapioBebidas({ navigation }) {
 
         {result.map((item, index) => {
           return (
-            <View key={index} style={[styles.card, { backgroundColor: theme.buttonBackground }]}>
+            <View key={index} style={[styles.card, { backgroundColor: theme.cards }]}>
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
                 resizeMode='contain'
               />
-              <Text style={[styles.text, { color: theme.text, textShadowColor: 'black', textShadowOffset: { height: 2, width: 2 } }]}>
+              <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Creditos + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
-                <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    const credito = parseFloat(await AsyncStorage.getItem("creditos"))
-
-                    if (credito >= item.Creditos) {
+                    if (creditos >= item.Creditos) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Bebidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(credito - item.Creditos))
+                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -225,7 +185,7 @@ function CardapioBebidas({ navigation }) {
                   }}>{"Comprar este produto"}
                 </NewButton>
                 <NewButton
-                  style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                  style={{ width: 100, height: 60 }}
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
@@ -245,45 +205,24 @@ function CardapioBebidas({ navigation }) {
 };
 
 function CardapioOutros({ navigation }) {
+  const { creditos } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  const [creditos, setCreditos] = useState()
-  const [_, setTime] = useState(0);
 
+  const { outros, urls } = useContext(FoodContext);
   useEffect(() => {
-
-    const respons = async () => {
-      try {
-        const res = await AsyncStorage.getItem("creditos");
-        if (res) setCreditos(res);
-      } catch (error) {
-        console.error("Erro ao carregar saldo:", error);
-      }
-    };
-    respons();
-    const interval = setInterval(() => {
-      setTime(prev => prev + 1);
-      respons();
-    }, 2500);
-
     const fetchGeneral = async () => {
-      const { data } = await supabase.storage.from("Imagens").list();
-      const urls = data.map((file) => {
+      const cadaFoto = urls.map((file) => {
         const { data: publicUrl } = supabase.storage.from("Imagens").getPublicUrl(file.name);
         return { name: file.name, url: publicUrl.publicUrl };
       });
-      setFotos(urls);
-
-      const { data: outros } = await supabase.from('Outras opcoes').select('*').eq("Disponivel", true);
-
+      setFotos(cadaFoto || []);
       setResult(outros || []);
     };
     fetchGeneral();
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+
+  }, [outros, urls]);
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
@@ -292,28 +231,26 @@ function CardapioOutros({ navigation }) {
 
         {result.map((item, index) => {
           return (
-            <View key={index} style={[styles.card, { backgroundColor: theme.buttonBackground }]}>
+            <View key={index} style={[styles.card, { backgroundColor: theme.cards }]}>
               <Image
                 source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
                 style={styles.image}
                 resizeMode='contain'
               />
-              <Text style={[styles.text, { color: theme.text, textShadowColor: 'black', textShadowOffset: { height: 2, width: 2 } }]}>
+              <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
                 💰 Preço: {item.Creditos + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
-                <NewButton style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    const credito = parseFloat(await AsyncStorage.getItem("creditos"))
-
-                    if (credito >= item.Creditos) {
+                    if (creditos >= item.Creditos) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Outras opcoes").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(credito - item.Creditos))
+                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -344,7 +281,7 @@ function CardapioOutros({ navigation }) {
                   }}>{"Comprar este produto"}
                 </NewButton>
                 <NewButton
-                  style={{ width: 100, height: 60, backgroundColor: '#28a745', borderRadius: 5 }}
+                  style={{ width: 100, height: 60 }}
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
@@ -367,19 +304,14 @@ function Ranking() {
   const [rank, setRanking] = useState([]);
   const [fotos, setFotos] = useState([]);
   const { theme } = useContext(ThemeContext);
-
+  const { comidas, bebidas, outros, urls } = useContext(FoodContext);
   useEffect(() => {
 
     const fetchTodo = async () => {
-      const { data } = await supabase.storage.from("Imagens").list();
-      const urls = data.map((file) => {
+      const cadaFoto = urls.map((file) => {
         const { data: publicUrl } = supabase.storage.from("Imagens").getPublicUrl(file.name);
         return { name: file.name, url: publicUrl.publicUrl };
       });
-      setFotos(urls);
-      const { data: comidas } = await supabase.from('Comidas').select('*').eq("Disponivel", true);
-      const { data: bebidas } = await supabase.from('Bebidas').select('*').eq("Disponivel", true);
-      const { data: outros } = await supabase.from('Outras opcoes').select('*').eq("Disponivel", true);
       const total = [
         ...(comidas || []),
         ...(bebidas || []),
@@ -387,23 +319,20 @@ function Ranking() {
       ];
       total.sort((a, b) => b.Vendas - a.Vendas)
       setRanking(total)
-      return () => { clearInterval(interval) }
+      setFotos(cadaFoto);
     }
-    const interval = setInterval(() => {
-      fetchTodo()
-      setTime(prev => prev + 1);
-      fetchTodo()
-    }, 5000);
-  }, [])
+    fetchTodo();
+
+  }, [comidas, bebidas, outros, urls]);
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>Produtos mais comprados 🏆</Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20 }]}>Produtos mais comprados 🏆</Text>
 
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container} >
         {rank.map((item, index) => (
-          <View key={index} style={[styles.card, { backgroundColor: theme.buttonBackground }]}>
-            <Image source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }} style={styles.image} />
-            <Text style={[styles.text, { color: theme.text, textShadowColor: 'black', textShadowOffset: { height: 2, width: 2 } }]}>
+          <View key={index} style={[styles.card, { backgroundColor: theme.cards }]}>
+            <Image source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }} style={styles.image} resizeMode='contain' />
+            <Text style={[styles.text, { color: theme.text }]}>
               Top: {index + 1} {"\n"} Nome: {item.Nome} {"\n"} Vendas: {item.Vendas}
             </Text>
           </View>
@@ -419,63 +348,67 @@ export default function RouterCardapio({ navigation }) {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator
-      initialRouteName="Comidas"
-      screenOptions={{
-        headerShown: true,
-        tabBarActiveTintColor: theme.text,
-        tabBarInactiveTintColor: 'gray',
-        headerTitleStyle: { color: theme.text },
-        headerStyle: { backgroundColor: theme.background, },
-        tabBarStyle: { backgroundColor: theme.background, },
+    <FoodProvider>
+      <MoneyProvider>
+        <Tab.Navigator
+          initialRouteName="Comidas"
+          screenOptions={{
+            headerShown: true,
+            tabBarActiveTintColor: theme.text,
+            tabBarInactiveTintColor: 'gray',
+            headerTitleStyle: { color: theme.text },
+            headerStyle: { backgroundColor: theme.background, },
+            tabBarStyle: { backgroundColor: theme.background, },
 
-        headerLeft: () => (
-          <NewButton
-            style={{ height: 40, width: 40 }}
-            onPress={() => navigation.navigate("Drawer")}
-          >
-            <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
-          </NewButton>
-        ),
-      }}
-    >
-      <Tab.Screen
-        name="Comidas"
-        component={CardapioComidas}
-        options={{
-          tabBarIcon: () => (
-            <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Bebidas"
-        component={CardapioBebidas}
-        options={{
-          tabBarIcon: () => (
-            <FontAwesome name="glass" size={20} color={theme.text} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Outros"
-        component={CardapioOutros}
-        options={{
-          tabBarIcon: () => (
-            <FontAwesome name="ellipsis-h" size={20} color={theme.text} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Ranking"
-        component={Ranking}
-        options={{
-          tabBarIcon: () => (
-            <FontAwesome6 name="ranking-star" size={24} color={theme.text} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+            headerLeft: () => (
+              <NewButton
+                style={{ height: 40, width: 40 }}
+                onPress={() => navigation.navigate("Drawer")}
+              >
+                <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
+              </NewButton>
+            ),
+          }}
+        >
+          <Tab.Screen
+            name="Comidas"
+            component={CardapioComidas}
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Bebidas"
+            component={CardapioBebidas}
+            options={{
+              tabBarIcon: () => (
+                <FontAwesome name="glass" size={20} color={theme.text} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Outros"
+            component={CardapioOutros}
+            options={{
+              tabBarIcon: () => (
+                <FontAwesome name="ellipsis-h" size={20} color={theme.text} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Ranking"
+            component={Ranking}
+            options={{
+              tabBarIcon: () => (
+                <FontAwesome6 name="ranking-star" size={24} color={theme.text} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </MoneyProvider>
+    </FoodProvider>
   );
 }
 
@@ -486,7 +419,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingVertical: 10,
+    padding: 10,
   },
 
   card: {

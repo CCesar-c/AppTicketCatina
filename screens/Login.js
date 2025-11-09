@@ -1,88 +1,93 @@
-import { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { useContext, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 import { supabase } from '../Back-end/supabase';
-import NewButton from '../components/componets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
-
 
 export default function Login({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  // ctr + fn + /
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [pass, setPass] = useState('')
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
 
+  // 🔹 Carga nombre guardado en AsyncStorage al iniciar
+  useEffect(() => {
+    async function loadData() {
+      const storedName = await AsyncStorage.getItem('@storage_Name');
+      if (storedName) setName(storedName);
+    }
+    loadData();
+  }, []);
 
+  // 🔹 Guarda el nombre actual
+  async function storeData() {
+    if (name) await AsyncStorage.setItem('@storage_Name', name);
+  }
+
+  // 🔹 Verifica usuario en Supabase
   async function loadUsers() {
     if (!name || !email || !pass) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return;
     }
+
     const { data, error } = await supabase
       .from('users')
       .select('*')
+      .eq('Emails', email)
+      .eq('Senha', pass);
+
     if (error) {
       console.log('❌ Error:', error.message);
-    }
-    else {
-      console.log('✅ Data:', data);
+      alert('Erro', 'Erro ao buscar usuário.');
+      return;
     }
 
-    if (email === data[1].Emails && pass === data[1].Senha) {
-      //user normal
-      navigation.navigate('Drawer')
-      alert("Acceso para o Usuario")
+    if (!data || data.length === 0) {
+      alert('Erro', 'Usuário não encontrado.');
+      return;
     }
-    else if (email === data[0].Emails && pass === data[0].Senha) {
-      // Administrador
-      navigation.navigate('AdminHome')
-      alert("Acceso para o ADM")
+
+    if (data[0].Administrador === true) {
+      navigation.navigate('RouterAdmin');
+      alert('Acesso concedido ' + 'Bem-vindo administrador!');
+    } else if (data[0].Administrador === false) {
+      navigation.navigate('Drawer');
+      alert('Acesso concedido ' + 'Bem-vindo usuário!');
     } else {
-      alert("Usuario ou Senha Incorretos")
+      console.error("Erro de autorizaçao")
     }
+
+    storeData();
   }
 
-  async function storeData() {
-    await AsyncStorage.setItem('@storage_Name', name)
-  }
-
-  async function loadData() {
-    const name = await AsyncStorage.getItem('@storage_Name');
-    setName(name);
-  }
-
-  if (!name)
-    loadData();
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>Cadastro</Text>
+      <Text style={[styles.title, { color: theme.text }]}>Login</Text>
+
       <TextInput
         style={[styles.input, { color: theme.text }]}
-        placeholder='Digite Seu Nome'
-        value={name || "Nome nao encontrado"}
+        placeholder="Digite Seu Nome"
+        value={name}
         onChangeText={setName}
-        keyboardType='default'
       />
       <TextInput
         style={[styles.input, { color: theme.text }]}
-        placeholder='Digite Seu Email'
+        placeholder="Digite Seu Email"
         value={email}
         onChangeText={setEmail}
-        keyboardType='default'
+        keyboardType="email-address"
       />
       <TextInput
         style={[styles.input, { color: theme.text }]}
-        placeholder='Digite Sua Senha'
+        placeholder="Digite Sua Senha"
         value={pass}
         onChangeText={setPass}
         secureTextEntry
-        keyboardType='numeric'
       />
-      <NewButton children="Cadastrar" style={styles.butao} onPress={() => {
-        loadUsers()
-        storeData()
-      }} />
+
+      <NewButton onPress={loadUsers}>Entrar</NewButton>
     </View>
   );
 }
@@ -90,34 +95,21 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   input: {
     height: 40,
-    width: 200,
+    width: 250,
     margin: 10,
     borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 5,
-    paddingLeft: 10,
-  },
-  butao: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 5,
-  },
-  text: {
-    color: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    borderColor: 'gray',
   },
   title: {
-    color: 'black',
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: 'bold',
+    marginBottom: 20,
   },
 });

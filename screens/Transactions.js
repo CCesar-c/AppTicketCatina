@@ -10,7 +10,7 @@ export default function Transactions() {
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
   const [data, setdata] = useState([])
-  const [time, setTime] = useState(0);
+  const [_, setTime] = useState(0);
 
   const carregarHistorico = async () => {
     try {
@@ -41,6 +41,7 @@ export default function Transactions() {
     setdata([])
   }
   useEffect(() => {
+    carregarHistorico();
     const interval = setInterval(() => {
       setTime(prev => prev + 1);
       carregarHistorico();
@@ -66,8 +67,7 @@ export default function Transactions() {
             <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
             <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
           </View>
-        )}
-      />
+        )} />
       <NewButton children={"Limpar"} onPress={() => {
         Limpar()
       }} />
