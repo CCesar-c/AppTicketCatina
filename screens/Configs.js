@@ -9,6 +9,7 @@ export default function Configs({navigation}) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [turma, setTurma] = useState('');
+  const [descricao, setDescricao] = useState('')
   const [imgGet, setImg] = useState('');
 
   const pickImage = async () => {
@@ -33,12 +34,13 @@ export default function Configs({navigation}) {
   };
 
   async function saveName() {
-    if (!name || !turma) {
+    if (!name || !turma || !descricao) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
     await AsyncStorage.setItem('@storage_Name', name);
     await AsyncStorage.setItem('@storage_Turma', turma);
+    await AsyncStorage.setItem('@storage_Descricao', descricao);
   }
 
   useEffect(() => {
@@ -47,6 +49,8 @@ export default function Configs({navigation}) {
       setName(NewName);
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
       setTurma(NewTurma);
+      const NewDescricao = await AsyncStorage.getItem('@storage_Descricao');
+      setName(NewDescricao);
       const Newimg = await AsyncStorage.getItem('@storage_img');
       if (Newimg == '') { alert("Carregar a Img denovo") } else { setImg(Newimg); }
     })();
@@ -80,6 +84,12 @@ export default function Configs({navigation}) {
         placeholder="Alterar Turma do usuário"
         value={turma}
         onChangeText={setTurma}
+      />
+      <TextInput
+        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
+        placeholder="Alterar Descrição do usuário"
+        value={descricao}
+        onChangeText={setDescricao}
       />
       <NewButton onPress={saveName}>Salvar</NewButton>
       <NewButton onPress={() => navigation.navigate('Login')}> {"Sair"}</NewButton>
