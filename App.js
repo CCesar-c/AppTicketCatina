@@ -24,7 +24,7 @@ function RootNavigator() {
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
+        <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} options={{headerShown: true}} />
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
         <Stack.Screen name="Creditos" component={Creditos}options={{ headerShown: true }} />
