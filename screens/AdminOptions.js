@@ -193,6 +193,7 @@ function CreateNewFood() {
     </View >
   )
 }
+
 function AdicionarUser() {
   const { theme } = useContext(ThemeContext);
   const [nome, setNome] = useState("");
@@ -227,6 +228,7 @@ function AdicionarUser() {
     </View>
   )
 }
+
 export default function RouterAdmin() {
   const { theme } = useContext(ThemeContext);
   const Tab = createDrawerNavigator();

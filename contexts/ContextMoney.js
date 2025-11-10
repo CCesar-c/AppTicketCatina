@@ -5,13 +5,13 @@ import { createContext, useState, useEffect } from 'react';
 export const MoneyContext = createContext();
 
 export function MoneyProvider({ children }) {
-    const [creditos, setCreditos] = useState("");
+    const [Valor, setValor] = useState("");
     const [_, setTime] = useState(0);
 
     const respons = async () => {
         try {
-            const res = await AsyncStorage.getItem("creditos");
-            if (res) setCreditos(res);
+            const res = await AsyncStorage.getItem("Valor");
+            if (res) setValor(res);
         } catch (error) {
             console.error("Erro ao carregar saldo:", error);
         }
@@ -29,7 +29,7 @@ export function MoneyProvider({ children }) {
     }, [])
 
     return (
-        <MoneyContext.Provider value={{ creditos }} >
+        <MoneyContext.Provider value={{ Valor }} >
             {children}
         </MoneyContext.Provider>
     )
