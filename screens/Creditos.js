@@ -11,9 +11,9 @@ export default function Creditos() {
 
   async function setSaldo(valor) {
 
-    const credito = parseFloat(await AsyncStorage.getItem("creditos")) || 0;
-    const result = credito + valor;
-    await AsyncStorage.setItem("creditos", parseFloat(result));
+    const res = parseFloat(await AsyncStorage.getItem("Valor")) || 0;
+    const result = res + valor;
+    await AsyncStorage.setItem("Valor", parseFloat(result));
     alert("Compra efetuada com suscesso")
   }
   return (
