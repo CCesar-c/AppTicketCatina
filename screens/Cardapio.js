@@ -52,11 +52,12 @@ function CardapioComidas({ navigation }) {
                 <NewButton style={{ width: 100, height: 60, }}
                   onPress={async () => {
                     if (Valor >= item.Valor) {
-                      const fecha = new Date().toLocaleString('es-ES', {
+                      const fecha = new Date().toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Comidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
+                      await supabase.from("Comidas").update([{ Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
                       await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
@@ -93,6 +94,7 @@ function CardapioComidas({ navigation }) {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
                       Valor: item.Valor,
+                      Estoque: item.Estoque,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>
@@ -147,12 +149,13 @@ function CardapioBebidas({ navigation }) {
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    if (Valor >= item.Valor) {
+                    if (Valor >= item.Valor ) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Bebidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
+                      await supabase.from("Bebidas").update([{ Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
                       await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
@@ -189,6 +192,7 @@ function CardapioBebidas({ navigation }) {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
                       Valor: item.Valor,
+                      Estoque: item.Estoque,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>
@@ -285,6 +289,7 @@ function CardapioOutros({ navigation }) {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
                       Valor: item.Valor,
+                      Estoque: item.Estoque,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>

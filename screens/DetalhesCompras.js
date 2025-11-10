@@ -5,7 +5,7 @@ import { ThemeContext } from "../contexts/themeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function DetalhesCompras() {
-    const { nombre, Valor, img } = useRoute().params;
+    const { nombre, Valor, img, Estoque  } = useRoute().params;
     const { theme } = useContext(ThemeContext);
     return (
         <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -17,6 +17,8 @@ export default function DetalhesCompras() {
             <Text style={[styles.text, { color: theme.text }]}>{nombre}</Text>
 
             <Text style={[styles.text, { color: theme.text }]}>💰{Valor}$</Text>
+
+             <Text style={[styles.text, { color: theme.text }]}> Estoque: {Estoque}</Text>
         </View>
     )
 }
