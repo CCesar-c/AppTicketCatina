@@ -180,7 +180,7 @@ function CardapioBebidas({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n-Porfavor compre Saldo")
+                      alert("Saldo insuficiente! ou Produto sem estoque")
                     }
 
                   }}>{"Comprar este produto"}
@@ -277,7 +277,7 @@ function CardapioOutros({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n-Porfavor compre Saldo")
+                      alert("Saldo insuficiente! ou Produto sem estoque")
                     }
 
                   }}>{"Comprar este produto"}
