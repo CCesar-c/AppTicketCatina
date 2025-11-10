@@ -7,13 +7,13 @@ import { ThemeContext } from '../contexts/themeContext';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const [creditos, setCreditos] = useState(0);
+  const [Valor, setValor] = useState(0);
   const [tickets, setTickets] = useState(0);
   const [_, setTime] = useState(0);
 
   async function creditosGet() {
-    const res = await AsyncStorage.getItem('creditos');
-    setCreditos(parseFloat(res) || 0);
+    const res = await AsyncStorage.getItem('Valor');
+    setValor(parseFloat(res) || 0);
   }
 
   async function ticketsGet() {
@@ -43,7 +43,7 @@ export default function Home({ navigation }) {
   }, []);
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Creditos: {creditos} </Text>
+      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Creditos: {Valor} </Text>
       <View style={styles.row}>
         <View style={styles.collum}>
           <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>

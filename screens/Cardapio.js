@@ -26,7 +26,6 @@ function CardapioComidas({ navigation }) {
       });
       setFotos(cadaFoto || []);
       setResult(comidas || []);
-      // console.log(comidas)
     };
     fetchGeneral();
 
@@ -34,7 +33,7 @@ function CardapioComidas({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
