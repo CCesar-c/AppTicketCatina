@@ -228,7 +228,7 @@ export default function RouterAdmin() {
   return (
     <FoodProvider >
       <ThemeProvider>
-        <Tab.Navigator initialRouteName='Login'
+        <Tab.Navigator initialRouteName='homeAdm'
           screenOptions={{
             headerStyle: { backgroundColor: theme.background },
             headerTintColor: theme.text,
