@@ -260,7 +260,7 @@ function CardapioOutros({ navigation }) {
                         const precosAtuais = await AsyncStorage.getItem('preco');
 
                         // Converter para array ou criar novo se não existir
-                        const arrayProdutos = produtosAtuais ? JSON.pars=e(produtosAtuais) : [];
+                        const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
                         const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
 
                         // Adicionar novos itens
