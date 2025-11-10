@@ -51,7 +51,7 @@ function CardapioComidas({ navigation }) {
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60, }}
                   onPress={async () => {
-                    if (Valor >= item.Valor) {
+                    if (Valor >= item.Valor && item.Estoque > 0) {
                       const fecha = new Date().toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
