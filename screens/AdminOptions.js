@@ -33,29 +33,50 @@ function AdminHome() {
     }
   };
 
-  useEffect(() => {
-    const foodall = async () => {
-      try {
-        const [{ data: comiData }, { data: bebiData }, { data: otrosData }, { data: files }] = await Promise.all([
-          supabase.from('Comidas').select('*'),
-          supabase.from('Bebidas').select('*'),
-          supabase.from('Outras opcoes').select('*'),
-          supabase.storage.from("Imagens").list(),
-        ])
-        setComidas(comiData)
-        setBebidas(bebiData)
-        setOutros(otrosData)
-        setFotos(files);
+useEffect(() => {
+  const foodall = async () => {
+    try {
+      const [
+        { data: comiData, error: comiErr },
+        { data: bebiData, error: bebiErr },
+        { data: outrosData, error: outrosErr },
+        { data: files, error: filesErr }
+      ] = await Promise.all([
+        supabase.from('Comidas').select('*'),
+        supabase.from('Bebidas').select('*'),
+        supabase.from('Outras opcoes').select('*'),
+        supabase.storage.from("Imagens").list(),
+      ]);
 
-      } catch (error) {
-        console.log("ERROR AL OBTENER LOS VALORES \n" + error)
-      }
-      setResult(...(comidas) || [],...(bebidas) || [], ...(outros) || [] )
+
+      const cadaFoto = (files ?? []).map(file => {
+        const { data: publicUrl } = supabase.storage
+          .from("Imagens")
+          .getPublicUrl(file.name);
+        return { name: file.name, url: publicUrl.publicUrl };
+      });
+
+      const comidas = comiData ?? [];
+      const bebidas = bebiData ?? [];
+      const outros = outrosData ?? [];
+
+      setFotos(cadaFoto);
+      setComidas(comidas);
+      setBebidas(bebidas);
+      setOutros(outros);
+
+      setResult([...comidas, ...bebidas, ...outros]);
+
+    } catch (error) {
+      console.error("ERROR AL OBTENER LOS VALORES:\n", error);
     }
-    foodall();
-    const interval = setInterval(foodall, 5000);
-    return () => clearInterval(interval);
-  }, [])
+  };
+
+  foodall(); // initial fetch
+  const interval = setInterval(foodall, 5000);
+  return () => clearInterval(interval);
+}, []);
+
 
   const handleToggle = async (item) => {
     const nuevoEstado = !item.Disponivel;
