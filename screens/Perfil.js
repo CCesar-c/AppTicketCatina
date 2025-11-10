@@ -30,7 +30,7 @@ export default function Perfil() {
         source={{ uri: imgGet}} style={{ width: 150, height: 150, borderRadius: 75, borderWidth: 2, borderColor: theme.text }} />
       <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Nome: {name} . ⬅️</Text>
       <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Turma: {turma} . ⬅️</Text>
-      <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Descrição: {descricao} . ⬅️</Text>
+      <Text style={[{ fontSize: 24, fontWeight: 'bold', margin: 10, textAlign: 'left', color: theme.text }]}>Descrição: {descricao}  ⬅️</Text>
     </View>
   );
 }
