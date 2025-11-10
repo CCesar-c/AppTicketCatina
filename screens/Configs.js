@@ -5,7 +5,7 @@ import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
 import * as ImagePicker from "expo-image-picker";
 
-export default function Configs() {
+export default function Configs({navigation}) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [turma, setTurma] = useState('');
@@ -82,6 +82,7 @@ export default function Configs() {
         onChangeText={setTurma}
       />
       <NewButton onPress={saveName}>Salvar</NewButton>
+      <NewButton onPress={() => navigation.navigate('Login')}> {"Sair"}</NewButton>
     </View>
   );
 }

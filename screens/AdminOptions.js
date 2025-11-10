@@ -9,6 +9,7 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 import ThemeProvider from '../contexts/themeContext';
+import Configs from './Configs';
 
 function AdminHome() {
   const { theme } = useContext(ThemeContext);
@@ -155,15 +156,6 @@ function CreateNewFood() {
       console.error(error);
       return;
     }
-
-    // // Obter URL pública
-    // const { data: publicData } = supabase.storage
-    //   .from("Imagens")
-    //   .getPublicUrl(fileName);
-
-    // const imageUrl = publicData.publicUrl;
-    // console.log("✅ URL pública:", imageUrl);
-    // return imageUrl;
   }
   return (
     <View style={[{ backgroundColor: theme.background, alignItems: 'center', justifyContent: 'center', flex: 1, gap: 20 }]} >
@@ -175,7 +167,8 @@ function CreateNewFood() {
         <NewButton children={`Disponivel?: ${checked ? '✅' : '❌'} `} onPress={() => {
           setChecked(!checked)
         }} />
-        <NewButton children={'Inserir Imagen para a comida'} onPress={() => {
+        <NewButton children={'Inserir Imagen para a comida'} style={[{color: theme.text}]}
+        onPress={() => {
           pickImage();
         }} />
       </View>
@@ -193,7 +186,7 @@ function CreateNewFood() {
     </View >
   )
 }
-function AdicionarUser() {
+function AdicionarUser({navigation}) {
   const { theme } = useContext(ThemeContext);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("")
@@ -245,6 +238,7 @@ export default function RouterAdmin() {
           <Tab.Screen name='homeAdm' component={AdminHome} />
           <Tab.Screen name='CreateNewFood' component={CreateNewFood} />
           <Tab.Screen name='AdicionarUser' component={AdicionarUser} />
+          <Tab.Screen name='Configurações' component={Configs}  />
         </Tab.Navigator>
       </ThemeProvider>
     </FoodProvider>
