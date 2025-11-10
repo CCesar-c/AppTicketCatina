@@ -22,30 +22,30 @@ export default function Creditos() {
       <View style={{ flexDirection: 'row', gap: 10 }} >
 
         <NewButton onPress={() => {
+          setSaldo(5)
+        }} >Comprar 5 Créditos</NewButton>
+
+        <NewButton onPress={() => {
           setSaldo(10)
         }} >Comprar 10 Créditos</NewButton>
 
         <NewButton onPress={() => {
           setSaldo(20)
-        }} >Comprar 100 Créditos</NewButton>
-
-        <NewButton onPress={() => {
-          setSaldo(50)
-        }} >Comprar 500 Créditos</NewButton>
+        }} >Comprar 20 Créditos</NewButton>
       </View>
       <View style={{ flexDirection: 'row', gap: 10 }} >
 
         <NewButton onPress={() => {
+          setSaldo(50)
+        }} >Comprar 50 Créditos</NewButton>
+
+        <NewButton onPress={() => {
           setSaldo(75)
-        }} >Comprar 1.000 Créditos</NewButton>
+        }} >Comprar 75 Créditos</NewButton>
 
         <NewButton onPress={() => {
           setSaldo(100)
-        }} >Comprar 5.000 Créditos</NewButton>
-
-        <NewButton onPress={() => {
-          setSaldo(150)
-        }} >Comprar 10.000 Créditos</NewButton>
+        }} >Comprar 100 Créditos</NewButton>
       </View>
     </View>
   );
