@@ -35,14 +35,12 @@ export default function Configs({ navigation }) {
 
         if (Platform.OS === 'web') {
           // 🌐 WEB: guardamos la imagen como Base64
-          const base64 = result.assets[0].base64;
-          finalUri = `data:image/jpeg;base64,${base64}`;
+          finalUri = `data:image/jpeg;base64,${result.assets[0].base64}`;
         } else {
           // 📱 MÓVIL: copiamos la imagen a almacenamiento interno
-          const uri = result.assets[0].uri;
           const filename = `perfil_${Date.now()}.jpg`;
           const newPath = FileSystem.documentDirectory + filename;
-          await FileSystem.copyAsync({ from: uri, to: newPath });
+          await FileSystem.copyAsync({ from: result.assets[0].uri, to: newPath });
           finalUri = newPath;
         }
 
