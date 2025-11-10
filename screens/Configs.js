@@ -47,10 +47,13 @@ export default function Configs({navigation}) {
     (async () => {
       const NewName = await AsyncStorage.getItem('@storage_Name');
       setName(NewName);
+      
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
       setTurma(NewTurma);
+
       const NewDescricao = await AsyncStorage.getItem('@storage_Descricao');
-      setName(NewDescricao);
+      setDescricao(NewDescricao);
+      
       const Newimg = await AsyncStorage.getItem('@storage_img');
       if (Newimg == '') { alert("Carregar a Img denovo") } else { setImg(Newimg); }
     })();
