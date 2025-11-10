@@ -10,6 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 import ThemeProvider from '../contexts/themeContext';
 import Configs from './Configs';
+import Perfil from './Perfil';
 
 function AdminHome() {
   const { theme } = useContext(ThemeContext);
@@ -227,7 +228,7 @@ export default function RouterAdmin() {
   return (
     <FoodProvider >
       <ThemeProvider>
-        <Tab.Navigator initialRouteName='homeAdm'
+        <Tab.Navigator initialRouteName='Login'
           screenOptions={{
             headerStyle: { backgroundColor: theme.background },
             headerTintColor: theme.text,
@@ -239,6 +240,7 @@ export default function RouterAdmin() {
           <Tab.Screen name='homeAdm' component={AdminHome} />
           <Tab.Screen name='CreateNewFood' component={CreateNewFood} />
           <Tab.Screen name='AdicionarUser' component={AdicionarUser} />
+          <Tab.Screen name='Perfil' component={Perfil} />
           <Tab.Screen name='Configurações' component={Configs}  />
         </Tab.Navigator>
       </ThemeProvider>
