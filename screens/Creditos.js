@@ -26,25 +26,25 @@ export default function Creditos() {
         }} >Comprar 10 Créditos</NewButton>
 
         <NewButton onPress={() => {
-          setSaldo(100)
+          setSaldo(20)
         }} >Comprar 100 Créditos</NewButton>
 
         <NewButton onPress={() => {
-          setSaldo(500)
+          setSaldo(50)
         }} >Comprar 500 Créditos</NewButton>
       </View>
       <View style={{ flexDirection: 'row', gap: 10 }} >
 
         <NewButton onPress={() => {
-          setSaldo(1000)
+          setSaldo(75)
         }} >Comprar 1.000 Créditos</NewButton>
 
         <NewButton onPress={() => {
-          setSaldo(5000)
+          setSaldo(100)
         }} >Comprar 5.000 Créditos</NewButton>
 
         <NewButton onPress={() => {
-          setSaldo(10000)
+          setSaldo(150)
         }} >Comprar 10.000 Créditos</NewButton>
       </View>
     </View>
