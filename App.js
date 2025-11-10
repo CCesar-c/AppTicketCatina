@@ -19,6 +19,7 @@ function RootNavigator() {
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Login" component={Login} />
