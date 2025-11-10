@@ -1,17 +1,17 @@
 export const lightTheme = {
-  background: '#F0F8FF',        // aliceblue — fundo suave e claro
-  text: '#1A237E',              // azul real escuro para texto
+  background: '#F0F8FF',        // aliceblue — fundo claro e suave
+  text: '#1C2A39',              // azul petróleo escuro — legível sobre fundo claro
   cards: '#D3D3D3',             // lightgray — cartões neutros
-  buttonBackground: '#1565C0',  // azul vibrante (para destaque)
-  buttonText: '#FFFFFF',        // texto branco nos botões
-  borderColor: '#0D47A1',       // azul profundo para bordas
+  buttonBackground: '#5DADEC',  // azul pastel — botão suave e agradável
+  buttonText: '#FFFFFF',        // branco — contraste no botão
+  borderColor: '#3A506B',       // azul acinzentado — discreto e elegante
 };
 
 export const darkTheme = {
-  background: '#0D1B2A',        // azul-marinho quase preto (contraste)
-  text: '#E3F2FD',              // azul bem claro para texto
-  cards: '#1B263B',             // azul-acinzentado médio para cartões
-  buttonBackground: '#2196F3',  // azul real brilhante (bom destaque)
-  buttonText: '#FFFFFF',        // texto branco
-  borderColor: '#64B5F6',       // azul claro suave para bordas
+  background: '#1A1E29',        // azul escuro — fundo profundo
+  text: '#E8F1F9',              // azul muito claro — boa leitura
+  cards: '#2E3A59',             // azul coral escuro (base acinzentada)
+  buttonBackground: '#4E9ACD',  // azul coral (mistura de azul com leve toque quente)
+  buttonText: '#FFFFFF',        // branco — destaca bem
+  borderColor: '#5DADEC',       // azul pastel — contraste suave nas bordas
 };
