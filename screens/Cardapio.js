@@ -11,7 +11,7 @@ import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 
 function CardapioComidas({ navigation }) {
 
-  const { creditos } = useContext(MoneyContext);
+  const { Valor } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
 
   const [result, setResult] = useState([]);
@@ -34,7 +34,7 @@ function CardapioComidas({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {creditos}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
@@ -47,18 +47,18 @@ function CardapioComidas({ navigation }) {
               />
               <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: {item.Creditos + " $"}
+                💰 Preço: {item.Valor + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60, }}
                   onPress={async () => {
-                    if (creditos >= item.Creditos) {
+                    if (Valor >= item.Valor) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Comidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
+                      await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -71,7 +71,7 @@ function CardapioComidas({ navigation }) {
 
                         // Adicionar novos itens
                         arrayProdutos.push(item.Nome);
-                        arrayPrecos.push(item.Creditos);
+                        arrayPrecos.push(item.Valor);
 
                         // Salvar arrays atualizados
                         await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
@@ -83,7 +83,7 @@ function CardapioComidas({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n-Porfavor compre creditos")
+                      alert("Saldo insuficiente!!\n -Porfavor compre Saldo")
                     }
 
                   }}>{"Comprar este produto"}
@@ -93,7 +93,7 @@ function CardapioComidas({ navigation }) {
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
-                      Valor: item.Creditos,
+                      Valor: item.Valor,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>
@@ -109,7 +109,7 @@ function CardapioComidas({ navigation }) {
 };
 
 function CardapioBebidas({ navigation }) {
-  const { creditos } = useContext(MoneyContext);
+  const { Valor } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
@@ -130,7 +130,7 @@ function CardapioBebidas({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {creditos}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
@@ -143,18 +143,18 @@ function CardapioBebidas({ navigation }) {
               />
               <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: {item.Creditos + " $"}
+                💰 Preço: {item.Valor + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    if (creditos >= item.Creditos) {
+                    if (Valor >= item.Valor) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Bebidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
+                      await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -167,7 +167,7 @@ function CardapioBebidas({ navigation }) {
 
                         // Adicionar novos itens
                         arrayProdutos.push(item.Nome);
-                        arrayPrecos.push(item.Creditos);
+                        arrayPrecos.push(item.Valor);
 
                         // Salvar arrays atualizados
                         await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
@@ -179,7 +179,7 @@ function CardapioBebidas({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n-Porfavor compre creditos")
+                      alert("Saldo insuficiente!!\n-Porfavor compre Saldo")
                     }
 
                   }}>{"Comprar este produto"}
@@ -189,7 +189,7 @@ function CardapioBebidas({ navigation }) {
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
-                      Valor: item.Creditos,
+                      Valor: item.Valor,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>
@@ -205,7 +205,7 @@ function CardapioBebidas({ navigation }) {
 };
 
 function CardapioOutros({ navigation }) {
-  const { creditos } = useContext(MoneyContext);
+  const { Valor } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
@@ -226,7 +226,7 @@ function CardapioOutros({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {creditos}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
@@ -239,18 +239,18 @@ function CardapioOutros({ navigation }) {
               />
               <Text style={[styles.text, { color: theme.text }]}>
                 🍽️ Nome: {item.Nome}{"\n"}
-                💰 Preço: {item.Creditos + " $"}
+                💰 Preço: {item.Valor + " $"}
               </Text>
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    if (creditos >= item.Creditos) {
+                    if (Valor >= item.Valor) {
                       const fecha = new Date().toLocaleString('es-ES', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
                       await supabase.from("Outras opcoes").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await AsyncStorage.setItem("creditos", parseFloat(creditos - item.Creditos))
+                      await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
                         //Carregar arrays existentes
@@ -263,7 +263,7 @@ function CardapioOutros({ navigation }) {
 
                         // Adicionar novos itens
                         arrayProdutos.push(item.Nome);
-                        arrayPrecos.push(item.Creditos);
+                        arrayPrecos.push(item.Valor);
 
                         // Salvar arrays atualizados
                         await AsyncStorage.setItem('produto', JSON.stringify(arrayProdutos));
@@ -275,7 +275,7 @@ function CardapioOutros({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n-Porfavor compre creditos")
+                      alert("Saldo insuficiente!!\n-Porfavor compre Saldo")
                     }
 
                   }}>{"Comprar este produto"}
@@ -285,7 +285,7 @@ function CardapioOutros({ navigation }) {
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
-                      Valor: item.Creditos,
+                      Valor: item.Valor,
                       img: fotos.find((i) => i.name.includes(item.Nome))?.url
                     });
                   }}>

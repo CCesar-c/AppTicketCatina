@@ -187,7 +187,7 @@ function CreateNewFood() {
     </View >
   )
 }
-function AdicionarUser({navigation}) {
+function AdicionarUser() {
   const { theme } = useContext(ThemeContext);
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("")
@@ -221,6 +221,7 @@ function AdicionarUser({navigation}) {
     </View>
   )
 }
+
 export default function RouterAdmin() {
   const { theme } = useContext(ThemeContext);
   const Tab = createDrawerNavigator();
