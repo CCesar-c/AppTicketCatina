@@ -56,8 +56,7 @@ function CardapioComidas({ navigation }) {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
-                      await supabase.from("Comidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await supabase.from("Comidas").update([{ Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
+                      await supabase.from("Comidas").update([{ Vendas: item.Vendas + 1, Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
                       await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
@@ -83,13 +82,14 @@ function CardapioComidas({ navigation }) {
                         alert('Erro ao adicionar item ao carrinho');
                       }
                     } else {
-                      alert("Saldo insuficiente!!\n -Porfavor compre Saldo")
+                      alert("Saldo insuficiente! ou Produto sem estoque")
                     }
 
                   }}>{"Comprar este produto"}
                 </NewButton>
                 <NewButton
                   style={{ width: 100, height: 60 }}
+
                   onPress={() => {
                     navigation.navigate('DetalhesCompras', {
                       nombre: item.Nome,
@@ -131,7 +131,7 @@ function CardapioBebidas({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
@@ -149,13 +149,12 @@ function CardapioBebidas({ navigation }) {
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    if (Valor >= item.Valor ) {
-                      const fecha = new Date().toLocaleString('es-ES', {
+                    if (Valor >= item.Valor && item.Estoque > 0) {
+                      const fecha = new Date().toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
-                      await supabase.from("Bebidas").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
-                      await supabase.from("Bebidas").update([{ Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
+                      await supabase.from("Bebidas").update([{ Vendas: item.Vendas + 1, Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
                       await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
@@ -229,7 +228,7 @@ function CardapioOutros({ navigation }) {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >saldo: {Valor}$ </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
@@ -247,12 +246,12 @@ function CardapioOutros({ navigation }) {
               <View style={{ flexDirection: 'column' }} >
                 <NewButton style={{ width: 100, height: 60 }}
                   onPress={async () => {
-                    if (Valor >= item.Valor) {
-                      const fecha = new Date().toLocaleString('es-ES', {
+                    if (Valor >= item.Valor && item.Estoque > 0) {
+                      const fecha = new Date().toLocaleString('pt-BR', {
                         dateStyle: 'short',
                         timeStyle: 'medium',
                       });
-                      await supabase.from("Outras opcoes").update([{ Vendas: item.Vendas + 1 }]).eq("Nome", item.Nome)
+                      await supabase.from("Outras opcoes").update([{ Vendas: item.Vendas + 1, Estoque: item.Estoque - 1 }]).eq("Nome", item.Nome)
                       await AsyncStorage.setItem("Valor", parseFloat(Valor - item.Valor))
                       await AsyncStorage.setItem("data", fecha)
                       try {
@@ -261,7 +260,7 @@ function CardapioOutros({ navigation }) {
                         const precosAtuais = await AsyncStorage.getItem('preco');
 
                         // Converter para array ou criar novo se não existir
-                        const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                        const arrayProdutos = produtosAtuais ? JSON.pars=e(produtosAtuais) : [];
                         const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
 
                         // Adicionar novos itens
