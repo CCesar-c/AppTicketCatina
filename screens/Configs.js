@@ -1,17 +1,19 @@
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useContext } from 'react';
 import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
 
-export default function Configs({navigation}) {
+export default function Configs({ navigation }) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [turma, setTurma] = useState('');
-  const [descricao, setDescricao] = useState('')
+  const [descricao, setDescricao] = useState('');
   const [imgGet, setImg] = useState('');
 
+  // 📸 Seleccionar imagen (compatible con Android, iOS y Web)
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
@@ -24,15 +26,37 @@ export default function Configs({navigation}) {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: Platform.OS === 'web', // ⚡ sólo genera base64 en web
     });
 
     if (!result.canceled) {
-      const uri = result.assets[0].uri;
-      setImg(uri);
-      await AsyncStorage.setItem('@storage_img', uri);
+      try {
+        let finalUri = '';
+
+        if (Platform.OS === 'web') {
+          // 🌐 WEB: guardamos la imagen como Base64
+          const base64 = result.assets[0].base64;
+          finalUri = `data:image/jpeg;base64,${base64}`;
+        } else {
+          // 📱 MÓVIL: copiamos la imagen a almacenamiento interno
+          const uri = result.assets[0].uri;
+          const filename = `perfil_${Date.now()}.jpg`;
+          const newPath = FileSystem.documentDirectory + filename;
+          await FileSystem.copyAsync({ from: uri, to: newPath });
+          finalUri = newPath;
+        }
+
+        setImg(finalUri);
+        await AsyncStorage.setItem('@storage_img', finalUri);
+        alert("✅ Imagem salva com sucesso!");
+
+      } catch (error) {
+        console.log("Erro ao salvar imagem:", error);
+      }
     }
   };
 
+  // 💾 Guardar los datos de usuario
   async function saveName() {
     if (!name || !turma || !descricao) {
       alert("Por favor, preencha todos os campos.");
@@ -41,21 +65,34 @@ export default function Configs({navigation}) {
     await AsyncStorage.setItem('@storage_Name', name);
     await AsyncStorage.setItem('@storage_Turma', turma);
     await AsyncStorage.setItem('@storage_Descricao', descricao);
+    alert("✅ Dados salvos com sucesso!");
   }
 
+  // 📦 Cargar los datos guardados
   useEffect(() => {
     (async () => {
       const NewName = await AsyncStorage.getItem('@storage_Name');
-      setName(NewName);
-      
+      if (NewName) setName(NewName);
+
       const NewTurma = await AsyncStorage.getItem('@storage_Turma');
-      setTurma(NewTurma);
+      if (NewTurma) setTurma(NewTurma);
 
       const NewDescricao = await AsyncStorage.getItem('@storage_Descricao');
-      setDescricao(NewDescricao);
-      
-      const Newimg = await AsyncStorage.getItem('@storage_img');
-      if (Newimg == '') { alert("Carregar a Img denovo") } else { setImg(Newimg); }
+      if (NewDescricao) setDescricao(NewDescricao);
+
+      const savedImg = await AsyncStorage.getItem('@storage_img');
+      if (savedImg) {
+        if (Platform.OS !== 'web') {
+          const fileInfo = await FileSystem.getInfoAsync(savedImg);
+          if (fileInfo.exists) {
+            setImg(savedImg);
+          } else {
+            console.log("⚠️ Imagem não encontrada, selecione novamente.");
+          }
+        } else {
+          setImg(savedImg);
+        }
+      }
     })();
   }, []);
 
@@ -72,30 +109,42 @@ export default function Configs({navigation}) {
       {imgGet ? (
         <Image
           source={{ uri: imgGet }}
-          style={{ width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: theme.text }}
+          style={{
+            width: 120,
+            height: 120,
+            borderRadius: 60,
+            borderWidth: 2,
+            borderColor: theme.text,
+          }}
         />
-      ) : null}
+      ) : (
+        <Text style={{ color: theme.text }}>Nenhuma imagem salva</Text>
+      )}
 
       <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
         placeholder="Alterar Nome de usuário"
+        placeholderTextColor={theme.text}
         value={name}
         onChangeText={setName}
       />
       <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
         placeholder="Alterar Turma do usuário"
+        placeholderTextColor={theme.text}
         value={turma}
         onChangeText={setTurma}
       />
       <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text, height: 50, width: 250 }]}
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
         placeholder="Alterar Descrição do usuário"
+        placeholderTextColor={theme.text}
         value={descricao}
         onChangeText={setDescricao}
       />
+
       <NewButton onPress={saveName}>Salvar</NewButton>
-      <NewButton onPress={() => navigation.navigate('Login')}> {"Sair"}</NewButton>
+      <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
     </View>
   );
 }
@@ -115,6 +164,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
-    width: '80%',
+    height: 50,
+    width: 250,
   },
 });
