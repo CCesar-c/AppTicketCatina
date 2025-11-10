@@ -16,7 +16,10 @@ function AdminHome() {
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  const { comidas, bebidas, outros, urls } = useContext(FoodContext);
+  const [comidas, setComidas] = useState([]);
+  const [bebidas, setBebidas] = useState([]);
+  const [outros, setOutros] = useState([]);
+
 
   const tupdate = async (nombre, estado) => {
     try {
@@ -31,33 +34,28 @@ function AdminHome() {
   };
 
   useEffect(() => {
-    const fetchTodo = async () => {
+    const foodall = async () => {
       try {
-        // 🔗 Obtener URLs públicas de imágenes
-        const cadaFoto = urls.map((file) => {
-          const { data } = supabase.storage
-            .from('Imagens')
-            .getPublicUrl(file.name);
-          return { name: file.name, url: data.publicUrl };
-        });
-        setFotos(cadaFoto);
+        const [{ data: comiData }, { data: bebiData }, { data: otrosData }, { data: files }] = await Promise.all([
+          supabase.from('Comidas').select('*'),
+          supabase.from('Bebidas').select('*'),
+          supabase.from('Outras opcoes').select('*'),
+          supabase.storage.from("Imagens").list(),
+        ])
+        setComidas(comiData)
+        setBebidas(bebiData)
+        setOutros(otrosData)
+        setFotos(files);
 
-        // 🍽️ Combinar todos los productos
-        const total = [
-          ...(comidas || []),
-          ...(bebidas || []),
-          ...(outros || []),
-        ];
-
-        // ✅ Actualizar estado correctamente
-        setResult(total);
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.log("ERROR AL OBTENER LOS VALORES \n" + error)
       }
-    };
-
-    fetchTodo();
-  }, [comidas, bebidas, outros, urls]);
+      setResult(...(comidas) || [],...(bebidas) || [], ...(outros) || [] )
+    }
+    foodall();
+    const interval = setInterval(foodall, 5000);
+    return () => clearInterval(interval);
+  }, [])
 
   const handleToggle = async (item) => {
     const nuevoEstado = !item.Disponivel;
@@ -168,10 +166,10 @@ function CreateNewFood() {
         <NewButton children={`Disponivel?: ${checked ? '✅' : '❌'} `} onPress={() => {
           setChecked(!checked)
         }} />
-        <NewButton children={'Inserir Imagen para a comida'} style={[{color: theme.text}]}
-        onPress={() => {
-          pickImage();
-        }} />
+        <NewButton children={'Inserir Imagen para a comida'} style={[{ color: theme.text }]}
+          onPress={() => {
+            pickImage();
+          }} />
       </View>
       <Image source={{ uri: getImg }} style={{ height: 200, width: 200 }} />
       <NewButton children={"Salvar e adicionar"} onPress={async () => {
@@ -241,7 +239,7 @@ export default function RouterAdmin() {
           <Tab.Screen name='CreateNewFood' component={CreateNewFood} />
           <Tab.Screen name='AdicionarUser' component={AdicionarUser} />
           <Tab.Screen name='Perfil' component={Perfil} />
-          <Tab.Screen name='Configurações' component={Configs}  />
+          <Tab.Screen name='Configurações' component={Configs} />
         </Tab.Navigator>
       </ThemeProvider>
     </FoodProvider>

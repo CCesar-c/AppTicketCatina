@@ -15,7 +15,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Drawer"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
