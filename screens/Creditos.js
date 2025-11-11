@@ -10,11 +10,18 @@ export default function Creditos() {
   const { theme } = useContext(ThemeContext);
 
   async function setSaldo(valor) {
-
-    const res = parseFloat(await AsyncStorage.getItem("Valor")) || 0;
-    const result = res + valor;
-    await AsyncStorage.setItem("Valor", parseFloat(result));
-    alert("Compra efetuada com suscesso")
+    try {
+      const stored = await AsyncStorage.getItem("Valor");
+      const parsed = parseFloat(stored);
+      const res = Number.isFinite(parsed) ? parsed : 0;
+      const result = res + valor;
+      // AsyncStorage expects strings — stringify the number
+      await AsyncStorage.setItem("Valor", result.toString());
+      alert("Compra efetuada com sucesso");
+    } catch (error) {
+      console.error('Erro ao atualizar saldo:', error);
+      alert('Erro ao processar a compra');
+    }
   }
   return (
     <View style={[styles.container, { backgroundColor: theme.background, gap: 20 }]}>

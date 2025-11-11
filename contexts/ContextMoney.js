@@ -5,7 +5,7 @@ import { createContext, useState, useEffect } from 'react';
 export const MoneyContext = createContext();
 
 export function MoneyProvider({ children }) {
-    const [Valor, setValor] = useState("");
+    const [Valor, setValor] = useState(0);
     const [_, setTime] = useState(0);
 
     const respons = async () => {

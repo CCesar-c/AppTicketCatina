@@ -37,11 +37,8 @@ export default function Configs({ navigation }) {
           // 🌐 WEB: guardamos la imagen como Base64
           finalUri = `data:image/jpeg;base64,${result.assets[0].base64}`;
         } else {
-          // 📱 MÓVIL: copiamos la imagen a almacenamiento interno
-          const filename = `perfil_${Date.now()}.jpg`;
-          const newPath = FileSystem.documentDirectory + filename;
-          await FileSystem.copyAsync({ from: result.assets[0].uri, to: newPath });
-          finalUri = newPath;
+          // 📱 MÓVIL: ao invés de copiar (pode retornar content:// em Android), salvamos a URI diretamente
+          finalUri = result.assets[0].uri;
         }
 
         setImg(finalUri);
@@ -50,6 +47,7 @@ export default function Configs({ navigation }) {
 
       } catch (error) {
         console.log("Erro ao salvar imagem:", error);
+        alert('Erro ao salvar a imagem');
       }
     }
   };
@@ -80,16 +78,8 @@ export default function Configs({ navigation }) {
 
       const savedImg = await AsyncStorage.getItem('@storage_img');
       if (savedImg) {
-        if (Platform.OS !== 'web') {
-          const fileInfo = await FileSystem.getInfoAsync(savedImg);
-          if (fileInfo.exists) {
-            setImg(savedImg);
-          } else {
-            console.log("⚠️ Imagem não encontrada, selecione novamente.");
-          }
-        } else {
-          setImg(savedImg);
-        }
+        // Aceitamos URIs tanto de web (base64)data: como de mobile (file:// ou content://)
+        setImg(savedImg);
       }
     })();
   }, []);

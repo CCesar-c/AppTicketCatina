@@ -71,6 +71,7 @@ export default function Login({ navigation }) {
         placeholder="Digite Seu Nome"
         value={name}
         onChangeText={setName}
+        keyboardType="default"
       />
       <TextInput
         style={[styles.input, { color: theme.text }]}
@@ -85,6 +86,7 @@ export default function Login({ navigation }) {
         value={pass}
         onChangeText={setPass}
         secureTextEntry
+        keyboardType="default"
       />
 
       <NewButton onPress={loadUsers}>Entrar</NewButton>

@@ -34,7 +34,7 @@ function CardapioComidas({ navigation }) {
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
       <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
+  <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
           return (
@@ -132,7 +132,7 @@ function CardapioBebidas({ navigation }) {
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
       <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
+  <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
           return (
@@ -229,7 +229,7 @@ function CardapioOutros({ navigation }) {
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
       <Text style={[styles.text, { color: theme.text, fontSize: 20, textAlign: 'right' }]} >Saldo: {Valor}$ </Text>
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container}>
+  <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }} contentContainerStyle={styles.container}>
 
         {result.map((item, index) => {
           return (
@@ -331,7 +331,7 @@ function Ranking() {
     <View style={[{ height: '100%', backgroundColor: theme.background }]}>
       <Text style={[styles.text, { color: theme.text, fontSize: 20 }]}>Produtos mais comprados 🏆</Text>
 
-      <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={styles.container} >
+  <ScrollView showsVerticalScrollIndicator={true} style={{ flex: 1 }} contentContainerStyle={styles.container} >
         {rank.map((item, index) => (
           <View key={index} style={[styles.card, { backgroundColor: theme.cards }]}>
             <Image source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }} style={styles.image} resizeMode='contain' />
@@ -417,8 +417,6 @@ export default function RouterCardapio({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',

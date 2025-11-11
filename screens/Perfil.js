@@ -26,18 +26,8 @@ export default function Perfil({ navigation }) {
         if (storedDescricao) setDescricao(storedDescricao);
 
         if (storedImg) {
-          if (Platform.OS === "web") {
-            // 🌐 En web el Base64 funciona directo
-            setImgUri(storedImg);
-          } else {
-            // 📱 En móvil, verificamos si el archivo existe
-            const fileInfo = await FileSystem.getInfoAsync(storedImg);
-            if (fileInfo.exists) {
-              setImgUri(storedImg);
-            } else {
-              console.log("⚠️ Imagen no encontrada, seleccione una nueva en Configs.");
-            }
-          }
+          // Aceitamos URIs de web (base64) e mobile (file:// ou content://). Renderizamos direto.
+          setImgUri(storedImg);
         }
       } catch (err) {
         console.log("Erro ao carregar dados:", err);
