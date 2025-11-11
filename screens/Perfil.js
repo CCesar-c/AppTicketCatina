@@ -15,7 +15,6 @@ export default function Perfil({ navigation }) {
   useEffect(() => {
     (async () => {
       try {
-        // 🧠 Cargar nombre, turma y descripción
         const storedName = await AsyncStorage.getItem("@storage_Name");
         const storedTurma = await AsyncStorage.getItem("@storage_Turma");
         const storedDescricao = await AsyncStorage.getItem("@storage_Descricao");
