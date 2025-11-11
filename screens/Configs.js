@@ -87,13 +87,13 @@ export default function Configs({ navigation }) {
   return (
         <ScrollView
       contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
-      showsVerticalScrollIndicator={false} // opcional
+      showsVerticalScrollIndicator={false} 
     >
       <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
 
       <Text style={[styles.text, {color: theme.text }]}>Modo Tema</Text>
       <NewButton onPress={mudarTema}>
-        {darkMode ? '🌞' : '🌙'}
+        {darkMode ? '🌙' : '🌞'}
       </NewButton>
 
 
@@ -110,15 +110,15 @@ export default function Configs({ navigation }) {
             borderColor: theme.text,
           }}   />
           </NewButton>
-      ) : (<View style={{
+      ) : 
+      (<NewButton style={{
         width: 120,
         height: 120,
         borderRadius: 60,
         borderWidth: 2,
         borderColor: theme.text
-      }}>
-
-      </View>
+      }}  onPress={pickImage}>
+      </NewButton>
       )}
 
      <Text style={[styles.text, {color: theme.text }]}>Infos do Aluno</Text>
