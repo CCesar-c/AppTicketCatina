@@ -26,7 +26,7 @@ export default function Configs({ navigation }) {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-      base64: Platform.OS === 'web', // ⚡ sólo genera base64 en web
+      base64: Platform.OS === 'web', 
     });
 
     if (!result.canceled) {

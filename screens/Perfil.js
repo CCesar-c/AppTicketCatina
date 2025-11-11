@@ -53,8 +53,7 @@ export default function Perfil({ navigation }) {
 
       <Text style={[styles.text, { color: theme.text }]}>👤 Nome: {name}</Text>
       <Text style={[styles.text, { color: theme.text }]}>🎓 Turma: {turma}</Text>
-      <Text style={[styles.text, { color: theme.text }]}>
-        📝 Descrição: {descricao}
+      <Text style={[styles.text, { color: theme.text }]}>📝 Descrição: {descricao}
       </Text>
     </View>
   );
