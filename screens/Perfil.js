@@ -5,7 +5,7 @@ import { ThemeContext } from "../contexts/themeContext";
 import * as FileSystem from "expo-file-system";
 import NewButton from "../components/componets";
 
-export default function Perfil({ navigation }) {
+export default function Perfil() {
   const { theme } = useContext(ThemeContext);
   const [name, setName] = useState("");
   const [turma, setTurma] = useState("");
