@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
   async function loadUsers() {
     if (!name || !email || !pass) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
+      return; 
     }
 
     const { data, error } = await supabase
