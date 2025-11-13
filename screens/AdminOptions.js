@@ -55,15 +55,9 @@ useEffect(() => {
           .getPublicUrl(file.name);
         return { name: file.name, url: publicUrl.publicUrl };
       });
-
-      const comidas = comiData ?? [];
-      const bebidas = bebiData ?? [];
-      const outros = outrosData ?? [];
-
-      setFotos(cadaFoto);
-      setComidas(comidas);
-      setBebidas(bebidas);
-      setOutros(outros);
+      setComidas(comiData);
+      setBebidas(bebiData);
+      setOutros(outrosData);
 
       setResult([...comidas, ...bebidas, ...outros]);
 
