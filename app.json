@@ -4,11 +4,11 @@
     "slug": "AppTicketCantina",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "assets/foto cantina.png",
+    "icon": "assets/Cantina Tickect ja Logo.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "assets/foto cantina.png",
+      "image": "assets/Cantina Tickect ja Logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "assets/foto cantina.png",
+        "foregroundImage": "assets/Cantina Tickect ja Logo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
