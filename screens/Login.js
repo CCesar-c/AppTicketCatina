@@ -1,9 +1,10 @@
 import { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Alert, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Alert, ImageBackground, Image } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
+import Logo from '../assets/LogoCantina.png'
 
 export default function Login({ navigation }) {
   const { theme } = useContext(ThemeContext);
@@ -26,7 +27,7 @@ export default function Login({ navigation }) {
   async function loadUsers() {
     if (!name || !email || !pass) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return; 
+      return;
     }
 
     const { data, error } = await supabase
@@ -61,34 +62,36 @@ export default function Login({ navigation }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <ImageBackground  style={[styles.container, {height:'100%', width:'100%'}]} source={{ uri:'https://wallpaperaccess.com/full/4893732.jpg' }} >
-        <Text style={[styles.title, { color: theme.text }]}>Login</Text>
-
-        <TextInput
-          style={[styles.input, { color: theme.text }]}
-          placeholder="Digite Seu Nome"
-          value={name}
-          onChangeText={setName}
-          keyboardType="default"
-        />
-        <TextInput
-          style={[styles.input, { color: theme.text }]}
-          placeholder="Digite Seu Email"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={[styles.input, { color: theme.text }]}
-          placeholder="Digite Sua Senha"
-          value={pass}
-          onChangeText={setPass}
-          secureTextEntry
-          keyboardType="default"
-        />
-
-        <NewButton onPress={loadUsers}>Entrar</NewButton>
+      <ImageBackground
+        source={Logo}
+        style={{ width: 150, height: 200 }}>
       </ImageBackground>
+      <Text style={[styles.title, { color: theme.text }]}>Login</Text>
+
+      <TextInput
+        style={[styles.input, { color: theme.text }]}
+        placeholder="Digite Seu Nome"
+        value={name}
+        onChangeText={setName}
+        keyboardType="default"
+      />
+      <TextInput
+        style={[styles.input, { color: theme.text }]}
+        placeholder="Digite Seu Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={[styles.input, { color: theme.text }]}
+        placeholder="Digite Sua Senha"
+        value={pass}
+        onChangeText={setPass}
+        secureTextEntry
+        keyboardType="default"
+      />
+
+      <NewButton onPress={loadUsers}>Entrar</NewButton>
     </View>
   );
 }

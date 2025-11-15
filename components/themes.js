@@ -1,5 +1,5 @@
 export const lightTheme = {
-  background: '#F0F8FF',        // aliceblue — fundo claro e suave
+  background: 'white',        // aliceblue — fundo claro e suave
   text: '#1C2A39',              // azul petróleo escuro — legível sobre fundo claro
   cards: '#D3D3D3',             // lightgray — cartões neutros
   buttonBackground: '#5DADEC',  // azul pastel — botão suave e agradável
