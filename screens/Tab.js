@@ -19,7 +19,7 @@ export default function TabNavigator() {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: theme.text,
-        tabBarInactiveTintColor: theme.text,
+        tabBarInactiveTintColor: 'gray',
         headerShown: false,
         tabBarStyle: { backgroundColor: theme.background }
       }}

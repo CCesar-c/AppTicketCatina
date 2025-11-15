@@ -4,11 +4,11 @@
     "slug": "AppTicketCantina",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "assets/Cantina Tickect ja Logo.png",
+    "icon": "assets/LogoCantina.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "assets/Cantina Tickect ja Logo.png",
+      "image":  "assets/LogoCantina.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,14 +18,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "assets/Cantina Tickect ja Logo.png",
+        "foregroundImage":  "assets/LogoCantina.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.cesar_colmenarez.AppTicketCantina"
     },
     "web": {
-      "favicon": "assets/Cantina Tickect ja Logo.png"
+      "favicon":  "assets/LogoCantina.png"
     },
     "extra": {
       "eas": {
