@@ -5,6 +5,7 @@ import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import * as Animatable from 'react-native-animatable';
 
 export default function Configs({ navigation }) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
@@ -85,68 +86,72 @@ export default function Configs({ navigation }) {
   }, []);
 
   return (
-        <ScrollView
+
+    <ScrollView
       contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
-      showsVerticalScrollIndicator={false} 
+      showsVerticalScrollIndicator={false}
     >
-      <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
+      <Animatable.View animation="fadeIn" style={[styles.container, { backgroundColor: theme.background }]}>
+        <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
 
-      <Text style={[styles.text, {color: theme.text }]}>Modo Tema</Text>
-      <NewButton onPress={mudarTema}>
-        {darkMode ? '🌙' : '🌞'}
-      </NewButton>
-
-
-      <Text style={[styles.text, {color: theme.text}]}>Foto De Usuario</Text>
-      {imgGet ? (
-        <NewButton style={{margin: 30}} onPress={pickImage}>
-        <Image
-          source={{ uri: imgGet }}
-          style={{
+        <Text style={[styles.text, { color: theme.text }]}>Modo Tema</Text>
+        <Animatable.View animation="pulse" iterationCount="infinite">
+          <NewButton onPress={mudarTema}>
+            {darkMode ? '🌙' : '🌞'}
+          </NewButton>
+        </Animatable.View>
+        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario</Text>
+        {imgGet ? (
+          <NewButton style={{ margin: 30 }} onPress={pickImage}>
+            <Image
+              source={{ uri: imgGet }}
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: 60,
+                borderWidth: 2,
+                borderColor: theme.text,
+              }} />
+          </NewButton>
+        ) :
+          (<NewButton style={{
             width: 120,
             height: 120,
             borderRadius: 60,
             borderWidth: 2,
-            borderColor: theme.text,
-          }}   />
+            borderColor: theme.text
+          }} onPress={pickImage}>
           </NewButton>
-      ) : 
-      (<NewButton style={{
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        borderWidth: 2,
-        borderColor: theme.text
-      }}  onPress={pickImage}>
-      </NewButton>
-      )}
+          )}
 
-     <Text style={[styles.text, {color: theme.text }]}>Infos do Aluno</Text>
-      <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-        placeholder="Alterar Nome de usuário"
-        placeholderTextColor={theme.text}
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-        placeholder="Alterar Turma do usuário"
-        placeholderTextColor={theme.text}
-        value={turma}
-        onChangeText={setTurma}
-      />
-      <TextInput
-        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-        placeholder="Alterar Descrição do usuário"
-        placeholderTextColor={theme.text}
-        value={descricao}
-        onChangeText={setDescricao}
-      />
-
-      <NewButton onPress={saveName}>Salvar</NewButton>
-      <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
-      </ScrollView>
+        <Text style={[styles.text, { color: theme.text }]}>Infos do Aluno</Text>
+        <TextInput
+          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+          placeholder="Alterar Nome de usuário"
+          placeholderTextColor={theme.text}
+          value={name}
+          onChangeText={setName}
+        />
+        <TextInput
+          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+          placeholder="Alterar Turma do usuário"
+          placeholderTextColor={theme.text}
+          value={turma}
+          onChangeText={setTurma}
+        />
+        <TextInput
+          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+          placeholder="Alterar Descrição do usuário"
+          placeholderTextColor={theme.text}
+          value={descricao}
+          onChangeText={setDescricao}
+        />
+        <Animatable.View animation="tada">
+          <NewButton onPress={saveName}>Salvar</NewButton>
+        </Animatable.View>
+        <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
+      </Animatable.View>
+    </ScrollView>
   );
 }
 
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 250,
   },
-  title:{
+  title: {
     fontSize: 30,
     fontWeight: 'bold',
   }

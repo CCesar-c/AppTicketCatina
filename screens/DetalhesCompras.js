@@ -2,24 +2,26 @@ import { View, Text, Image, StyleSheet } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../contexts/themeContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Animatable from 'react-native-animatable';
 
 export default function DetalhesCompras() {
-    const { nombre, Valor, img, Estoque  } = useRoute().params;
+    const { nombre, Valor, img, Estoque } = useRoute().params;
     const { theme } = useContext(ThemeContext);
     return (
-        <View style={[styles.container, { backgroundColor: theme.background }]}>
-            <Image
-                source={{ uri: img }}
-                style={styles.image}
-                resizeMode="contain"
-            />
-            <Text style={[styles.text, { color: theme.text }]}>{nombre}</Text>
+        <Animatable.View animation="zoomIn" duration={500} style={[styles.container, { backgroundColor: theme.background }]}>
+            <View style={[styles.container, { backgroundColor: theme.background }]}>
+                <Image
+                    source={{ uri: img }}
+                    style={styles.image}
+                    resizeMode="contain"
+                />
+                <Text style={[styles.text, { color: theme.text }]}>{nombre}</Text>
 
-            <Text style={[styles.text, { color: theme.text }]}>💰{Valor}$</Text>
+                <Text style={[styles.text, { color: theme.text }]}>💰{Valor}$</Text>
 
-             <Text style={[styles.text, { color: theme.text }]}> Estoque: {Estoque}</Text>
-        </View>
+                <Text style={[styles.text, { color: theme.text }]}> Estoque: {Estoque}</Text>
+            </View>
+        </Animatable.View>
     )
 }
 const styles = StyleSheet.create({

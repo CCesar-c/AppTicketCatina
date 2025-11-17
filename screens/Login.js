@@ -26,9 +26,6 @@ export default function Login({ navigation }) {
   }
 
   async function loadUsers() {
-    if (!name || !email || !pass) {
-      ref.current.shake(200)
-    }
     const { data, error } = await supabase
       .from('users')
       .select('*')
@@ -36,15 +33,17 @@ export default function Login({ navigation }) {
       .eq('Senha', pass);
     if (error) {
       console.log('❌ Error:', error.message);
-      alert('Erro', 'Erro ao buscar usuário.');
+      alert('Erro ao buscar usuário.');
       return;
     }
 
     if (!data || data.length === 0) {
-      alert('Erro', 'Usuário não encontrado.');
+      alert('Usuário não encontrado.');
       return;
+    } else if (!name || !email || !pass) {
+      ref.current.shake(200)
+      alert("Preencha os campos requeridos..!!")
     }
-
 
     if (data[0].Administrador === true) {
       navigation.navigate('RouterAdmin');
@@ -58,6 +57,7 @@ export default function Login({ navigation }) {
       console.error("Erro de autorizaçao")
       ref.current.shake(200)
     }
+
     storeData();
   }
 
