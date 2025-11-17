@@ -16,9 +16,9 @@ function AdminHome() {
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  const [comidas, setComidas] = useState([]);
-  const [bebidas, setBebidas] = useState([]);
-  const [outros, setOutros] = useState([]);
+  // const [comidas, setComidas] = useState([]);
+  // const [bebidas, setBebidas] = useState([]);
+  // const [outros, setOutros] = useState([]);
 
   const tupdate = async (nombre, estado) => {
     try {
@@ -58,9 +58,9 @@ function AdminHome() {
           };
         });
 
-        setComidas(comiData);
-        setBebidas(bebiData);
-        setOutros(outrosData);
+        // setComidas(comiData);
+        // setBebidas(bebiData);
+        // setOutros(outrosData);
         setFotos(cadaFoto);
 
         setResult([...comiData, ...bebiData, ...outrosData]);
