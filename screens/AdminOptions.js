@@ -48,7 +48,6 @@ useEffect(() => {
         supabase.storage.from("Imagens").list(),
       ]);
 
-
       const cadaFoto = (files ?? []).map(file => {
         const { data: publicUrl } = supabase.storage
           .from("Imagens")
@@ -58,6 +57,7 @@ useEffect(() => {
       setComidas(comiData);
       setBebidas(bebiData);
       setOutros(outrosData);
+      setFotos(cadaFoto)
 
       setResult([...comidas, ...bebidas, ...outros]);
 
