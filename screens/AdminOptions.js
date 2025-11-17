@@ -20,7 +20,6 @@ function AdminHome() {
   const [bebidas, setBebidas] = useState([]);
   const [outros, setOutros] = useState([]);
 
-
   const tupdate = async (nombre, estado) => {
     try {
       await Promise.all([
@@ -33,44 +32,48 @@ function AdminHome() {
     }
   };
 
-useEffect(() => {
-  const foodall = async () => {
-    try {
-      const [
-        { data: comiData, error: comiErr },
-        { data: bebiData, error: bebiErr },
-        { data: outrosData, error: outrosErr },
-        { data: files, error: filesErr }
-      ] = await Promise.all([
-        supabase.from('Comidas').select('*'),
-        supabase.from('Bebidas').select('*'),
-        supabase.from('Outras opcoes').select('*'),
-        supabase.storage.from("Imagens").list(),
-      ]);
+  useEffect(() => {
+    const foodall = async () => {
+      try {
+        const [
+          { data: comiData },
+          { data: bebiData },
+          { data: outrosData },
+          { data: files }
+        ] = await Promise.all([
+          supabase.from('Comidas').select('*'),
+          supabase.from('Bebidas').select('*'),
+          supabase.from('Outras opcoes').select('*'),
+          supabase.storage.from("Imagens").list(),
+        ]);
 
-      const cadaFoto = files.map(file => {
-        const { data: publicUrl } = supabase.storage
-          .from("Imagens")
-          .getPublicUrl(file.name);
-        return { name: file.name, url: publicUrl.publicUrl };
-      });
-      setComidas(comiData);
-      setBebidas(bebiData);
-      setOutros(outrosData);
-      setFotos(cadaFoto)
+        const cadaFoto = files.map(file => {
+          const { data: publicUrl } = supabase.storage
+            .from("Imagens")
+            .getPublicUrl(file.name);
 
-      setResult([...comidas, ...bebidas, ...outros]);
+          return {
+            name: file.name.toLowerCase(),
+            url: publicUrl.publicUrl
+          };
+        });
 
-    } catch (error) {
-      console.error("ERROR AL OBTENER LOS VALORES:\n", error);
-    }
-  };
+        setComidas(comiData);
+        setBebidas(bebiData);
+        setOutros(outrosData);
+        setFotos(cadaFoto);
 
-  foodall(); // initial fetch
-  const interval = setInterval(foodall, 5000);
-  return () => clearInterval(interval);
-}, []);
+        setResult([...comiData, ...bebiData, ...outrosData]);
 
+      } catch (error) {
+        console.error("ERROR AL OBTENER LOS VALORES:\n", error);
+      }
+    };
+
+    foodall();
+    const interval = setInterval(foodall, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleToggle = async (item) => {
     const nuevoEstado = !item.Disponivel;
@@ -87,7 +90,7 @@ useEffect(() => {
   };
 
   return (
-    <View style={[{ height: '100%', backgroundColor: theme.background, justifyContent:'center', alignItems:'center' }]}>
+    <View style={[{ height: '100%', backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center' }]}>
       <Text style={[styles.text, { color: theme.text }]}>Tela do Admin</Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
 
@@ -98,7 +101,11 @@ useEffect(() => {
           renderItem={({ item }) => (
             <View style={[styles.card, { backgroundColor: theme.buttonBackground, margin: 3 }]}>
               <Image
-                source={{ uri: fotos.find((i) => i.name.includes(item.Nome))?.url }}
+                source={{
+                  uri: fotos.find(i =>
+                    i.name.includes(item.Nome.toLowerCase())
+                  )?.url
+                }}
                 style={styles.image}
                 resizeMode="contain"
               />
@@ -175,7 +182,7 @@ function CreateNewFood() {
     <View style={[{ backgroundColor: theme.background, alignItems: 'center', justifyContent: 'center', flex: 1, gap: 20 }]} >
       <Text style={[{ color: theme.text, fontSize: 30, marginBottom: 40 }]} >Adicionar uma nova comidas</Text>
 
-      <View style={{ flexDirection: 'row', gap: 20 }} >
+      <View style={{ flexDirection: 'column', gap: 20, alignItems: 'center' }} >
         <TextInput placeholder='Nome da comida' style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} onChangeText={setNome} />
         <TextInput placeholder='Valor da comida em R$' style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} onChangeText={setValor} />
         <NewButton children={`Disponivel?: ${checked ? '✅' : '❌'} `} onPress={() => {
@@ -186,7 +193,7 @@ function CreateNewFood() {
             pickImage();
           }} />
       </View>
-      <Image source={{ uri: getImg }} style={{ height: 200, width: 200 }} />
+      <Image source={{ uri: getImg }} style={{ height: 200 || 0, width: 200 || 0 }} />
       <NewButton children={"Salvar e adicionar"} onPress={async () => {
         if (!getNome || !getValor || !getImg) {
           alert("Porfavor Preencha os campos requeridos...")
