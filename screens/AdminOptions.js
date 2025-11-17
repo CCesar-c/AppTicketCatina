@@ -48,7 +48,7 @@ useEffect(() => {
         supabase.storage.from("Imagens").list(),
       ]);
 
-      const cadaFoto = (files ?? []).map(file => {
+      const cadaFoto = files.map(file => {
         const { data: publicUrl } = supabase.storage
           .from("Imagens")
           .getPublicUrl(file.name);
