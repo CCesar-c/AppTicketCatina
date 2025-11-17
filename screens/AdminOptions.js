@@ -91,15 +91,11 @@ function AdminHome() {
 
   return (
     <View style={[{ height: '100%', backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center' }]}>
-      <Text style={[styles.text, { color: theme.text }]}>Tela do Admin</Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 30, fontWeight: 'bold' }]}>Tela do Admin</Text>
       <ScrollView showsVerticalScrollIndicator={true} contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}>
-
-        <FlatList
-          data={result}
-          keyExtractor={(_, index) => index.toString()}
-          numColumns={6}
-          renderItem={({ item }) => (
-            <View style={[styles.card, { backgroundColor: theme.buttonBackground, margin: 3 }]}>
+        {result.map((item, index) => {
+          return (
+            <View key={index} style={[styles.card, { backgroundColor: theme.buttonBackground, margin: 3 }]}>
               <Image
                 source={{
                   uri: fotos.find(i =>
@@ -121,8 +117,7 @@ function AdminHome() {
               </View>
             </View>
           )
-          }
-        />
+        })}
       </ScrollView >
     </View >
   );
@@ -180,7 +175,7 @@ function CreateNewFood() {
   }
   return (
     <View style={[{ backgroundColor: theme.background, alignItems: 'center', justifyContent: 'center', flex: 1, gap: 20 }]} >
-      <Text style={[{ color: theme.text, fontSize: 30, marginBottom: 40 }]} >Adicionar uma nova comidas</Text>
+      <Text style={[{ color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar uma nova comidas</Text>
 
       <View style={{ flexDirection: 'column', gap: 20, alignItems: 'center' }} >
         <TextInput placeholder='Nome da comida' style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} onChangeText={setNome} />
@@ -201,7 +196,7 @@ function CreateNewFood() {
         }
         await uploadImage()
         await supabase.from("Comidas").upsert([
-          { Nome: getNome, Valor: getValor, Creditos: getValor * 1000, Disponivel: checked },
+          { Nome: getNome, Valor: getValor, Disponivel: checked },
         ])
       }} />
     </View >
@@ -215,7 +210,7 @@ function AdicionarUser() {
   const [checked, setChecked] = useState(false);
   return (
     <View style={[styles.container, { backgroundColor: theme.background, gap: 20, flexDirection: 'column', justifyContent: 'center', flex: 1, alignItems: 'center', flexWrap: 'nowrap' }]} >
-      <Text style={[styles.text, { color: theme.text }]} >Adicionar Novo usuario </Text>
+      <Text style={[styles.text, { color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar Novo usuario </Text>
       <TextInput placeholder='Nome do novo usuario' onChangeText={setNome} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />
       <TextInput placeholder='Email do novo usuario' onChangeText={setEmail} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />
       <TextInput placeholder='Senha do novo usuario' onChangeText={setSenha} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />

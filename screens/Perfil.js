@@ -2,8 +2,6 @@ import { View, Text, Image, StyleSheet, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../contexts/themeContext";
-import * as FileSystem from "expo-file-system";
-import NewButton from "../components/componets";
 
 export default function Perfil( ) {
   const { theme } = useContext(ThemeContext);
@@ -36,8 +34,7 @@ export default function Perfil( ) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.title, { color: theme.text }]}>Perfil</Text>
-
+      <Text style={[styles.title, { color: theme.text, fontSize: 30, fontWeight: 'bold', }]}>Perfil</Text>
       {imgUri ? (
         <Image
           source={{ uri: imgUri }}
