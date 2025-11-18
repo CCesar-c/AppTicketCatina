@@ -31,7 +31,7 @@ export default function Transactions() {
     AsyncStorage.removeItem('data')
     setProdutos([]);
     setPrecos([]);
-    setdata([])
+    setdate([])
   }
   useEffect(() => {
     carregarHistorico();
@@ -54,7 +54,7 @@ export default function Transactions() {
             <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
               <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
               <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-              <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
+              <Text style={[styles.text, { color: theme.text }]}>Horario: {item.date}</Text>
             </View>
           )} />
         <NewButton children={"Limpar"} onPress={() => {

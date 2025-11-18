@@ -38,6 +38,7 @@ export default function Login({ navigation }) {
     }
 
     if (!data || data.length === 0) {
+      ref.current.shake(200)
       alert('Usuário não encontrado.');
       return;
     } else if (!name || !email || !pass) {
