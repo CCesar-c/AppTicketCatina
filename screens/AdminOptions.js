@@ -1,10 +1,9 @@
 import { useContext, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, ScrollView, TextInput } from 'react-native';
 import { supabase } from '../Back-end/supabase';
 import { ThemeContext } from '../contexts/themeContext';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import NewButton from '../components/componets';
-import { TextInput } from 'react-native-web';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
@@ -178,8 +177,8 @@ function CreateNewFood() {
       <Text style={[{ color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar uma nova comidas</Text>
 
       <View style={{ flexDirection: 'column', gap: 20, alignItems: 'center' }} >
-        <TextInput placeholder='Nome da comida' style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} onChangeText={setNome} />
-        <TextInput placeholder='Valor da comida em R$' style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} onChangeText={setValor} />
+        <TextInput placeholder='Nome da comida' style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} onChangeText={setNome} />
+        <TextInput placeholder='Valor da comida em R$' style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} onChangeText={setValor} />
         <NewButton children={`Disponivel?: ${checked ? '✅' : '❌'} `} onPress={() => {
           setChecked(!checked)
         }} />
@@ -204,17 +203,17 @@ function CreateNewFood() {
 }
 function AdicionarUser() {
   const { theme } = useContext(ThemeContext);
-  const [nome, setNome] = useState("");
-  const [email, setEmail] = useState("")
-  const [senha, setSenha] = useState("");
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('');
   const [checked, setChecked] = useState(false);
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, gap: 20, flexDirection: 'column', justifyContent: 'center', flex: 1, alignItems: 'center', flexWrap: 'nowrap' }]} >
+    <View style={[styles.container, { backgroundColor: theme.background, color: theme.text , gap: 20, flexDirection: 'column', justifyContent: 'center', flex: 1, alignItems: 'center', flexWrap: 'nowrap' }]} >
       <Text style={[styles.text, { color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar Novo usuario </Text>
-      <TextInput placeholder='Nome do novo usuario' onChangeText={setNome} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />
-      <TextInput placeholder='Email do novo usuario' onChangeText={setEmail} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />
-      <TextInput placeholder='Senha do novo usuario' onChangeText={setSenha} style={[{ backgroundColor: theme.buttonBackground, color: theme.text, padding: 10, borderRadius: 10 }]} />
-      <NewButton children={`E ADM?: ${checked ? '✅' : '❌'} `} onPress={() => {
+      <TextInput placeholder='Nome do novo usuario' onChangeText={setNome} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
+      <TextInput placeholder='Email do novo usuario' onChangeText={setEmail} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
+      <TextInput placeholder='Senha do novo usuario' onChangeText={setSenha} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10,  }]} />
+      <NewButton style={[{color: theme.text}]} children={`Administrador?: ${checked ? '✅' : '❌'} `} onPress={() => {
         setChecked(!checked)
       }} />
       <NewButton onPress={async () => {
@@ -226,10 +225,13 @@ function AdicionarUser() {
           await supabase.from("users").insert([
             { Users: nome, Emails: email, Senha: senha, Administrador: checked }
           ])
-
         } catch (error) {
           console.log("Error: " + error)
         }
+          setNome('')
+          setEmail('')
+          setSenha('')
+          alert("Usuario criado com sucesso");
       }} >
         {"Criar usuario"}
       </NewButton>
@@ -242,7 +244,7 @@ export default function RouterAdmin() {
   const Tab = createDrawerNavigator();
   return (
     <FoodProvider >
-      <ThemeProvider>
+  
         <Tab.Navigator initialRouteName='homeAdm'
           screenOptions={{
             headerStyle: { backgroundColor: theme.background },
@@ -252,13 +254,13 @@ export default function RouterAdmin() {
             drawerInactiveTintColor: theme.text,
           }}
         >
-          <Tab.Screen name='homeAdm' component={AdminHome} />
-          <Tab.Screen name='CreateNewFood' component={CreateNewFood} />
-          <Tab.Screen name='AdicionarUser' component={AdicionarUser} />
+          <Tab.Screen name='Comidas' component={AdminHome} />
+          <Tab.Screen name='Nova Comida' component={CreateNewFood} />
+          <Tab.Screen name='Adicionar User' component={AdicionarUser} />
           <Tab.Screen name='Perfil' component={Perfil} />
           <Tab.Screen name='Configurações' component={Configs} />
         </Tab.Navigator>
-      </ThemeProvider>
+
     </FoodProvider>
   )
 }
