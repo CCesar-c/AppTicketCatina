@@ -51,7 +51,7 @@ export default function Transactions() {
     }
   }, [])
   return (
-    <Animatable.View animation="fadeInLeft">
+    <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
         <FlatList
