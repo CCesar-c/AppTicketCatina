@@ -15,12 +15,13 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="RouterAdmin"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
         }}
       >
+        
         <Stack.Screen name="Login" component={Login}  options={{ headerShown: false }} />
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />

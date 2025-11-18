@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NewButton } from '../components/componets';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from '../contexts/themeContext';
+import * as Animatable from 'react-native-animatable';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
@@ -43,21 +44,25 @@ export default function Home({ navigation }) {
   }, []);
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
+      <Animatable.View animation="fadeInDown">
+        <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
+      </Animatable.View>
+
       <View style={styles.row}>
-        <View style={styles.collum}>
+        <Animatable.View animation="bounceIn" delay={300} style={styles.collum}>
           <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
             <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
           </NewButton>
           <Text style={[styles.text, { color: theme.text }]}>Carregar creditos</Text>
-        </View>
+        </Animatable.View>
 
-        <View style={styles.collum}>
+        <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
           <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
             <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
           </NewButton>
           <Text style={[styles.text, { color: theme.text }]}>Comprar na cantina</Text>
-        </View>
+        </Animatable.View>
+
       </View>
     </View >
   );
