@@ -11,7 +11,7 @@ export function MoneyProvider({ children }) {
     const respons = async () => {
         try {
             const res = await AsyncStorage.getItem("Valor");
-            if (res) setValor(res);
+            if (res) setValor(parseFloat(res));
         } catch (error) {
             console.error("Erro ao carregar saldo:", error);
         }

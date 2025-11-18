@@ -9,23 +9,16 @@ export default function Transactions() {
   const { theme } = useContext(ThemeContext);
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
-  const [data, setdata] = useState([])
+  const [historico, setHistorico] = useState([])
   const [_, setTime] = useState(0);
 
   const carregarHistorico = async () => {
     try {
-      const produtosStorage = await AsyncStorage.getItem('produto');
-      const precosStorage = await AsyncStorage.getItem('preco');
-      const dataStorage = await AsyncStorage.getItem('data');
-
-      if (produtosStorage) {
-        setProdutos(JSON.parse(produtosStorage));
-      }
-      if (precosStorage) {
-        setPrecos(JSON.parse(precosStorage));
-      }
-      if (dataStorage) {
-        setdata(dataStorage);
+      const historicoStorage = await AsyncStorage.getItem('historico');
+      if (historicoStorage) {
+        setHistorico(JSON.parse(historicoStorage));
+      } else {
+        setHistorico([]);
       }
     } catch (error) {
       console.error('Erro ao carregar histórico:', error);
@@ -51,15 +44,11 @@ export default function Transactions() {
     }
   }, [])
   return (
-    <Animatable.View animation="fadeInLeft">
+    <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
         <FlatList
-          data={produtos.map((produto, index,) => ({
-            produto,
-            preco: precos[index],
-            data
-          }))}
+          data={historico}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>

@@ -1,12 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import ThemeProvider, { ThemeContext } from './contexts/themeContext';
+import { MoneyProvider } from './contexts/ContextMoney';
 import DrawerNavigator from './screens/Drawer';
 import Login from './screens/Login';
 import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import RouterCardapio from './screens/Cardapio';
 import Creditos from './screens/Creditos';
+import Carrinho from './screens/carrinho';
 import { useContext } from 'react';
 
 function RootNavigator() {
@@ -15,7 +17,7 @@ function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Drawer"
         screenOptions={{
           headerStyle: { backgroundColor: theme.background },
           headerTintColor: theme.text,
@@ -28,6 +30,7 @@ function RootNavigator() {
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
         <Stack.Screen name="Creditos" component={Creditos} />
+        <Stack.Screen name="carrinho" component={Carrinho} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -36,7 +39,9 @@ function RootNavigator() {
 export default function App() {
   return (
     <ThemeProvider>
-      <RootNavigator />
+      <MoneyProvider>
+        <RootNavigator />
+      </MoneyProvider>
     </ThemeProvider>
   );
 }

@@ -3,6 +3,7 @@ import { useRoute } from "@react-navigation/native";
 import { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../contexts/themeContext";
 import * as Animatable from 'react-native-animatable';
+import { NewButton } from "../components/componets";
 
 export default function DetalhesCompras() {
     const { nombre, Valor, img, Estoque } = useRoute().params;

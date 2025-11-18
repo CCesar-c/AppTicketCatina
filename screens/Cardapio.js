@@ -6,7 +6,7 @@ import { ThemeContext } from '../contexts/themeContext';
 import { FontAwesome, MaterialCommunityIcons, FontAwesome6 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MoneyContext, MoneyProvider } from '../contexts/ContextMoney';
+import { MoneyContext } from '../contexts/ContextMoney';
 import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 import * as Animatable from 'react-native-animatable';
 
@@ -74,7 +74,7 @@ function CardapioComidas({ navigation }) {
               <NewButton
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
-                  if (Valor >= item.Valor && item.Estoque > 0) {
+                  if (item.Estoque > 0) {
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",
@@ -88,10 +88,6 @@ function CardapioComidas({ navigation }) {
                       })
                       .eq("Nome", item.Nome);
 
-                    await AsyncStorage.setItem(
-                      "Valor",
-                      String(parseFloat(Valor - item.Valor))
-                    );
 
                     await AsyncStorage.setItem("data", fecha);
 
@@ -126,11 +122,11 @@ function CardapioComidas({ navigation }) {
                       alert("Erro ao adicionar item ao carrinho");
                     }
                   } else {
-                    alert("Saldo insuficiente ou Produto sem estoque");
+                    alert("Produto sem estoque");
                   }
                 }}
               >
-                Comprar este produto
+                Adcionar ao Carrinho
               </NewButton>
 
               {/* BOTÃO DETALHES */}
@@ -270,11 +266,11 @@ function CardapioBebidas({ navigation }) {
                       alert("Erro ao adicionar item ao carrinho");
                     }
                   } else {
-                    alert("Saldo insuficiente ou Produto sem estoque");
+                     alert("Produto sem estoque");
                   }
                 }}
               >
-                Comprar este produto
+                Adcionar ao Carrinho
               </NewButton>
 
               {/* BOTÃO DETALHES */}
@@ -412,11 +408,11 @@ function CardapioOutros({ navigation }) {
                       alert("Erro ao adicionar item ao carrinho");
                     }
                   } else {
-                    alert("Saldo insuficiente ou Produto sem estoque");
+                    alert("Produto sem estoque");
                   }
                 }}
               >
-                Comprar este produto
+                Adcionar ao Carrinho
               </NewButton>
 
               <NewButton
@@ -507,8 +503,7 @@ export default function RouterCardapio({ navigation }) {
 
   return (
     <FoodProvider>
-      <MoneyProvider>
-        <Tab.Navigator
+      <Tab.Navigator
           initialRouteName="Comidas"
           screenOptions={{
             headerShown: true,
@@ -524,6 +519,19 @@ export default function RouterCardapio({ navigation }) {
                 onPress={() => navigation.navigate("Drawer")}
               >
                 <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
+              </NewButton>
+            ),
+            headerRight: () => (
+              <NewButton
+                style={{
+                  height: 40,
+                  width: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: 10,
+                }}
+                onPress={() => navigation.navigate("carrinho")}>
+                <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
               </NewButton>
             ),
           }}
@@ -565,7 +573,6 @@ export default function RouterCardapio({ navigation }) {
             }}
           />
         </Tab.Navigator>
-      </MoneyProvider>
     </FoodProvider>
   );
 }
