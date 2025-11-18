@@ -93,32 +93,22 @@ function CardapioComidas({ navigation }) {
                       String(parseFloat(Valor - item.Valor))
                     );
 
-                    await AsyncStorage.setItem("data", fecha);
-
                     try {
-                      const produtosAtuais =
-                        await AsyncStorage.getItem("produto");
-                      const precosAtuais =
-                        await AsyncStorage.getItem("preco");
+                      const produtosAtuais = await AsyncStorage.getItem("produto");
+                      const precosAtuais = await AsyncStorage.getItem("preco");
+                      const datasAtuais = await AsyncStorage.getItem("data");
 
-                      const arrayProdutos = produtosAtuais
-                        ? JSON.parse(produtosAtuais)
-                        : [];
-                      const arrayPrecos = precosAtuais
-                        ? JSON.parse(precosAtuais)
-                        : [];
+                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                      const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
+                      arrayDatas.push(fecha);
 
-                      await AsyncStorage.setItem(
-                        "produto",
-                        JSON.stringify(arrayProdutos)
-                      );
-                      await AsyncStorage.setItem(
-                        "preco",
-                        JSON.stringify(arrayPrecos)
-                      );
+                      await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
+                      await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
+                      await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
 
                       alert(`Adicionado ${item.Nome} ao carrinho!`);
                     } catch (error) {
@@ -151,7 +141,7 @@ function CardapioComidas({ navigation }) {
           </Animatable.View>
         ))}
       </ScrollView>
-    </View>
+    </View >
   )
 };
 
@@ -237,32 +227,22 @@ function CardapioBebidas({ navigation }) {
                       String(parseFloat(Valor - item.Valor))
                     );
 
-                    await AsyncStorage.setItem("data", fecha);
-
                     try {
-                      const produtosAtuais =
-                        await AsyncStorage.getItem("produto");
-                      const precosAtuais =
-                        await AsyncStorage.getItem("preco");
+                      const produtosAtuais = await AsyncStorage.getItem("produto");
+                      const precosAtuais = await AsyncStorage.getItem("preco");
+                      const datasAtuais = await AsyncStorage.getItem("data");
 
-                      const arrayProdutos = produtosAtuais
-                        ? JSON.parse(produtosAtuais)
-                        : [];
-                      const arrayPrecos = precosAtuais
-                        ? JSON.parse(precosAtuais)
-                        : [];
+                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                      const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
+                      arrayDatas.push(fecha);
 
-                      await AsyncStorage.setItem(
-                        "produto",
-                        JSON.stringify(arrayProdutos)
-                      );
-                      await AsyncStorage.setItem(
-                        "preco",
-                        JSON.stringify(arrayPrecos)
-                      );
+                      await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
+                      await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
+                      await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
 
                       alert(`Adicionado ${item.Nome} ao carrinho!`);
                     } catch (error) {
@@ -298,6 +278,8 @@ function CardapioBebidas({ navigation }) {
     </View>
   )
 };
+
+
 function CardapioOutros({ navigation }) {
   const { Valor } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
@@ -378,33 +360,24 @@ function CardapioOutros({ navigation }) {
                       "Valor",
                       String(parseFloat(Valor - item.Valor))
                     );
-
-                    await AsyncStorage.setItem("data", fecha);
-
                     try {
-                      const produtosAtuais =
-                        await AsyncStorage.getItem("produto");
-                      const precosAtuais =
-                        await AsyncStorage.getItem("preco");
+                      const produtosAtuais = await AsyncStorage.getItem("produto");
+                      const precosAtuais = await AsyncStorage.getItem("preco");
+                      const datasAtuais = await AsyncStorage.getItem("data");
 
-                      const arrayProdutos = produtosAtuais
-                        ? JSON.parse(produtosAtuais)
-                        : [];
-                      const arrayPrecos = precosAtuais
-                        ? JSON.parse(precosAtuais)
-                        : [];
+                      const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
+                      const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
+                      const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
+                      arrayDatas.push(fecha);
 
-                      await AsyncStorage.setItem(
-                        "produto",
-                        JSON.stringify(arrayProdutos)
-                      );
-                      await AsyncStorage.setItem(
-                        "preco",
-                        JSON.stringify(arrayPrecos)
-                      );
+                      await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
+                      await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
+                      await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
+
+
 
                       alert(`Adicionado ${item.Nome} ao carrinho!`);
                     } catch (error) {

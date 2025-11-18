@@ -9,23 +9,22 @@ export default function Transactions() {
   const { theme } = useContext(ThemeContext);
   const [produtos, setProdutos] = useState([])
   const [precos, setPrecos] = useState([])
-  const [data, setdata] = useState([])
+  const [date, setdate] = useState([])
   const [_, setTime] = useState(0);
 
   const carregarHistorico = async () => {
+    // await AsyncStorage.removeItem("data");
+
     try {
       const produtosStorage = await AsyncStorage.getItem('produto');
       const precosStorage = await AsyncStorage.getItem('preco');
-      const dataStorage = await AsyncStorage.getItem('data');
+      const dateStorage = await AsyncStorage.getItem('data');
 
-      if (produtosStorage) {
-        setProdutos(JSON.parse(produtosStorage));
-      }
-      if (precosStorage) {
-        setPrecos(JSON.parse(precosStorage));
-      }
-      if (dataStorage) {
-        setdata(dataStorage);
+      if (produtosStorage) setProdutos(JSON.parse(produtosStorage));
+      if (precosStorage) setPrecos(JSON.parse(precosStorage));
+      if (dateStorage) {
+        
+        setdate(JSON.parse(dateStorage));
       }
     } catch (error) {
       console.error('Erro ao carregar histórico:', error);
@@ -38,7 +37,7 @@ export default function Transactions() {
     AsyncStorage.removeItem('data')
     setProdutos([]);
     setPrecos([]);
-    setdata([])
+    setdate([])
   }
   useEffect(() => {
     carregarHistorico();
@@ -58,14 +57,14 @@ export default function Transactions() {
           data={produtos.map((produto, index,) => ({
             produto,
             preco: precos[index],
-            data
+            date: date[index]
           }))}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item }) => (
             <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
               <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
               <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-              <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
+              <Text style={[styles.text, { color: theme.text }]}>Horario: {item.date}</Text>
             </View>
           )} />
         <NewButton children={"Limpar"} onPress={() => {

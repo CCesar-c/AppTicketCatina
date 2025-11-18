@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image":  "assets/Cantina_Tickect_ja.png",
+      "image": "assets/Cantina_Tickect_ja.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,19 +18,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage":  "assets/Cantina_Tickect_ja.png",
+        "foregroundImage": "assets/Cantina_Tickect_ja.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.cesar_colmenarez.AppTicketCantina"
     },
     "web": {
-      "favicon":  "assets/Cantina_Tickect_ja.png"
+      "favicon": "assets/Cantina_Tickect_ja.png"
     },
     "extra": {
       "eas": {
         "projectId": "7bd6c3d2-46fd-4aa8-b9d6-93338dfbb41c"
       }
-    }
+    },
+    "plugins": [
+      "expo-barcode-scanner"
+    ]
   }
 }
