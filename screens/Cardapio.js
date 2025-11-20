@@ -204,24 +204,20 @@ function CardapioBebidas({ navigation }) {
               <NewButton
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
-                  if (Valor >= item.Valor && item.Estoque > 0) {
+                  if (item.Estoque > 0) {
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",
                     });
 
                     await supabase
-                      .from("Comidas")
+                      .from("Bebidas")
                       .update({
                         Vendas: item.Vendas + 1,
                         Estoque: item.Estoque - 1,
                       })
                       .eq("Nome", item.Nome);
 
-                    await AsyncStorage.setItem(
-                      "Valor",
-                      String(parseFloat(Valor - item.Valor))
-                    );
 
                     try {
                       const produtosAtuais = await AsyncStorage.getItem("produto");
@@ -246,7 +242,7 @@ function CardapioBebidas({ navigation }) {
                       alert("Erro ao adicionar item ao carrinho");
                     }
                   } else {
-                     alert("Produto sem estoque");
+                    alert("Produto sem estoque");
                   }
                 }}
               >
@@ -271,10 +267,9 @@ function CardapioBebidas({ navigation }) {
           </Animatable.View>
         ))}
       </ScrollView>
-    </View>
+    </View >
   )
 };
-
 
 function CardapioOutros({ navigation }) {
   const { Valor } = useContext(MoneyContext);
@@ -338,24 +333,19 @@ function CardapioOutros({ navigation }) {
               <NewButton
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
-                  if (Valor >= item.Valor && item.Estoque > 0) {
+                  if (item.Estoque > 0) {
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",
                     });
 
                     await supabase
-                      .from("Comidas")
+                      .from("Outras opcoes")
                       .update({
                         Vendas: item.Vendas + 1,
                         Estoque: item.Estoque - 1,
                       })
                       .eq("Nome", item.Nome);
-
-                    await AsyncStorage.setItem(
-                      "Valor",
-                      String(parseFloat(Valor - item.Valor))
-                    );
                     try {
                       const produtosAtuais = await AsyncStorage.getItem("produto");
                       const precosAtuais = await AsyncStorage.getItem("preco");
@@ -373,8 +363,6 @@ function CardapioOutros({ navigation }) {
                       await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
                       await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
 
-
-
                       alert(`Adicionado ${item.Nome} ao carrinho!`);
                     } catch (error) {
                       console.error("Erro ao salvar item:" + error);
@@ -388,6 +376,7 @@ function CardapioOutros({ navigation }) {
                 Adcionar ao Carrinho
               </NewButton>
 
+              {/* BOTÃO DETALHES */}
               <NewButton
                 style={{ width: 100, height: 60 }}
                 onPress={() => {
@@ -405,7 +394,7 @@ function CardapioOutros({ navigation }) {
           </Animatable.View>
         ))}
       </ScrollView>
-    </View>
+    </View >
   )
 };
 
@@ -477,75 +466,75 @@ export default function RouterCardapio({ navigation }) {
   return (
     <FoodProvider>
       <Tab.Navigator
-          initialRouteName="Comidas"
-          screenOptions={{
-            headerShown: true,
-            tabBarActiveTintColor: theme.text,
-            tabBarInactiveTintColor: 'gray',
-            headerTitleStyle: { color: theme.text },
-            headerStyle: { backgroundColor: theme.background, },
-            tabBarStyle: { backgroundColor: theme.background, },
+        initialRouteName="Comidas"
+        screenOptions={{
+          headerShown: true,
+          tabBarActiveTintColor: theme.text,
+          tabBarInactiveTintColor: 'gray',
+          headerTitleStyle: { color: theme.text },
+          headerStyle: { backgroundColor: theme.background, },
+          tabBarStyle: { backgroundColor: theme.background, },
 
-            headerLeft: () => (
-              <NewButton
-                style={{ height: 40, width: 40 }}
-                onPress={() => navigation.navigate("Drawer")}
-              >
-                <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
-              </NewButton>
-            ),
-            headerRight: () => (
-              <NewButton
-                style={{
-                  height: 40,
-                  width: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginRight: 10,
-                }}
-                onPress={() => navigation.navigate("carrinho")}>
-                <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
-              </NewButton>
+          headerLeft: () => (
+            <NewButton
+              style={{ height: 40, width: 40 }}
+              onPress={() => navigation.navigate("Drawer")}
+            >
+              <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
+            </NewButton>
+          ),
+          headerRight: () => (
+            <NewButton
+              style={{
+                height: 40,
+                width: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginRight: 10,
+              }}
+              onPress={() => navigation.navigate("carrinho")}>
+              <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
+            </NewButton>
+          ),
+        }}
+      >
+        <Tab.Screen
+          name="Comidas"
+          component={CardapioComidas}
+          options={{
+            tabBarIcon: () => (
+              <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
             ),
           }}
-        >
-          <Tab.Screen
-            name="Comidas"
-            component={CardapioComidas}
-            options={{
-              tabBarIcon: () => (
-                <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Bebidas"
-            component={CardapioBebidas}
-            options={{
-              tabBarIcon: () => (
-                <FontAwesome name="glass" size={20} color={theme.text} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Outros"
-            component={CardapioOutros}
-            options={{
-              tabBarIcon: () => (
-                <FontAwesome name="ellipsis-h" size={20} color={theme.text} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Ranking"
-            component={Ranking}
-            options={{
-              tabBarIcon: () => (
-                <FontAwesome6 name="ranking-star" size={24} color={theme.text} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
+        />
+        <Tab.Screen
+          name="Bebidas"
+          component={CardapioBebidas}
+          options={{
+            tabBarIcon: () => (
+              <FontAwesome name="glass" size={20} color={theme.text} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Outros"
+          component={CardapioOutros}
+          options={{
+            tabBarIcon: () => (
+              <FontAwesome name="ellipsis-h" size={20} color={theme.text} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Ranking"
+          component={Ranking}
+          options={{
+            tabBarIcon: () => (
+              <FontAwesome6 name="ranking-star" size={24} color={theme.text} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
     </FoodProvider>
   );
 }

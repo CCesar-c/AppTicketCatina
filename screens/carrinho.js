@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 
-export default function Transactions() {
+export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
     const [produtos, setProdutos] = useState([])
     const [precos, setPrecos] = useState([])
@@ -37,41 +37,46 @@ export default function Transactions() {
 
     function Comprar() {
         (async () => {
-            try {
-                // read current cart
-                const produtosStorage = await AsyncStorage.getItem('produto');
-                const precosStorage = await AsyncStorage.getItem('preco');
-                const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
-                const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
+            if (Valor >= total) {
+                try {
+                    // read current cart
+                    const produtosStorage = await AsyncStorage.getItem('produto');
+                    const precosStorage = await AsyncStorage.getItem('preco');
+                    const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
+                    const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
 
-                // build historico entries
-                const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
-                const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
+                    // build historico entries
+                    const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
+                    const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
 
-                // append to existing historico
-                const historicoStorage = await AsyncStorage.getItem('historico');
-                const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
-                const updatedHistorico = [...historicoArr, ...novos];
-                await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
+                    // append to existing historico
+                    const historicoStorage = await AsyncStorage.getItem('historico');
+                    const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
+                    const updatedHistorico = [...historicoArr, ...novos];
+                    await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
 
-                // update Valor
-                const novoValor = parseFloat(Valor) - parseFloat(total || 0);
-                await AsyncStorage.setItem('Valor', String(novoValor));
+                    // update Valor
+                    const novoValor = parseFloat(Valor) - parseFloat(total || 0);
+                    await AsyncStorage.setItem('Valor', String(novoValor));
 
-                // clear cart
-                await AsyncStorage.removeItem('produto');
-                await AsyncStorage.removeItem('preco');
-                await AsyncStorage.removeItem('data');
+                    // clear cart
+                    await AsyncStorage.removeItem('produto');
+                    await AsyncStorage.removeItem('preco');
+                    await AsyncStorage.removeItem('data');
 
-                // update local state
-                setProdutos([]);
-                setPrecos([]);
-                setdata([]);
-                setTotal(0);
-                alert('Compra concluída');
-            } catch (error) {
-                console.error('Erro ao confirmar compra:', error);
-                alert('Erro ao confirmar compra');
+                    // update local state
+                    setProdutos([]);
+                    setPrecos([]);
+                    setdata([]);
+                    setTotal(0);
+                    alert('Compra concluída');
+                } catch (error) {
+                    console.error('Erro ao confirmar compra:', error);
+                    alert('Erro ao confirmar compra');
+                }
+            } else {
+                alert("Valor insuficiente!!")
+                return;
             }
         })();
     }
@@ -96,9 +101,10 @@ export default function Transactions() {
     }, [precos]);
     return (
         <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
+
             <View style={[styles.container, { backgroundColor: theme.background }]}>
                 <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                <Text style={styles.text}>Saldo:R${Valor}</Text>
+                <Text style={[styles.text, { color: theme.text }]}>Saldo:R${Valor}</Text>
                 <FlatList
                     data={produtos.map((produto, index,) => ({
                         produto,
@@ -116,9 +122,9 @@ export default function Transactions() {
                     Comprar()
                 }
                 } />
-                <Text style={styles.title}>Total:R${total}</Text>
+                <Text style={[styles.text, { color: theme.text }]} >Total:R${total}</Text>
             </View>
-        </Animatable.View>
+        </Animatable.View >
 
     );
 }
@@ -128,8 +134,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         height: '100%',
-        backgroundColor: '#fff',
-
     },
     itemContainer: {
         backgroundColor: '#f8f9fa',
