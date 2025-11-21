@@ -7,8 +7,6 @@ import Login from './screens/Login';
 import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import RouterCardapio from './screens/Cardapio';
-
-import Creditos from './screens/Creditos';
 import Carrinho from './screens/Carrinho';
 
 import { useContext } from 'react';
