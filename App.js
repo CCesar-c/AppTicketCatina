@@ -7,9 +7,9 @@ import Login from './screens/Login';
 import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import RouterCardapio from './screens/Cardapio';
-import Creditos from './screens/Creditos';
 import Carrinho from './screens/carrinho';
 import { useContext } from 'react';
+import RouterCreditos from './screens/Creditos';
 
 function RootNavigator() {
   const { theme } = useContext(ThemeContext);
@@ -23,12 +23,12 @@ function RootNavigator() {
           headerTintColor: theme.text,
         }}
       >
-        <Stack.Screen name="Login" component={Login}  options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false }} />
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
-        <Stack.Screen name="Creditos" component={Creditos} />
+        <Stack.Screen name="Creditos" component={RouterCreditos} options={{ headerShown: false }} />
         <Stack.Screen name="carrinho" component={Carrinho} />
       </Stack.Navigator>
     </NavigationContainer>
