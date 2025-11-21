@@ -79,37 +79,31 @@ function CardapioComidas({ navigation }) {
                       dateStyle: "short",
                       timeStyle: "medium",
                     });
-
-                    await supabase
-                      .from("Comidas")
-                      .update({
-                        Vendas: item.Vendas + 1,
-                        Estoque: item.Estoque - 1,
-                      })
-                      .eq("Nome", item.Nome);
-
-
                     try {
                       const produtosAtuais = await AsyncStorage.getItem("produto");
                       const precosAtuais = await AsyncStorage.getItem("preco");
                       const datasAtuais = await AsyncStorage.getItem("data");
+                      const tabelasAtuais = await AsyncStorage.getItem("tabela");
 
                       const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
                       const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
                       const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
+                      const arrayTabelas = tabelasAtuais ? JSON.parse(tabelasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
                       arrayDatas.push(fecha);
+                      arrayTabelas.push("Comidas");
 
                       await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
                       await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
                       await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
+                      await AsyncStorage.setItem("tabela", JSON.stringify(arrayTabelas));
 
-                      alert(`Adicionado ${item.Nome} ao carrinho!`);
+                      alert(`Adicionado ${item.Nome} ao Carrinho!`);
                     } catch (error) {
                       console.error("Erro ao salvar item:" + error);
-                      alert("Erro ao adicionar item ao carrinho");
+                      alert("Erro ao adicionar item ao Carrinho");
                     }
                   } else {
                     alert("Produto sem estoque");
@@ -209,37 +203,31 @@ function CardapioBebidas({ navigation }) {
                       dateStyle: "short",
                       timeStyle: "medium",
                     });
-
-                    await supabase
-                      .from("Bebidas")
-                      .update({
-                        Vendas: item.Vendas + 1,
-                        Estoque: item.Estoque - 1,
-                      })
-                      .eq("Nome", item.Nome);
-
-
                     try {
                       const produtosAtuais = await AsyncStorage.getItem("produto");
                       const precosAtuais = await AsyncStorage.getItem("preco");
                       const datasAtuais = await AsyncStorage.getItem("data");
+                      const tabelasAtuais = await AsyncStorage.getItem("tabela");
 
                       const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
                       const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
                       const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
+                      const arrayTabelas = tabelasAtuais ? JSON.parse(tabelasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
                       arrayDatas.push(fecha);
+                      arrayTabelas.push("Bebidas");
 
                       await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
                       await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
                       await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
+                      await AsyncStorage.setItem("tabela", JSON.stringify(arrayTabelas));
 
-                      alert(`Adicionado ${item.Nome} ao carrinho!`);
+                      alert(`Adicionado ${item.Nome} ao Carrinho!`);
                     } catch (error) {
                       console.error("Erro ao salvar item:" + error);
-                      alert("Erro ao adicionar item ao carrinho");
+                      alert("Erro ao adicionar item ao Carrinho");
                     }
                   } else {
                     alert("Produto sem estoque");
@@ -339,34 +327,31 @@ function CardapioOutros({ navigation }) {
                       timeStyle: "medium",
                     });
 
-                    await supabase
-                      .from("Outras opcoes")
-                      .update({
-                        Vendas: item.Vendas + 1,
-                        Estoque: item.Estoque - 1,
-                      })
-                      .eq("Nome", item.Nome);
                     try {
                       const produtosAtuais = await AsyncStorage.getItem("produto");
                       const precosAtuais = await AsyncStorage.getItem("preco");
                       const datasAtuais = await AsyncStorage.getItem("data");
+                      const tabelasAtuais = await AsyncStorage.getItem("tabela");
 
                       const arrayProdutos = produtosAtuais ? JSON.parse(produtosAtuais) : [];
                       const arrayPrecos = precosAtuais ? JSON.parse(precosAtuais) : [];
                       const arrayDatas = datasAtuais ? JSON.parse(datasAtuais) : [];
+                      const arrayTabelas = tabelasAtuais ? JSON.parse(tabelasAtuais) : [];
 
                       arrayProdutos.push(item.Nome);
                       arrayPrecos.push(item.Valor);
                       arrayDatas.push(fecha);
+                      arrayTabelas.push("Outras opcoes");
 
                       await AsyncStorage.setItem("produto", JSON.stringify(arrayProdutos));
                       await AsyncStorage.setItem("preco", JSON.stringify(arrayPrecos));
                       await AsyncStorage.setItem("data", JSON.stringify(arrayDatas));
+                      await AsyncStorage.setItem("tabela", JSON.stringify(arrayTabelas));
 
-                      alert(`Adicionado ${item.Nome} ao carrinho!`);
+                      alert(`Adicionado ${item.Nome} ao Carrinho!`);
                     } catch (error) {
                       console.error("Erro ao salvar item:" + error);
-                      alert("Erro ao adicionar item ao carrinho");
+                      alert("Erro ao adicionar item ao Carrinho");
                     }
                   } else {
                     alert("Produto sem estoque");
@@ -492,7 +477,7 @@ export default function RouterCardapio({ navigation }) {
                 alignItems: 'center',
                 marginRight: 10,
               }}
-              onPress={() => navigation.navigate("carrinho")}>
+              onPress={() => navigation.navigate("Carrinho")}>
               <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
             </NewButton>
           ),

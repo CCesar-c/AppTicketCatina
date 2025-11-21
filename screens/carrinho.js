@@ -5,12 +5,14 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
+import { supabase } from '../Back-end/supabase';
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
     const [produtos, setProdutos] = useState([])
     const [precos, setPrecos] = useState([])
     const [data, setdata] = useState([])
+    const [tabelas, setTabelas] = useState([]);
     const [_, setTime] = useState(0);
     const [total, setTotal] = useState(0);
     const { Valor } = useContext(MoneyContext);
@@ -20,6 +22,11 @@ export default function Carrinho() {
             const produtosStorage = await AsyncStorage.getItem('produto');
             const precosStorage = await AsyncStorage.getItem('preco');
             const dataStorage = await AsyncStorage.getItem('data');
+            const tabelasStorage = await AsyncStorage.getItem('tabela');
+
+            if (tabelasStorage) {
+                setTabelas(JSON.parse(tabelasStorage));
+            }
 
             if (produtosStorage) {
                 setProdutos(JSON.parse(produtosStorage));
@@ -35,6 +42,28 @@ export default function Carrinho() {
         }
     };
 
+    async function AtualizarProdutos(NomeProduto, NomeTabela) {
+        try {
+            const { data: produtoAtual } = await supabase
+                .from(NomeTabela)
+                .select('Vendas, Estoque')
+                .eq('Nome', NomeProduto)
+                .single();
+
+            await supabase
+                .from(NomeTabela)
+                .update({
+                    Vendas: produtoAtual.Vendas + 1,
+                    Estoque: produtoAtual.Estoque - 1,
+                })
+                .eq('Nome', NomeProduto);
+
+        }
+        catch (error) {
+            console.error('Erro ao atualizar estoque:', error);
+        }
+    }
+
     function Comprar() {
         (async () => {
             if (Valor >= total) {
@@ -42,12 +71,19 @@ export default function Carrinho() {
                     // read current cart
                     const produtosStorage = await AsyncStorage.getItem('produto');
                     const precosStorage = await AsyncStorage.getItem('preco');
+                    const tabelasStorage = await AsyncStorage.getItem('tabela');
+
                     const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
+                    const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
                     // build historico entries
                     const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
                     const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
+
+                    for (let i = 0; i < produtosArr.length; i++) {
+                        await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
+                    }
 
                     // append to existing historico
                     const historicoStorage = await AsyncStorage.getItem('historico');
@@ -63,6 +99,8 @@ export default function Carrinho() {
                     await AsyncStorage.removeItem('produto');
                     await AsyncStorage.removeItem('preco');
                     await AsyncStorage.removeItem('data');
+                    await AsyncStorage.removeItem('tabela');
+
 
                     // update local state
                     setProdutos([]);
@@ -99,6 +137,7 @@ export default function Carrinho() {
     useEffect(() => {
         calcularTotal();
     }, [precos]);
+
     return (
         <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
 

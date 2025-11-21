@@ -8,7 +8,7 @@ import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import RouterCardapio from './screens/Cardapio';
 import Creditos from './screens/Creditos';
-import Carrinho from './screens/carrinho';
+import Carrinho from './screens/Carrinho';
 import { useContext } from 'react';
 
 function RootNavigator() {
@@ -29,7 +29,7 @@ function RootNavigator() {
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
         <Stack.Screen name="Creditos" component={Creditos} />
-        <Stack.Screen name="carrinho" component={Carrinho} />
+        <Stack.Screen name="Carrinho" component={Carrinho} />
       </Stack.Navigator>
     </NavigationContainer>
   );
