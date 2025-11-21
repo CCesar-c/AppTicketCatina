@@ -7,7 +7,10 @@ import Login from './screens/Login';
 import RouterAdmin from './screens/AdminOptions';
 import DetalhesCompras from './screens/DetalhesCompras';
 import RouterCardapio from './screens/Cardapio';
-import Carrinho from './screens/carrinho';
+
+import Creditos from './screens/Creditos';
+import Carrinho from './screens/Carrinho';
+
 import { useContext } from 'react';
 import RouterCreditos from './screens/Creditos';
 
@@ -28,10 +31,12 @@ function RootNavigator() {
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
+
         <Stack.Screen name="Creditos" component={RouterCreditos} options={{ headerShown: false }} />
         <Stack.Screen name="carrinho" component={Carrinho} />
-      </Stack.Navigator>
-    </NavigationContainer>
+
+      </Stack.Navigator >
+    </NavigationContainer >
   );
 }
 
