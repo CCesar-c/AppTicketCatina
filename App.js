@@ -29,9 +29,8 @@ function RootNavigator() {
         <Stack.Screen name="DetalhesCompras" component={DetalhesCompras} />
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
-
         <Stack.Screen name="Creditos" component={RouterCreditos} options={{ headerShown: false }} />
-        <Stack.Screen name="carrinho" component={Carrinho} />
+        <Stack.Screen name="Carrinho" component={Carrinho} />
 
       </Stack.Navigator >
     </NavigationContainer >

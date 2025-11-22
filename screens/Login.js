@@ -12,25 +12,39 @@ export default function Login({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const ref = useRef('')
+  const [dataId, setDataid] = useState(0)
+  const ref = useRef(null)
+
   useEffect(() => {
+
+    const obtenerId = async () => {
+      const { data, error } = await supabase.from("users").select("id").eq("Emails", email)
+      setDataid(data);
+
+      if (error)
+        console.log(error);
+    }
+
     async function loadData() {
-      const storedName = await AsyncStorage.getItem('@storage_Name');
+      const storedName = await AsyncStorage.getItem(`@storage_Name${dataId}`);
+
       if (storedName) setName(storedName);
     }
     loadData();
+    obtenerId();
   }, []);
 
   async function storeData() {
-    if (name) await AsyncStorage.setItem('@storage_Name', name);
+    if (name) await AsyncStorage.setItem(`@storage_Name${dataId}`, name);
+    await AsyncStorage.setItem("Email", email);
   }
 
   async function loadUsers() {
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .eq('Emails', email)
-      .eq('Senha', pass);
+      .eq('Senha', pass)
+      .eq('Emails', email) || eq('Matriculas', email);
     if (error) {
       console.log('❌ Error:', error.message);
       alert('Erro ao buscar usuário.');
@@ -58,8 +72,8 @@ export default function Login({ navigation }) {
       console.error("Erro de autorizaçao")
       ref.current.shake(200)
     }
-
     storeData();
+
   }
 
   return (

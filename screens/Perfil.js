@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../contexts/themeContext";
 
-export default function Perfil( ) {
+export default function Perfil() {
   const { theme } = useContext(ThemeContext);
   const [name, setName] = useState("");
   const [turma, setTurma] = useState("");
