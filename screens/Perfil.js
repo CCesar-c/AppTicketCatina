@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, Platform } from "react-native";
+import { View, Text, Image, StyleSheet, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState, useContext } from "react";
 import { ThemeContext } from "../contexts/themeContext";
