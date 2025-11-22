@@ -12,9 +12,13 @@ import { supabase } from '../Back-end/supabase';
 const factura = (valor = '', tipo = '') => {
   alert(`PedidoID: client${Math.random() ^ 2 * 2}\nValor: ${valor}\nType: ${tipo}\nData: ${new Date().toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "medium" })}\nCodeUnique: ${(Math.random() ^ 2 * 3) + "bc-" + "124" + "99-101-115-97-114"}`)
 }
-const supabaseDinero = async (dinero) => {
-  const storedName = await AsyncStorage.getItem(`@storage_Name`);
-  await supabase.from('users').insert([{ money: dinero }]).eq("Emails", storedName)
+
+function supabaseDinero(dinero) {
+  const si = async () => {
+    const storedName = await AsyncStorage.getItem(`@storage_Name`);
+    await supabase.from('users').update({ money: Number(dinero) }).eq("Emails", storedName)
+  }
+  si()
 }
 
 function PaypixCC() {
