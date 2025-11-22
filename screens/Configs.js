@@ -88,11 +88,12 @@ export default function Configs({ navigation }) {
 
   return (
 
-    <ScrollView
-      contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
-      showsVerticalScrollIndicator={false}
-    >
-      <Animatable.View animation="fadeIn" style={[styles.container, { backgroundColor: theme.background }]}>
+
+    <Animatable.View animation="fadeIn" style={[styles.container, { backgroundColor: theme.background }]}>
+      <ScrollView
+        contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
 
         <Text style={[styles.text, { color: theme.text }]}>Modo Tema</Text>
@@ -151,8 +152,8 @@ export default function Configs({ navigation }) {
           <NewButton onPress={saveName}>Salvar</NewButton>
         </Animatable.View>
         <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
-      </Animatable.View>
-    </ScrollView>
+      </ScrollView >
+    </Animatable.View>
   );
 }
 

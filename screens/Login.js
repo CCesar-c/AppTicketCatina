@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
     }
 
     async function loadData() {
-      const storedName = await AsyncStorage.getItem(`@storage_Name${dataId}`);
+      const storedName = await AsyncStorage.getItem(`@storage_Name`);
 
       if (storedName) setName(storedName);
     }
@@ -35,7 +35,7 @@ export default function Login({ navigation }) {
   }, []);
 
   async function storeData() {
-    if (name) await AsyncStorage.setItem(`@storage_Name${dataId}`, name);
+    if (name) await AsyncStorage.setItem(`@storage_Name`, name);
     await AsyncStorage.setItem("Email", email);
   }
 

@@ -7,9 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInput } from 'react-native-web';
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { supabase } from '../Back-end/supabase';
 
 const factura = (valor = '', tipo = '') => {
   alert(`PedidoID: client${Math.random() ^ 2 * 2}\nValor: ${valor}\nType: ${tipo}\nData: ${new Date().toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "medium" })}\nCodeUnique: ${(Math.random() ^ 2 * 3) + "bc-" + "124" + "99-101-115-97-114"}`)
+}
+const supabaseDinero = async (dinero) => {
+  const storedName = await AsyncStorage.getItem(`@storage_Name`);
+  await supabase.from('users').insert([{ money: dinero }]).eq("Emails", storedName)
 }
 
 function PaypixCC() {
@@ -45,7 +50,9 @@ function PaypixCC() {
           <Text style={[{ color: theme.text }]} children={"COPIE ESTE CODIGO"} />
           <TextInput value={`type=PAYMENT|id=${Math.random() * 1000 ^ 2}|user=client&&NaN|values?=${depositarV * 1000 ^ 2}`} disabled={true} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
           <NewButton onPress={() => {
-            setSaldo(depositarV)
+            setSaldo(depositarV).then(() => {
+              supabaseDinero(depositarV)
+            })
           }} > <FontAwesome name='copy' size={20} /></NewButton>
         </View>
 
@@ -90,7 +97,9 @@ function PayCredito() {
         <TextInput placeholder='Insisra o CVC do cartao' keyboardType='numeric' maxLength={3} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
         <TextInput placeholder='Insisra a quantidade a ser depositada' keyboardType='numeric' maxLength={15} onChangeText={(e) => setDepositarV(Number(e))} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
         <NewButton onPress={() => {
-          setSaldo(depositarV)
+          setSaldo(depositarV).then(() => {
+            supabaseDinero(depositarV)
+          })
         }} >Adicionar Créditos</NewButton>
       </View>
     </View>
