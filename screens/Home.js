@@ -5,17 +5,13 @@ import { NewButton } from '../components/componets';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from '../contexts/themeContext';
 import * as Animatable from 'react-native-animatable';
+import { MoneyContext } from '../contexts/ContextMoney';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const [Valor, setValor] = useState(0);
+  const { Valor } = useContext(MoneyContext)
   const [tickets, setTickets] = useState(0);
   const [_, setTime] = useState(0);
-
-  async function creditosGet() {
-    const res = await AsyncStorage.getItem('Valor');
-    setValor(parseFloat(res) || 0);
-  }
 
   async function ticketsGet() {
     const res = await AsyncStorage.getItem('tickets');
@@ -23,13 +19,7 @@ export default function Home({ navigation }) {
   }
 
   useEffect(() => {
-    creditosGet();
     ticketsGet();
-
-    const interval = setInterval(() => {
-      setTime(prev => prev + 1);
-      creditosGet();
-    }, 5000);
 
     const contador = setInterval(async () => {
       const newTickets = (tickets ?? 0) + 1;

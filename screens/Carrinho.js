@@ -69,6 +69,7 @@ export default function Carrinho() {
             if (Valor >= total) {
                 try {
                     // read current cart
+                    
                     const produtosStorage = await AsyncStorage.getItem('produto');
                     const precosStorage = await AsyncStorage.getItem('preco');
                     const tabelasStorage = await AsyncStorage.getItem('tabela');
@@ -92,8 +93,12 @@ export default function Carrinho() {
                     await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
 
                     // update Valor
+                    const storedEmail = await AsyncStorage.getItem('Email');
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
-                    await AsyncStorage.setItem('Valor', String(novoValor));
+                    await supabase
+                        .from("users")
+                        .update({ money: novoValor })
+                        .eq("Emails", storedEmail);
 
                     // clear cart
                     await AsyncStorage.removeItem('produto');

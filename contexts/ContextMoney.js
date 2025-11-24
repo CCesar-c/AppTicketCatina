@@ -33,7 +33,7 @@ export function MoneyProvider({ children }) {
         const interval = setInterval(() => {
             setTime(prev => prev + 1);
             respons();
-        }, 2500);
+        }, 5000);
         return () => {
             clearInterval(interval);
         };
