@@ -1,73 +1,84 @@
-import React, { useContext, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+// creditos
+import { useContext, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
 import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { supabase } from '../Back-end/supabase';
+import { MoneyContext } from '../contexts/ContextMoney';
+
 
 /**
  * factura: muestra un alert con la factura/generador de código
  * Genera IDs y códigos con operaciones correctas (no bitwise).
  */
-const factura = (valor = '', tipo = '') => {
+
+async function factura(valor = '', tipo = '') {
   const pedidoId = `client${Math.floor(Math.random() * 1_000_000)}`;
   const codigoUnico = `bc-124-99-101-115-97-114-${Date.now().toString(36)}`;
   const fecha = new Date().toLocaleString('pt-BR', {
     dateStyle: 'short',
     timeStyle: 'medium',
   });
-
   alert(
     'Comprovante\n' +
     `PedidoID: ${pedidoId}\nValor: ${valor}\nType: ${tipo}\nData: ${fecha}\nCodeUnique: ${codigoUnico}`
   );
+  const storedused = await AsyncStorage.getItem("historicoTransacoes")
+  const result = storedused ? JSON.parse(storedused) : []
+  const newCount = ({
+    PedidoID: pedidoId,
+    Valor: valor,
+    Type: tipo,
+    Data: fecha,
+    unique: codigoUnico
+  })
+  const update = [...result, newCount]
+  await AsyncStorage.setItem("historicoTransacoes", JSON.stringify(update))
 };
 
 /**
  * supabaseDinero: actualiza el campo money (reemplaza el valor)
- * Si quieres sumar al dinero existente, haz una lectura previa y luego update.
+ * Si quieres sumar al dinero existente, haz una lectura previa y luego update
  */
 async function supabaseDinero(dinero) {
   try {
     const storedEmail = await AsyncStorage.getItem('Email');
-    if (!storedEmail) {
-      console.warn('Email não encontrado no AsyncStorage.');
-      return;
-    }
+    console.log("Email:", storedEmail);
 
-    // 1) Buscar saldo atual
-    const { data: userData, error: selectError } = await supabase
-      .from('users')
-      .select('money')
-      .eq('Emails', storedEmail)
+    if (!storedEmail) return;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("money")
+      .eq("Emails", storedEmail)
       .single();
 
-    if (selectError) {
-      console.error('Erro ao obter saldo:', selectError);
+    if (error) {
+      console.error("Erro no SELECT:", error);
       return;
     }
 
-    const saldoAtual = Number(userData?.money) || 0;
+    console.log("Money atual:", data.money);
 
-    // 2) Somar o novo dinheiro
-    const novoSaldo = saldoAtual + Number(dinero);
+    const result = Number(data.money) + Number(dinero);
 
-    // 3) Atualizar Supabase
-    const { data, error } = await supabase
-      .from('users')
-      .update({ money: novoSaldo })
-      .eq('Emails', storedEmail);
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ money: result })
+      .eq("Emails", storedEmail);
 
-    if (error) {
-      console.error('Erro Supabase ao atualizar dinheiro:', error);
-    } else {
-      console.log('Supabase update success:', data);
+    if (updateError) {
+      console.error("Erro no UPDATE:", updateError);
+      return;
     }
 
+    console.log("UPDATE OK. Novo valor:", result);
+
   } catch (err) {
-    console.error('Erro em supabaseDinero:', err);
+    console.error("Erro no try:", err);
   }
 }
 
@@ -164,7 +175,6 @@ function PaypixCC() {
     </View>
   );
 }
-
 /**
  * PayCredito: pantalla para pago con tarjeta (simulada)
  */
@@ -272,12 +282,29 @@ function PayCredito() {
     </View>
   );
 }
-
 function Historico() {
   const { theme } = useContext(ThemeContext);
+  const [historyTransacoes, SethistoryTransacoes] = useState([])
+  useEffect(() => {
+    const respons = async () => {
+      SethistoryTransacoes(JSON.parse(await AsyncStorage.getItem("historicoTransacoes")))
+    }
+    respons()
+  }, [])
   return (
     <View>
-      <Text children={"Historico"} style={[styles.text, { color: theme.text }]} />
+      <Text children={"Historico de Transações"} style={[styles.title, { color: theme.text }]} />
+      <FlatList
+        data={historyTransacoes}
+        keyExtractor={(_, index) => index.toString()}
+        showsHorizontalScrollIndicator={true}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <View style={[styles.itemContainer, { backgroundColor: theme.background }]} >
+            <Text children={`PedidoID: ${item.PedidoID} Valor: ${item.Valor} Type: ${item.Type} Data: ${item.Data} CodeUnique: ${item.unique}`} style={[styles.text, { color: theme.text }]} />
+          </View>
+        )}
+      />
     </View>
   )
 }
@@ -306,7 +333,7 @@ export default function RouterCreditos({ navigation }) {
       }}
     >
       <Tab.Screen
-        name='Historico'
+        name='Historico de Transações'
         component={Historico}
         options={{ tabBarIcon: () => <FontAwesome name='history' size={20} color={theme.text} /> }}
       />
@@ -334,10 +361,25 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
   },
+  itemContainer: {
+    backgroundColor: '#f8f9fa',
+    padding: 15,
+    marginVertical: 5,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#dee2e6',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   input: {
     padding: 10,
     borderRadius: 10,
     width: '100%',
     marginBottom: 8,
   },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  }
 });
