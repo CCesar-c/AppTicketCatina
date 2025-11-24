@@ -1,152 +1,330 @@
-
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 import NewButton from '../components/componets';
 import { ThemeContext } from '../contexts/themeContext';
-import { useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TextInput } from 'react-native-web';
-import { FontAwesome, FontAwesome6 } from '@expo/vector-icons'
+import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { supabase } from '../Back-end/supabase';
 
+/**
+ * factura: muestra un alert con la factura/generador de código
+ * Genera IDs y códigos con operaciones correctas (no bitwise).
+ */
 const factura = (valor = '', tipo = '') => {
-  alert(`PedidoID: client${Math.random() ^ 2 * 2}\nValor: ${valor}\nType: ${tipo}\nData: ${new Date().toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "medium" })}\nCodeUnique: ${(Math.random() ^ 2 * 3) + "bc-" + "124" + "99-101-115-97-114"}`)
-}
+  const pedidoId = `client${Math.floor(Math.random() * 1_000_000)}`;
+  const codigoUnico = `bc-124-99-101-115-97-114-${Date.now().toString(36)}`;
+  const fecha = new Date().toLocaleString('pt-BR', {
+    dateStyle: 'short',
+    timeStyle: 'medium',
+  });
 
-function supabaseDinero(dinero) {
-  const si = async () => {
-    var storedEmail = await AsyncStorage.getItem(`Email`);
-    await supabase.from('users').update({ money: Number(dinero) }).eq("Emails", storedEmail)
+  alert(
+    'Comprovante\n' +
+    `PedidoID: ${pedidoId}\nValor: ${valor}\nType: ${tipo}\nData: ${fecha}\nCodeUnique: ${codigoUnico}`
+  );
+};
+
+/**
+ * supabaseDinero: actualiza el campo money (reemplaza el valor)
+ * Si quieres sumar al dinero existente, haz una lectura previa y luego update.
+ */
+async function supabaseDinero(dinero) {
+  try {
+    const storedEmail = await AsyncStorage.getItem('Email');
+    if (!storedEmail) {
+      console.warn('Email não encontrado no AsyncStorage.');
+      return;
+    }
+
+    // 1) Buscar saldo atual
+    const { data: userData, error: selectError } = await supabase
+      .from('users')
+      .select('money')
+      .eq('Emails', storedEmail)
+      .single();
+
+    if (selectError) {
+      console.error('Erro ao obter saldo:', selectError);
+      return;
+    }
+
+    const saldoAtual = Number(userData?.money) || 0;
+
+    // 2) Somar o novo dinheiro
+    const novoSaldo = saldoAtual + Number(dinero);
+
+    // 3) Atualizar Supabase
+    const { data, error } = await supabase
+      .from('users')
+      .update({ money: novoSaldo })
+      .eq('Emails', storedEmail);
+
+    if (error) {
+      console.error('Erro Supabase ao atualizar dinheiro:', error);
+    } else {
+      console.log('Supabase update success:', data);
+    }
+
+  } catch (err) {
+    console.error('Erro em supabaseDinero:', err);
   }
-  si()
 }
 
+
+/**
+ * PaypixCC: pantalla para pagamento via Pix (copia & cola simulada)
+ */
 function PaypixCC() {
   const { theme } = useContext(ThemeContext);
   const [depositarV, setDepositarV] = useState(0);
-  const [visibel, setVisibel] = useState('none');
+  const [visible, setVisible] = useState(false);
 
   async function setSaldo(valor) {
-    if (valor != 0) {
-      try {
-        const stored = await AsyncStorage.getItem("Valor");
-        const parsed = parseFloat(stored);
-        const res = Number.isFinite(parsed) ? parsed : 0;
-        const result = res + valor;
-        // AsyncStorage expects strings — stringify the number
-        await AsyncStorage.setItem("Valor", result.toString());
-        factura(valor, "Pix Copia e Cola")
-      } catch (error) {
-        console.error('Erro ao atualizar saldo:', error);
-        alert('Erro ao processar a compra');
-      }
+    if (!valor || Number.isNaN(Number(valor)) || Number(valor) <= 0) {
+      alert('Valor inválido', 'Insira um valor maior que zero.');
+      return;
+    }
+
+    try {
+      const stored = await AsyncStorage.getItem('Valor');
+      const parsed = parseFloat(stored);
+      const res = Number.isFinite(parsed) ? parsed : 0;
+      const result = res + Number(valor);
+
+      await AsyncStorage.setItem('Valor', result.toString());
+      factura(valor, 'Pix Copia e Cola');
+      return result;
+    } catch (error) {
+      console.error('Erro ao atualizar saldo:', error);
+      alert('Erro', 'Erro ao processar a compra');
+      throw error;
     }
   }
+
+  // Generador seguro de código Pix (simulado)
+  const generatePixCode = () => {
+    const id = Math.floor(Math.random() * 900000 + 100000); // 6 dígitos
+    return `type=PAYMENT|id=${id}|user=client|value=${Number(depositarV).toFixed(2)}`;
+  };
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, gap: 20, flexDirection: 'column', }]}>
+    <View style={[styles.container, { backgroundColor: theme.background, padding: 16 }]}>
+      <TextInput
+        placeholder="Insira a quantidade a ser depositada"
+        keyboardType="numeric"
+        maxLength={15}
+        style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+        onChangeText={(e) => {
+          // Asegúrate de permitir decimales con coma o punto
+          const sanitized = e.replace(',', '.');
+          setDepositarV(Number(sanitized));
+        }}
+        value={depositarV ? String(depositarV) : ''}
+      />
 
-      <TextInput placeholder='Insisra a quantidade a ser depositada' keyboardType='numeric' maxLength={15} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} onChangeText={(e) => setDepositarV(Number(e))} />
-      <NewButton children={"Prosseguir"} onPress={() => setVisibel("flex")} />
+      <NewButton onPress={() => setVisible(true)}>Prosseguir</NewButton>
 
-      <View style={{ display: `${visibel} `, flexDirection: 'column', gap: 20, }}>
+      {visible && (
+        <View style={{ marginTop: 20, width: '100%' }}>
+          <View style={{ marginBottom: 12 }}>
+            <Text style={[{ color: theme.text, marginBottom: 6 }]}>COPIE ESTE CÓDIGO</Text>
+            <TextInput
+              value={generatePixCode()}
+              editable={false}
+              style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+            />
+          </View>
 
-        <View style={{ flexDirection: 'row', alignItems: "center", gap: 5 }} >
-          <Text style={[{ color: theme.text }]} children={"COPIE ESTE CODIGO"} />
-          <TextInput value={`type=PAYMENT|id=${Math.random() * 1000 ^ 2}|user=client&&NaN|values?=${depositarV * 1000 ^ 2}`} disabled={true} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-          <NewButton onPress={() => {
-            setSaldo(depositarV).then(() => {
-              supabaseDinero(depositarV)
-            })
-          }} > <FontAwesome name='copy' size={20} /></NewButton>
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            <NewButton
+              onPress={async () => {
+                try {
+                  await setSaldo(depositarV); // actualiza AsyncStorage
+                  await supabaseDinero(depositarV); // actualiza supabase
+                  setVisible(false);
+                } catch (err) {
+                  // errores ya manejados dentro de la función
+                }
+              }}
+            >
+              <FontAwesome name="copy" size={20} color="white" />
+            </NewButton>
+
+            <NewButton
+              onPress={() => {
+                setVisible(false);
+              }}
+            >
+              Cancelar Pagamento
+            </NewButton>
+          </View>
         </View>
-
-        <View style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }} >
-          <NewButton onPress={() => {
-            setVisibel("none")
-          }} >Cancelar Pagamento</NewButton>
-        </View>
-      </View>
+      )}
     </View>
-
-  )
+  );
 }
-function PayCredito() {
 
+/**
+ * PayCredito: pantalla para pago con tarjeta (simulada)
+ */
+function PayCredito() {
   const { theme } = useContext(ThemeContext);
   const [depositarV, setDepositarV] = useState(0);
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiry, setExpiry] = useState('');
+  const [cvc, setCvc] = useState('');
 
   async function setSaldo(valor) {
-    if (valor != 0) {
-      try {
-        const stored = await AsyncStorage.getItem("Valor");
-        const parsed = parseFloat(stored);
-        const res = Number.isFinite(parsed) ? parsed : 0;
-        const result = res + valor;
-        // AsyncStorage expects strings — stringify the number
-        await AsyncStorage.setItem("Valor", result.toString());
-        factura(valor, "Credito")
-      } catch (error) {
-        console.error('Erro ao atualizar saldo:', error);
-        alert('Erro ao processar a compra');
-      }
+    if (!valor || Number.isNaN(Number(valor)) || Number(valor) <= 0) {
+      alert('Valor inválido', 'Insira um valor maior que zero.');
+      return;
+    }
+
+    try {
+      const stored = await AsyncStorage.getItem('Valor');
+      const parsed = parseFloat(stored);
+      const res = Number.isFinite(parsed) ? parsed : 0;
+      const result = res + Number(valor);
+
+      await AsyncStorage.setItem('Valor', result.toString());
+      factura(valor, 'Crédito');
+      return result;
+    } catch (error) {
+      console.error('Erro ao atualizar saldo:', error);
+      alert('Erro', 'Erro ao processar a compra');
+      throw error;
     }
   }
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, gap: 20 }]}>
-      <Text style={[styles.text, { color: theme.text }]} >Comprar Créditos</Text>
-      <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10 }} >
-        <TextInput placeholder='Insisra o nome do usuario' keyboardType='default' maxLength='30' style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-        <TextInput placeholder='Insisra o numero do cartao' keyboardType='numeric' maxLength={16} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-        <TextInput placeholder='Insisra o numero de validade do cartao' keyboardType='numeric' maxLength={4} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-        <TextInput placeholder='Insisra o CVC do cartao' keyboardType='numeric' maxLength={3} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-        <TextInput placeholder='Insisra a quantidade a ser depositada' keyboardType='numeric' maxLength={15} onChangeText={(e) => setDepositarV(Number(e))} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-        <NewButton onPress={() => {
-          setSaldo(depositarV).then(() => {
-            supabaseDinero(depositarV)
-          })
-        }} >Adicionar Créditos</NewButton>
+    <View style={[styles.container, { backgroundColor: theme.background, padding: 16 }]}>
+      <Text style={[styles.text, { color: theme.text, marginBottom: 12 }]}>Comprar Créditos</Text>
+
+      <View style={{ width: '100%', gap: 10 }}>
+        <TextInput
+          placeholder="Insira o nome do usuário"
+          keyboardType="default"
+          maxLength={30}
+          style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          onChangeText={setCardName}
+          value={cardName}
+        />
+
+        <TextInput
+          placeholder="Insira o número do cartão"
+          keyboardType="numeric"
+          maxLength={16}
+          style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          onChangeText={(v) => setCardNumber(v.replace(/\D/g, ''))}
+          value={cardNumber}
+        />
+
+        <TextInput
+          placeholder="Validade (MMYY)"
+          keyboardType="numeric"
+          maxLength={4}
+          style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          onChangeText={(v) => setExpiry(v.replace(/\D/g, ''))}
+          value={expiry}
+        />
+
+        <TextInput
+          placeholder="CVC"
+          keyboardType="numeric"
+          maxLength={3}
+          style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          onChangeText={(v) => setCvc(v.replace(/\D/g, ''))}
+          value={cvc}
+        />
+
+        <TextInput
+          placeholder="Insira a quantidade a ser depositada"
+          keyboardType="numeric"
+          maxLength={15}
+          style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          onChangeText={(e) => {
+            const sanitized = e.replace(',', '.');
+            setDepositarV(Number(sanitized));
+          }}
+          value={depositarV ? String(depositarV) : ''}
+        />
+
+        <NewButton
+          onPress={async () => {
+            // aqui você deveria validar o cartão (simulação)
+            if (!cardNumber || !expiry || !cvc) {
+              alert('Dados incompletos', 'Preencha os dados do cartão.');
+              return;
+            }
+            try {
+              await setSaldo(depositarV);
+              await supabaseDinero(depositarV);
+            } catch (err) {
+              // já logado nas funções internas
+            }
+          }}
+        >
+          Adicionar Créditos
+        </NewButton>
       </View>
     </View>
   );
 }
+
 export default function RouterCreditos({ navigation }) {
   const Tab = createBottomTabNavigator();
   const { theme } = useContext(ThemeContext);
+
   return (
-    <Tab.Navigator initialRouteName='PayCreditos'
+    <Tab.Navigator
+      initialRouteName="PayCreditos"
       screenOptions={{
         headerShown: true,
         tabBarActiveTintColor: theme.text,
         tabBarInactiveTintColor: 'gray',
         headerTitleStyle: { color: theme.text },
-        headerStyle: { backgroundColor: theme.background, },
-        tabBarStyle: { backgroundColor: theme.background, },
+        headerStyle: { backgroundColor: theme.background },
+        tabBarStyle: { backgroundColor: theme.background },
         headerLeft: () => (
           <NewButton
             style={{ height: 40, width: 40 }}
-            onPress={() => navigation.navigate("Drawer")}
+            onPress={() => navigation.navigate('Drawer')}
           >
             <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
           </NewButton>
         ),
       }}
     >
-      <Tab.Screen name='PayCreditos' component={PayCredito} options={{ tabBarIcon: () => <FontAwesome name="credit-card" size={20} color={theme.text} /> }} />
-      <Tab.Screen name='PaypixCC' component={PaypixCC} options={{ tabBarIcon: () => <FontAwesome6 name="pix" size={20} color={theme.text} /> }} />
-
-
+      <Tab.Screen
+        name="PayCreditos"
+        component={PayCredito}
+        options={{ tabBarIcon: () => <FontAwesome name="credit-card" size={20} color={theme.text} /> }}
+      />
+      <Tab.Screen
+        name="PaypixCC"
+        component={PaypixCC}
+        options={{ tabBarIcon: () => <FontAwesome name="qrcode" size={20} color={theme.text} /> }}
+      />
     </Tab.Navigator>
-
-  )
+  );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor set dynamically
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   text: {
     fontSize: 20,
-  }
+  },
+  input: {
+    padding: 10,
+    borderRadius: 10,
+    width: '100%',
+    marginBottom: 8,
+  },
 });
