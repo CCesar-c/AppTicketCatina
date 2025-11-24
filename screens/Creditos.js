@@ -15,7 +15,7 @@ const factura = (valor = '', tipo = '') => {
 
 function supabaseDinero(dinero) {
   const si = async () => {
-    const storedEmail = await AsyncStorage.getItem(`Email`);
+    var storedEmail = await AsyncStorage.getItem(`Email`);
     await supabase.from('users').update({ money: Number(dinero) }).eq("Emails", storedEmail)
   }
   si()
