@@ -273,6 +273,14 @@ function PayCredito() {
   );
 }
 
+function Historico() {
+  const { theme } = useContext(ThemeContext);
+  return (
+    <View>
+      <Text children={"Historico"} style={[styles.text, { color: theme.text }]} />
+    </View>
+  )
+}
 export default function RouterCreditos({ navigation }) {
   const Tab = createBottomTabNavigator();
   const { theme } = useContext(ThemeContext);
@@ -292,11 +300,16 @@ export default function RouterCreditos({ navigation }) {
             style={{ height: 40, width: 40 }}
             onPress={() => navigation.navigate('Drawer')}
           >
-            <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
+            <FontAwesome name="arrow-left" size={20} color={theme.text} />
           </NewButton>
         ),
       }}
     >
+      <Tab.Screen
+        name='Historico'
+        component={Historico}
+        options={{ tabBarIcon: () => <FontAwesome name='history' size={20} color={theme.text} /> }}
+      />
       <Tab.Screen
         name="PayCreditos"
         component={PayCredito}
