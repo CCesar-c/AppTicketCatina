@@ -13,10 +13,11 @@ export default function Perfil() {
   useEffect(() => {
     (async () => {
       try {
-        const storedName = await AsyncStorage.getItem("@storage_Name");
-        const storedTurma = await AsyncStorage.getItem("@storage_Turma");
-        const storedDescricao = await AsyncStorage.getItem("@storage_Descricao");
-        const storedImg = await AsyncStorage.getItem("@storage_img");
+        const storedEmail = await AsyncStorage.getItem('Email');
+        const storedName = await AsyncStorage.getItem(`@storage_Name${storedEmail}`);;
+        const storedTurma =await AsyncStorage.getItem(`@storage_Turma${storedEmail}`);
+        const storedDescricao = await AsyncStorage.getItem(`@storage_Descricao${storedEmail}`);
+        const storedImg = await AsyncStorage.getItem(`@storage_img${storedEmail}`);
 
         if (storedName) setName(storedName);
         if (storedTurma) setTurma(storedTurma);

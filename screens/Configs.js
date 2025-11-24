@@ -12,11 +12,13 @@ export default function Configs({ navigation }) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [turma, setTurma] = useState('');
+  
   const [descricao, setDescricao] = useState('');
   const [imgGet, setImg] = useState('');
 
   // 📸 Seleccionar imagen (compatible con Android, iOS y Web)
   const pickImage = async () => {
+    const storedEmail = await AsyncStorage.getItem('Email');
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       alert("Permissão para acessar a galeria é necessária!");
@@ -44,7 +46,7 @@ export default function Configs({ navigation }) {
         }
 
         setImg(finalUri);
-        await AsyncStorage.setItem('@storage_img', finalUri);
+        await AsyncStorage.setItem(`@storage_img${storedEmail}`, finalUri);
         alert("✅ Imagem salva com sucesso!");
 
       } catch (error) {
@@ -56,29 +58,31 @@ export default function Configs({ navigation }) {
 
   // 💾 Guardar los datos de usuario
   async function saveName() {
+    const storedEmail = await AsyncStorage.getItem('Email');
     if (!name || !turma || !descricao) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    await AsyncStorage.setItem('@storage_Name', name);
-    await AsyncStorage.setItem('@storage_Turma', turma);
-    await AsyncStorage.setItem('@storage_Descricao', descricao);
+    await AsyncStorage.setItem(`@storage_Name${storedEmail}`, name);
+    await AsyncStorage.setItem(`@storage_Turma${storedEmail}`, turma);
+    await AsyncStorage.setItem(`@storage_Descricao${storedEmail}`, descricao);
     alert("✅ Dados salvos com sucesso!");
   }
 
   // 📦 Cargar los datos guardados
   useEffect(() => {
     (async () => {
-      const NewName = await AsyncStorage.getItem('@storage_Name');
+      const storedEmail = await AsyncStorage.getItem('Email');
+      const NewName = await AsyncStorage.getItem(`@storage_Name${storedEmail}`);
       if (NewName) setName(NewName);
 
-      const NewTurma = await AsyncStorage.getItem('@storage_Turma');
+      const NewTurma = await AsyncStorage.getItem(`@storage_Turma${storedEmail}`);
       if (NewTurma) setTurma(NewTurma);
 
-      const NewDescricao = await AsyncStorage.getItem('@storage_Descricao');
+      const NewDescricao = await AsyncStorage.getItem(`@storage_Descricao${storedEmail}`);
       if (NewDescricao) setDescricao(NewDescricao);
 
-      const savedImg = await AsyncStorage.getItem('@storage_img');
+      const savedImg = await AsyncStorage.getItem(`@storage_img${storedEmail}`);
       if (savedImg) {
         // Aceitamos URIs tanto de web (base64)data: como de mobile (file:// ou content://)
         setImg(savedImg);
