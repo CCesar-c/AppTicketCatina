@@ -69,6 +69,7 @@ export default function Carrinho() {
             if (Valor >= total) {
                 try {
                     // read current cart
+                    const storedEmail = await AsyncStorage.getItem('Email');
                     
                     const produtosStorage = await AsyncStorage.getItem('produto');
                     const precosStorage = await AsyncStorage.getItem('preco');
@@ -87,13 +88,13 @@ export default function Carrinho() {
                     }
 
                     // append to existing historico
-                    const historicoStorage = await AsyncStorage.getItem('historico');
+                    const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
                     await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
 
                     // update Valor
-                    const storedEmail = await AsyncStorage.getItem('Email');
+
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
                     await supabase
                         .from("users")

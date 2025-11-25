@@ -26,7 +26,8 @@ async function factura(valor = '', tipo = '') {
     'Comprovante\n' +
     `PedidoID: ${pedidoId}\nValor: ${valor}\nType: ${tipo}\nData: ${fecha}\nCodeUnique: ${codigoUnico}`
   );
-  const storedused = await AsyncStorage.getItem("historicoTransacoes")
+  const storedEmail = await AsyncStorage.getItem('Email');
+  const storedused = await AsyncStorage.getItem(`historicoTransacoes${storedEmail}`)
   const result = storedused ? JSON.parse(storedused) : []
   const newCount = ({
     PedidoID: pedidoId,
@@ -35,8 +36,7 @@ async function factura(valor = '', tipo = '') {
     Data: fecha,
     unique: codigoUnico
   })
-  const update = [...result, newCount]
-  await AsyncStorage.setItem("historicoTransacoes", JSON.stringify(update))
+  await AsyncStorage.setItem(`historicoTransacoes${storedEmail}`, JSON.stringify([...result, newCount]))
 };
 
 /**
@@ -285,9 +285,11 @@ function PayCredito() {
 function Historico() {
   const { theme } = useContext(ThemeContext);
   const [historyTransacoes, SethistoryTransacoes] = useState([])
+    
   useEffect(() => {
     const respons = async () => {
-      SethistoryTransacoes(JSON.parse(await AsyncStorage.getItem("historicoTransacoes")))
+      const storedEmail = await AsyncStorage.getItem('Email');
+      SethistoryTransacoes(JSON.parse(await AsyncStorage.getItem(`historicoTransacoes${storedEmail}`)))
     }
     respons()
   }, [])

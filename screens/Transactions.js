@@ -12,7 +12,8 @@ export default function Transactions() {
 
   const carregarHistorico = async () => {
     try {
-      const historicoStorage = await AsyncStorage.getItem('historico');
+      const storedEmail = await AsyncStorage.getItem('Email');
+      const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
       if (historicoStorage) setHistorico(JSON.parse(historicoStorage));
       else setHistorico([]);
     } catch (error) {

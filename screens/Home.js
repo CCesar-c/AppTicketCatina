@@ -6,54 +6,108 @@ import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { ThemeContext } from '../contexts/themeContext';
 import * as Animatable from 'react-native-animatable';
 import { MoneyContext } from '../contexts/ContextMoney';
+import QRCode from 'react-native-qrcode-svg';
 
 export default function Home({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { Valor } = useContext(MoneyContext)
   const [tickets, setTickets] = useState(0);
+  const [ativarTela, SetAtivarTela] = useState(false);
   const [_, setTime] = useState(0);
 
   async function ticketsGet() {
-    const res = await AsyncStorage.getItem('tickets');
+    const storedEmail = await AsyncStorage.getItem('Email');
+    const res = await AsyncStorage.getItem(`tickets${storedEmail}`);
     setTickets(parseFloat(res) || 0);
+  }
+
+  async function ticketconta() {
+    if (tickets >= 1) return
+    const newTickets = (tickets ?? 0) + 1;
+    setTickets(newTickets);
+    const storedEmail = await AsyncStorage.getItem('Email');
+    await AsyncStorage.setItem(`tickets${storedEmail}`, String(newTickets));
   }
 
   useEffect(() => {
     ticketsGet();
+    const interval = setInterval(async () => {
+      ticketsGet();
+      setTime(prev => prev + 1);
+    }, 2500);
 
-    const contador = setInterval(async () => {
-      const newTickets = (tickets ?? 0) + 1;
-      setTickets(newTickets);
-      await AsyncStorage.setItem("tickets", String(newTickets));
+    const ticketcount = setInterval(async () => {
+      ticketconta();
+      setTime(prev => prev + 1);
     }, 60000);
 
     return () => {
+      clearInterval(ticketcount);
       clearInterval(interval);
-      clearInterval(contador);
     };
   }, []);
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Animatable.View animation="fadeInDown">
-        <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
-      </Animatable.View>
-
-      <View style={styles.row}>
-        <Animatable.View animation="bounceIn" delay={300} style={styles.collum}>
-          <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
-            <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
-          </NewButton>
-          <Text style={[styles.text, { color: theme.text }]}>Carregar creditos</Text>
+      {ativarTela == false ? <View>
+        <Animatable.View animation="fadeInDown">
+          <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
         </Animatable.View>
 
-        <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
-          <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
-            <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
-          </NewButton>
-          <Text style={[styles.text, { color: theme.text }]}>Comprar na cantina</Text>
-        </Animatable.View>
+        <View style={styles.row}>
+          <Animatable.View animation="bounceIn" delay={300} style={styles.collum}>
+            <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
+              <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
+            </NewButton>
+            <Text style={[styles.text, { color: theme.text }]}>Carregar creditos</Text>
+          </Animatable.View>
 
-      </View>
+          <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
+            <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
+              <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
+            </NewButton>
+            <Text style={[styles.text, { color: theme.text }]}>Comprar na cantina</Text>
+          </Animatable.View>
+          <Animatable.View animation="bounceIn" delay={600} style={styles.collum}>
+            <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
+              <AntDesign name="qrcode" size={24} color={`${theme.colorIcon}`} />
+            </NewButton>
+            <Text style={[styles.text, { color: theme.text }]}>Usar tickets na cantina</Text>
+          </Animatable.View>
+
+        </View>
+      </View> : []}
+      {
+        ativarTela ? (
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Animatable.View
+              animation="fadeIn"
+              style={{ alignItems: 'center', justifyContent: 'center' }}
+            >
+              <QRCode
+                value={"Pago"}
+                size={250}
+              />
+
+              <NewButton
+                children={"Já está Pago?"}
+                onPress={async () => {
+                  SetAtivarTela(false)
+                  const storedEmail = await AsyncStorage.getItem('Email');
+                  tickets == 1
+                    ? (await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)), alert("Comida adquirida\n-Biscoito creme cracer\n-Nescou com Agua de esgoto"))
+                    : alert("Não tem Ticket disponível..")
+                }}
+              />
+
+              <NewButton
+                children={"Cancelar uso do ticket"}
+                onPress={() => SetAtivarTela(false)}
+              />
+            </Animatable.View>
+          </View>
+        ) : null
+      }
+
     </View >
   );
 }
