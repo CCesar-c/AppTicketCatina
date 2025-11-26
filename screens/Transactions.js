@@ -37,21 +37,20 @@ export default function Transactions() {
 
   return (
     <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
-        <FlatList
-          data={historico}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-              <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
-              <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-              <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
-            </View>
-          )}
-        />
-        <NewButton children={"Limpar"} onPress={() => Limpar()} />
-      </View>
+
+      <Text style={[styles.title, { color: theme.text }]}>Histórico</Text>
+      <FlatList
+        data={historico}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
+            <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
+          </View>
+        )}
+      />
+      <NewButton children={"Limpar"} onPress={() => Limpar()} />
     </Animatable.View>
   );
 }

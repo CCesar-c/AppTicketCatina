@@ -285,7 +285,7 @@ function PayCredito() {
 function Historico() {
   const { theme } = useContext(ThemeContext);
   const [historyTransacoes, SethistoryTransacoes] = useState([])
-    
+
   useEffect(() => {
     const respons = async () => {
       const storedEmail = await AsyncStorage.getItem('Email');
@@ -294,7 +294,7 @@ function Historico() {
     respons()
   }, [])
   return (
-    <View>
+    <View style={[styles.container, { backgroundColor: theme.background, padding: 16 }]}>
       <Text children={"Historico de Transações"} style={[styles.title, { color: theme.text }]} />
       <FlatList
         data={historyTransacoes}
@@ -347,7 +347,7 @@ export default function RouterCreditos({ navigation }) {
       <Tab.Screen
         name="PaypixCC"
         component={PaypixCC}
-        options={{ tabBarIcon: () => <FontAwesome name="qrcode" size={20} color={theme.text} /> }}
+        options={{ tabBarIcon: () => <FontAwesome name="copy" size={20} color={theme.text} /> }}
       />
     </Tab.Navigator>
   );

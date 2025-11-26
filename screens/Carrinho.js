@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
 import { MoneyContext } from '../contexts/ContextMoney'
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
+
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
@@ -70,7 +71,7 @@ export default function Carrinho() {
                 try {
                     // read current cart
                     const storedEmail = await AsyncStorage.getItem('Email');
-                    
+
                     const produtosStorage = await AsyncStorage.getItem('produto');
                     const precosStorage = await AsyncStorage.getItem('preco');
                     const tabelasStorage = await AsyncStorage.getItem('tabela');
@@ -87,13 +88,13 @@ export default function Carrinho() {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
-                    // append to existing historico
+                    //  append to existing historico
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
                     await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
 
-                    // update Valor
+                    //update Valor
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
                     await supabase
@@ -101,7 +102,7 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    // clear cart
+                    //clear cart
                     await AsyncStorage.removeItem('produto');
                     await AsyncStorage.removeItem('preco');
                     await AsyncStorage.removeItem('data');
@@ -144,70 +145,92 @@ export default function Carrinho() {
         calcularTotal();
     }, [precos]);
 
+
     return (
-        <Animatable.View animation="fadeInLeft" style={[styles.container, { backgroundColor: theme.background }]}>
+        <Animatable.View
+            animation="fadeInLeft"
+            style={{ flex: 1, backgroundColor: theme.background, height: "100%" }} // ⬅️ NO uses styles.container aquí
+        >
+            <View style={styles.container}>
 
-            <View style={[styles.container, { backgroundColor: theme.background }]}>
                 <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                <Text style={[styles.text, { color: theme.text }]}>Saldo:R${Valor}</Text>
-                <FlatList
-                    data={produtos.map((produto, index,) => ({
-                        produto,
-                        preco: precos[index],
-                        data
-                    }))}
-                    keyExtractor={(_, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-                            <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
-                            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-                        </View>
-                    )} />
-                <NewButton children={"Comprar"} onPress={() => {
-                    Comprar()
-                }
-                } />
-                <Text style={[styles.text, { color: theme.text }]} >Total:R${total}</Text>
-            </View>
-        </Animatable.View >
+                <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
 
+                <ScrollView
+                    showsVerticalScrollIndicator={true}
+                    style={{ flex: 1 }}
+                    contentContainerStyle={styles.container}
+                >
+                    {produtos.map((produto, index) => (
+                        <View
+                            key={index}
+                            style={[styles.itemContainer, { backgroundColor: theme.background }]}
+                        >
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Produto: {produto}
+                            </Text>
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Preço: R$ {precos[index]}
+                            </Text>
+                        </View>
+                    ))}
+                </ScrollView>
+
+                <NewButton children={"Comprar"} onPress={Comprar} />
+
+                <NewButton
+                    children={"Limpar Carrinho"}
+                    onPress={async () => {
+                        await AsyncStorage.removeItem("produto");
+                        await AsyncStorage.removeItem("preco");
+                        await AsyncStorage.removeItem("data");
+                        await AsyncStorage.removeItem("tabela");
+                    }}
+                />
+
+                <Text style={[styles.text, { color: theme.text }]}>
+                    Total: R${total}
+                </Text>
+
+            </View>
+        </Animatable.View>
     );
 }
 
+
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
-        padding: 16,
-        height: '100%',
+        padding: 10,
     },
     itemContainer: {
-        backgroundColor: '#f8f9fa',
+        backgroundColor: "#f8f9fa",
         padding: 15,
         marginVertical: 5,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: '#dee2e6',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        borderColor: "#dee2e6",
+        flexDirection: "row",
+        justifyContent: "space-between",
     },
     text: {
         fontSize: 16,
-        color: 'black',
+        color: "black",
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: "bold",
         marginBottom: 20,
     },
     butao: {
-        alignItems: 'center',
+        alignItems: "center",
         width: 100,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         padding: 10,
         borderRadius: 5,
         margin: 10,
         borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
+        borderColor: "black",
     },
 });

@@ -75,18 +75,20 @@ export default function Home({ navigation }) {
           </Animatable.View>
 
         </View>
-      </View> : []}
+      </View> : null}
       {
         ativarTela ? (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{
+            ...StyleSheet.absoluteFillObject,
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
             <Animatable.View
               animation="fadeIn"
-              style={{ alignItems: 'center', justifyContent: 'center' }}
+              style={{ alignItems: 'center', justifyContent: 'center', gap: 10, flexDirection: 'column' }}
             >
-              <QRCode
-                value={"Pago"}
-                size={250}
-              />
+              <Text children={"Escaneie o QRcode"} style={[{ color: theme.text }]} />
+              <QRCode value="Pago" size={250} />
 
               <NewButton
                 children={"Já está Pago?"}
@@ -94,7 +96,10 @@ export default function Home({ navigation }) {
                   SetAtivarTela(false)
                   const storedEmail = await AsyncStorage.getItem('Email');
                   tickets == 1
-                    ? (await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)), alert("Comida adquirida\n-Biscoito creme cracer\n-Nescou com Agua de esgoto"))
+                    ? (
+                      await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
+                      alert("Comida adquirida\n-Biscoito creme cracer\n-Nescou com Agua de esgoto")
+                    )
                     : alert("Não tem Ticket disponível..")
                 }}
               />
@@ -107,7 +112,6 @@ export default function Home({ navigation }) {
           </View>
         ) : null
       }
-
     </View >
   );
 }
