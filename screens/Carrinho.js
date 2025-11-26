@@ -80,6 +80,11 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
+                    if (produtosArr.length >= 6) {
+                        alert("Limite de produtos atingido")
+                        return;
+                    }
+
                     // build historico entries
                     const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
                     const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
@@ -147,72 +152,84 @@ export default function Carrinho() {
 
 
     return (
-        <Animatable.View
-            animation="fadeInLeft"
-            style={{ flex: 1, backgroundColor: theme.background, height: "100%" }} // ⬅️ NO uses styles.container aquí
-        >
-            <View style={styles.container}>
+        <View style={{ flex: 1, height: '100%', gap: 20 }}>
+            <Animatable.View
+                animation="fadeInLeft"
+                style={{ flex: 1, backgroundColor: theme.background }}
+            >
 
+                {/* CABEÇALHO */}
                 <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+                <View style={{flexDirection:'row', gap:10, padding:10 }} >
+                    <Text style={[styles.text, { color: theme.text }]}>Limite de produtos 6</Text>
+                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+                </View>
+                {produtos.map((produto, index) => (
+                    <View
+                        key={index}
+                        style={[
+                            styles.itemContainer,
+                            { backgroundColor: theme.background, flexDirection:'row', gap:10, padding:10 }
+                            
+                        ]}
+                    >
+                        <Text style={[styles.text, { color: theme.text }]}>
+                            Produto: {produto}
+                        </Text>
 
-                <ScrollView
-                    showsVerticalScrollIndicator={true}
-                    style={{ flex: 1 }}
-                    contentContainerStyle={styles.container}
-                >
-                    {produtos.map((produto, index) => (
-                        <View
-                            key={index}
-                            style={[styles.itemContainer, { backgroundColor: theme.background }]}
-                        >
-                            <Text style={[styles.text, { color: theme.text }]}>
-                                Produto: {produto}
-                            </Text>
-                            <Text style={[styles.text, { color: theme.text }]}>
-                                Preço: R$ {precos[index]}
-                            </Text>
-                        </View>
-                    ))}
-                </ScrollView>
+                        <Text style={[styles.text, { color: theme.text }]}>
+                            Preço: R$ {precos[index]}
+                        </Text>
+                    </View>
+                ))}
+                {/* ⚠️ ÁREA FIXA — NÃO DENTRO DO SCROLL */}
+                <View style={{ flexDirection:'column', gap:10, padding:10, justifyContent:'center'}}>
+                    <NewButton children={"Comprar"} onPress={Comprar} />
 
-                <NewButton children={"Comprar"} onPress={Comprar} />
+                    <NewButton
+                        children={"Limpar Carrinho"}
+                        onPress={async () => {
+                            await AsyncStorage.multiRemove([
+                                "produto",
+                                "preco",
+                                "data",
+                                "tabela",
+                            ]);
+                            setProdutos([]);
+                            setPrecos([]);
+                            setdata([]);
+                            setTotal(0);
+                        }}
+                    />
 
-                <NewButton
-                    children={"Limpar Carrinho"}
-                    onPress={async () => {
-                        await AsyncStorage.removeItem("produto");
-                        await AsyncStorage.removeItem("preco");
-                        await AsyncStorage.removeItem("data");
-                        await AsyncStorage.removeItem("tabela");
-                    }}
-                />
+                    <Text style={[styles.text, { color: theme.text }]}>
+                        Total: R${total}
+                    </Text>
+                </View>
 
-                <Text style={[styles.text, { color: theme.text }]}>
-                    Total: R${total}
-                </Text>
+            </Animatable.View>
+        </View>
 
-            </View>
-        </Animatable.View>
     );
 }
 
-
 const styles = StyleSheet.create({
-
     container: {
-        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
         padding: 10,
     },
     itemContainer: {
-        backgroundColor: "#f8f9fa",
+        height: 40,
+
+        alignItems: 'center',
+        flexDirection: 'row',
         padding: 15,
-        marginVertical: 5,
+        marginBottom: 10,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "#dee2e6",
-        flexDirection: "row",
-        justifyContent: "space-between",
     },
     text: {
         fontSize: 16,
