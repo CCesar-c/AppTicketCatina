@@ -97,7 +97,7 @@ export default function Carrinho() {
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
-                    await AsyncStorage.setItem('historico', JSON.stringify(updatedHistorico));
+                    await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
                     //update Valor
 
