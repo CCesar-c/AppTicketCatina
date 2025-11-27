@@ -80,7 +80,7 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
-                    if (produtosArr.length >= 6) {
+                    if (produtosArr.length > 6) {
                         alert("Limite de produtos atingido")
                         return;
                     }
