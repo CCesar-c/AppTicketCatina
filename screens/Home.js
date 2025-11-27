@@ -58,20 +58,20 @@ export default function Home({ navigation }) {
             <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
               <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Carregar creditos</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Carregar {"\n"}Creditos</Text>
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
               <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Comprar na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na cantina</Text>
           </Animatable.View>
           <Animatable.View animation="bounceIn" delay={600} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
               <AntDesign name="qrcode" size={24} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Usar tickets na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Usar tickets {"\n"}na cantina</Text>
           </Animatable.View>
 
         </View>
