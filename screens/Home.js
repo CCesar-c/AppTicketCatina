@@ -56,24 +56,23 @@ export default function Home({ navigation }) {
         <View style={styles.row}>
           <Animatable.View animation="bounceIn" delay={300} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
-              <FontAwesome name="dollar" size={24} color={`${theme.colorIcon}`} />
+              <FontAwesome name="dollar" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
             <Text style={[styles.text, { color: theme.text }]}>Carregar {"\n"}Creditos</Text>
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
-              <AntDesign name="shop" size={24} color={`${theme.colorIcon}`} />
+              <AntDesign name="shop" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
             <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na cantina</Text>
           </Animatable.View>
           <Animatable.View animation="bounceIn" delay={600} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
-              <AntDesign name="qrcode" size={24} color={`${theme.colorIcon}`} />
+              <AntDesign name="qrcode" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
             <Text style={[styles.text, { color: theme.text }]}>Usar tickets {"\n"}na cantina</Text>
           </Animatable.View>
-
         </View>
       </View> : null}
       {
@@ -88,7 +87,9 @@ export default function Home({ navigation }) {
               style={{ alignItems: 'center', justifyContent: 'center', gap: 10, flexDirection: 'column' }}
             >
               <Text children={"Escaneie o QRcode"} style={[{ color: theme.text }]} />
-              <QRCode value="Pago" size={250} />
+              <View style={[{ padding: 5, backgroundColor: theme.borderColor }]} >
+                <QRCode value="Ticket Valido" size={250} />
+              </View>
 
               <NewButton
                 children={"Já está Pago?"}
