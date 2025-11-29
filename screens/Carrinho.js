@@ -80,7 +80,7 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
-                    if (produtosArr.length > 6) {
+                    if (produtosArr.length >= 6) {
                         alert("Limite de produtos atingido")
                         return;
                     }
@@ -160,7 +160,7 @@ export default function Carrinho() {
 
                 {/* CABEÇALHO */}
                 <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                <View style={{flexDirection:'row', gap:10, padding:10 }} >
+                <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
                     <Text style={[styles.text, { color: theme.text }]}>Limite de produtos 6</Text>
                     <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
                 </View>
@@ -169,8 +169,8 @@ export default function Carrinho() {
                         key={index}
                         style={[
                             styles.itemContainer,
-                            { backgroundColor: theme.background, flexDirection:'row', gap:10, padding:10 }
-                            
+                            { backgroundColor: theme.background, flexDirection: 'row', gap: 10, padding: 10 }
+
                         ]}
                     >
                         <Text style={[styles.text, { color: theme.text }]}>
@@ -183,7 +183,7 @@ export default function Carrinho() {
                     </View>
                 ))}
                 {/* ⚠️ ÁREA FIXA — NÃO DENTRO DO SCROLL */}
-                <View style={{ flexDirection:'column', gap:10, padding:10, justifyContent:'center'}}>
+                <View style={{ flexDirection: 'column', gap: 10, padding: 10, justifyContent: 'center' }}>
                     <NewButton children={"Comprar"} onPress={Comprar} />
 
                     <NewButton
