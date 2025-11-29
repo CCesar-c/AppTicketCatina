@@ -11,7 +11,6 @@ import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 import * as Animatable from 'react-native-animatable';
 
 function CardapioComidas({ navigation }) {
-
   const { Valor } = useContext(MoneyContext);
   const { theme } = useContext(ThemeContext);
 
@@ -75,6 +74,7 @@ function CardapioComidas({ navigation }) {
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
                   if (item.Estoque > 0) {
+
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",
@@ -199,6 +199,7 @@ function CardapioBebidas({ navigation }) {
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
                   if (item.Estoque > 0) {
+
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",
@@ -322,6 +323,7 @@ function CardapioOutros({ navigation }) {
                 style={{ width: 100, height: 60 }}
                 onPress={async () => {
                   if (item.Estoque > 0) {
+
                     const fecha = new Date().toLocaleString("pt-BR", {
                       dateStyle: "short",
                       timeStyle: "medium",

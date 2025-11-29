@@ -39,6 +39,7 @@ function RootNavigator() {
 
 export default function App() {
   return (
+
     <ThemeProvider>
       <MoneyProvider>
         <RootNavigator />

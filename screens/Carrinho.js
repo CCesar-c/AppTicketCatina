@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
 import { MoneyContext } from '../contexts/ContextMoney'
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
@@ -81,7 +81,6 @@ export default function Carrinho() {
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
                     if (produtosArr.length >= 6) {
-                        alert("Limite de produtos atingido")
                         return;
                     }
 
@@ -150,7 +149,11 @@ export default function Carrinho() {
         calcularTotal();
     }, [precos]);
 
-
+    {/* <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
+            <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
+                <Text style={[styles.text, { color: theme.text }]}>Limite de produtos 6</Text>
+                <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+            </View> */}
     return (
         <View style={{ flex: 1, height: '100%', gap: 20 }}>
             <Animatable.View
