@@ -148,12 +148,6 @@ export default function Carrinho() {
     useEffect(() => {
         calcularTotal();
     }, [precos]);
-
-    {/* <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-            <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
-                <Text style={[styles.text, { color: theme.text }]}>Limite de produtos 6</Text>
-                <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
-            </View> */}
     return (
         <View style={{ flex: 1, height: '100%', gap: 20 }}>
             <Animatable.View
@@ -164,7 +158,6 @@ export default function Carrinho() {
                 {/* CABEÇALHO */}
                 <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
                 <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
-                    <Text style={[styles.text, { color: theme.text }]}>Limite de produtos 6</Text>
                     <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
                 </View>
                 {produtos.map((produto, index) => (
