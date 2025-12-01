@@ -111,10 +111,10 @@ export default function Carrinho() {
 
                 } catch (error) {
                     console.error('Erro ao confirmar Compra:', error);
-                    alert('Erro ao confirmar compra');
+                    alert('Erro ao confirmar Compra');
                 }
             } else {
-                alert("Valor insuficiente!!");
+                alert("Valor Insuficiente!!");
             }
         })();
     }
