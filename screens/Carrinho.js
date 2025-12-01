@@ -1,18 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
-import { MoneyContext } from '../contexts/ContextMoney';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { MoneyContext } from '../contexts/ContextMoney'
+import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import { ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';  
 
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
-    const [produtos, setProdutos] = useState([]);
-    const [precos, setPrecos] = useState([]);
-    const [data, setdata] = useState([]);
+    const [produtos, setProdutos] = useState([])
+    const [precos, setPrecos] = useState([])
+    const [data, setdata] = useState([])
     const [tabelas, setTabelas] = useState([]);
     const [_, setTime] = useState(0);
     const [total, setTotal] = useState(0);
@@ -25,10 +26,19 @@ export default function Carrinho() {
             const dataStorage = await AsyncStorage.getItem('data');
             const tabelasStorage = await AsyncStorage.getItem('tabela');
 
-            if (tabelasStorage) setTabelas(JSON.parse(tabelasStorage));
-            if (produtosStorage) setProdutos(JSON.parse(produtosStorage));
-            if (precosStorage) setPrecos(JSON.parse(precosStorage));
-            if (dataStorage) setdata(dataStorage);
+            if (tabelasStorage) {
+                setTabelas(JSON.parse(tabelasStorage));
+            }
+
+            if (produtosStorage) {
+                setProdutos(JSON.parse(produtosStorage));
+            }
+            if (precosStorage) {
+                setPrecos(JSON.parse(precosStorage));
+            }
+            if (dataStorage) {
+                setdata(dataStorage);
+            }
         } catch (error) {
             console.error('Erro ao carregar histórico:', error);
         }
@@ -50,7 +60,8 @@ export default function Carrinho() {
                 })
                 .eq('Nome', NomeProduto);
 
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Erro ao atualizar estoque:', error);
         }
     }
@@ -59,6 +70,7 @@ export default function Carrinho() {
         (async () => {
             if (Valor >= total) {
                 try {
+                    // read current cart
                     const storedEmail = await AsyncStorage.getItem('Email');
 
                     const produtosStorage = await AsyncStorage.getItem('produto');
@@ -69,24 +81,21 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
-                    const fecha = new Date().toLocaleString('pt-BR', {
-                        dateStyle: 'short',
-                        timeStyle: 'medium'
-                    });
-
-                    const novos = produtosArr.map((p, i) => ({
-                        produto: p, preco: precosArr[i], data: fecha
-                    }));
+                    // build historico entries
+                    const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
+                    const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
 
                     for (let i = 0; i < produtosArr.length; i++) {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
+                    //  append to existing historico
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
-
                     await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
+
+                    //update Valor
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
                     await supabase
@@ -94,93 +103,121 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    await AsyncStorage.multiRemove(['produto', 'preco', 'data', 'tabela']);
+                    //clear cart
+                    await AsyncStorage.removeItem('produto');
+                    await AsyncStorage.removeItem('preco');
+                    await AsyncStorage.removeItem('data');
+                    await AsyncStorage.removeItem('tabela');
 
+
+                    // update local state
                     setProdutos([]);
                     setPrecos([]);
                     setdata([]);
                     setTotal(0);
-
                     alert('Compra concluída');
                 } catch (error) {
                     console.error('Erro ao confirmar compra:', error);
                     alert('Erro ao confirmar compra');
                 }
             } else {
-                alert("Valor insuficiente!!");
+                alert("Valor insuficiente!!")
+                return;
             }
         })();
     }
-
     useEffect(() => {
         carregarHistorico();
         const interval = setInterval(() => {
             setTime(prev => prev + 1);
             carregarHistorico();
         }, 5000);
-        return () => clearInterval(interval);
-    }, []);
+        return () => {
+            clearInterval(interval);
 
-    useEffect(() => {
-        const soma = precos.reduce((acc, curr) => acc + parseFloat(curr), 0);
+        }
+    }, [])
+
+    function calcularTotal() {
+        const soma = precos.reduce((acc, curr) => acc + parseFloat(curr), 0)
         setTotal(soma);
+    }
+    useEffect(() => {
+        calcularTotal();
     }, [precos]);
-
     return (
-        <View style={{ flex: 1 }}>
-            <Animatable.View animation="fadeInLeft" style={{ flex: 1, backgroundColor: theme.background }}>
+        <View style={{ flex: 1, height: '100%'}}>
+            <Animatable.View
+                animation="fadeInLeft"
+                style={{ flex: 1, backgroundColor: theme.background }}
+            >
 
-                {/* Cabeçalho */}
-                <View style={{ padding: 10 }}>
+                {/* CABEÇALHO */}
+
+                <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
                     <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R$ {Valor}</Text>
-                </View>
+                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+                    <NewButton children={"Comprar"} onPress={Comprar} />
 
-                {/* LISTA DE ITENS */}
-                <ScrollView style={{ flex: 1, marginBottom: 140 }}>
-                    {produtos.map((produto, index) => (
-                        <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-                            <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
-                            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {precos[index]}</Text>
-                        </View>
-                    ))}
-                </ScrollView>
-            </Animatable.View>
-
-            {/* ⚠️ ÁREA SEPARADA DE PAGAMENTO */}
-            <View style={styles.bottomSection}>
-
-                {/* TOTAL ACIMA DOS BOTÕES */}
-                <Text style={styles.totalText}>Total: R$ {total}</Text>
-
-                {/* BOTÕES */}
-                <View style={styles.buttonsRow}>
-                    <TouchableOpacity style={styles.buttonLeft} onPress={Comprar}>
-                        <Text style={styles.buttonText}>Comprar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.buttonRight}
+                    <NewButton
+                        children={"Limpar Carrinho"}
                         onPress={async () => {
-                            await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
+                            await AsyncStorage.multiRemove([
+                                "produto",
+                                "preco",
+                                "data",
+                                "tabela",
+                            ]);
                             setProdutos([]);
                             setPrecos([]);
                             setdata([]);
                             setTotal(0);
                         }}
-                    >
-                        <Text style={styles.buttonText}>Limpar</Text>
-                    </TouchableOpacity>
+                    />
+
+                    <Text style={[styles.text, { color: theme.text }]}>
+                        Total: R${total}
+                    </Text>
                 </View>
-            </View>
+                <ScrollView
+                    showsVerticalScrollIndicator={true}
+                    style={{ flex: 1 }}
+                    contentContainerStyle={styles.container}
+                >
+                    {produtos.map((produto, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.itemContainer,
+                                { backgroundColor: theme.background, flexDirection: 'row', gap: 10, padding: 10 }
+
+                            ]}
+                        >
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Produto: {produto}
+                            </Text>
+
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Preço: R$ {precos[index]}
+                            </Text>
+                        </View>
+                    ))}
+                </ScrollView>
+            </Animatable.View>
         </View>
+
     );
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
     itemContainer: {
         height: 40,
+
         alignItems: 'center',
         flexDirection: 'row',
         padding: 15,
@@ -189,63 +226,23 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#dee2e6",
     },
-
     text: {
         fontSize: 16,
+        color: "black",
     },
-
     title: {
         fontSize: 24,
         fontWeight: "bold",
+        marginBottom: 20,
     },
-
-    /* ---- ÁREA INFERIOR ---- */
-    bottomSection: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        padding: 10,
+    butao: {
+        alignItems: "center",
+        width: 100,
         backgroundColor: "white",
-        borderTopWidth: 2,
-        borderColor: "gray",
-    },
-
-    totalText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-
-    buttonsRow: {
-        flexDirection: "row",
-        width: "100%",
-    },
-
-    buttonLeft: {
-        flex: 1,
-        paddingVertical: 18,
-        backgroundColor: "#28a745",
-        justifyContent: "center",
-        alignItems: "center",
-        marginRight: 5,
+        padding: 10,
         borderRadius: 5,
+        margin: 10,
+        borderWidth: 1,
+        borderColor: "black",
     },
-
-    buttonRight: {
-        flex: 1,
-        paddingVertical: 18,
-        backgroundColor: "#dc3545",
-        justifyContent: "center",
-        alignItems: "center",
-        marginLeft: 5,
-        borderRadius: 5,
-    },
-
-    buttonText: {
-        color: "white",
-        fontSize: 18,
-        fontWeight: "bold",
-    }
 });
