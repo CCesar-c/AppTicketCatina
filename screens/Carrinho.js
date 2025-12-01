@@ -69,7 +69,7 @@ export default function Carrinho() {
         (async () => {
             if (Valor >= total) {
                 try {
-                    // read current cart
+                    // leia o carrinho atual
                     const storedEmail = await AsyncStorage.getItem('Email');
 
                     const produtosStorage = await AsyncStorage.getItem('produto');
@@ -93,13 +93,13 @@ export default function Carrinho() {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
-                    //  append to existing historico
+                    // acrescentar ao histórico existente
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
                     await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
-                    //update Valor
+                    //Melhorar Valor
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
                     await supabase
@@ -107,14 +107,14 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    //clear cart
+                    //Limpar carrinho
                     await AsyncStorage.removeItem('produto');
                     await AsyncStorage.removeItem('preco');
                     await AsyncStorage.removeItem('data');
                     await AsyncStorage.removeItem('tabela');
 
 
-                    // update local state
+                    //atualizar estado local
                     setProdutos([]);
                     setPrecos([]);
                     setdata([]);
