@@ -95,7 +95,7 @@ export default function Home({ navigation }) {
                 children={"Já está Pago?"}
                 onPress={async () => {
                   SetAtivarTela(false)
-                  const storedEmail = await AsyncStorage.getItem('Email');
+                  const storedEmail = await AsyncStorage.getItem('E-mail');
                   tickets == 1
                     ? (
                       await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
