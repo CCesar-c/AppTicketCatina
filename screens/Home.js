@@ -65,7 +65,7 @@ export default function Home({ navigation }) {
             <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
               <AntDesign name="shop" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na Cantina</Text>
           </Animatable.View>
           <Animatable.View animation="bounceIn" delay={600} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
