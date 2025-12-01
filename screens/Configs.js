@@ -100,7 +100,7 @@ export default function Configs({ navigation }) {
       >
         <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
 
-        <Text style={[styles.text, { color: theme.text }]}>Modo Tema</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Tema de Fundo</Text>
         <Animatable.View animation="pulse" iterationCount="infinite">
           <NewButton onPress={mudarTema}>
             {darkMode ? '🌙' : '🌞'}
