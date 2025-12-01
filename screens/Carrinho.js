@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
-import { MoneyContext } from '../contexts/ContextMoney';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { MoneyContext } from '../contexts/ContextMoney'
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
@@ -141,36 +141,11 @@ export default function Carrinho() {
                 {/* CABEÇALHO */}
                 <View style={{ padding: 10 }}>
                     <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                    
-                </View>
+                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+                    <NewButton children={"Comprar"} onPress={Comprar} />
 
-                {/* LISTA DE ITENS */}
-                <ScrollView style={{ flex: 1, marginBottom: 150 }}>
-                    {produtos.map((produto, index) => (
-                        <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-                            <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
-                            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {precos[index]}</Text>
-                        </View>
-                    ))}
-                </ScrollView>
-            </Animatable.View>
-
-            {/* ÁREA INFERIOR SEPARADA */}
-            <View style={[styles.bottomSection, {backgroundColor:theme.background }]}>
-
-                {/* TOTAL */}
-                
-                <Text style={[styles.totalText, { color: theme.text }]}>Saldo: R$ {Valor}</Text>
-                <Text style={[styles.totalText, { color: theme.text }]}>Total: R$ {total}</Text>
-
-                {/* BOTÕES */}
-                <View style={styles.buttonsRow}>
-                    <TouchableOpacity style={styles.buttonBuy} onPress={Comprar}>
-                        <Text style={styles.buttonText}>Comprar</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.buttonClear}
+                    <NewButton
+                        children={"Limpar Carrinho"}
                         onPress={async () => {
                             await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
                             setProdutos([]);

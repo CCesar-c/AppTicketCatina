@@ -16,9 +16,9 @@ export default function Configs({ navigation }) {
   const [descricao, setDescricao] = useState('');
   const [imgGet, setImg] = useState('');
 
-  // 📸 Seleccionar imagen (compatible con Android, iOS y Web)
+  // 📸 Selecionar imagem (Compativel com Android, iOS e Web)
   const pickImage = async () => {
-    const storedEmail = await AsyncStorage.getItem('Email');
+    const storedEmail = await AsyncStorage.getItem('E-mail');
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       alert("Permissão para acessar a galeria é necessária!");
@@ -38,10 +38,10 @@ export default function Configs({ navigation }) {
         let finalUri = '';
 
         if (Platform.OS === 'web') {
-          // 🌐 WEB: guardamos la imagen como Base64
+          // 🌐 WEB: guardamos as imagens como Base64
           finalUri = `data:image/jpeg;base64,${result.assets[0].base64}`;
         } else {
-          // 📱 MÓVIL: ao invés de copiar (pode retornar content:// em Android), salvamos a URI diretamente
+          // 📱 Mobile: ao invés de copiar (pode retornar content:// em Android), salvamos a URI diretamente
           finalUri = result.assets[0].uri;
         }
 
@@ -56,11 +56,11 @@ export default function Configs({ navigation }) {
     }
   };
 
-  // 💾 Guardar los datos de usuario
+  // 💾 Guardar os dados de usuario
   async function saveName() {
-    const storedEmail = await AsyncStorage.getItem('Email');
+    const storedEmail = await AsyncStorage.getItem('E-mail');
     if (!name || !turma || !descricao) {
-      alert("Por favor, preencha todos os campos.");
+      alert("Por favor, Preencher todos os campos.");
       return;
     }
     await AsyncStorage.setItem(`@storage_Name${storedEmail}`, name);
@@ -69,7 +69,7 @@ export default function Configs({ navigation }) {
     alert("✅ Dados salvos com sucesso!");
   }
 
-  // 📦 Cargar los datos guardados
+  // 📦 Carregar os dados guardados
   useEffect(() => {
     (async () => {
       const storedEmail = await AsyncStorage.getItem('Email');
@@ -98,15 +98,15 @@ export default function Configs({ navigation }) {
         contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
+        <Text style={[styles.title, { color: theme.text }]}>Configurações ⚙️</Text>
 
-        <Text style={[styles.text, { color: theme.text }]}>Modo Tema</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Tema de Fundo</Text>
         <Animatable.View animation="pulse" iterationCount="infinite">
           <NewButton onPress={mudarTema}>
             {darkMode ? '🌙' : '🌞'}
           </NewButton>
         </Animatable.View>
-        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario 📷</Text>
         {imgGet ? (
           <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
             <Image
@@ -130,7 +130,7 @@ export default function Configs({ navigation }) {
           </NewButton>
           )}
 
-        <Text style={[styles.text, { color: theme.text }]}>Infos do Aluno</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno 🪪</Text>
         <TextInput
           style={[styles.input, { color: theme.text, borderColor: theme.text }]}
           placeholder="Alterar Nome de usuário"
@@ -153,9 +153,9 @@ export default function Configs({ navigation }) {
           onChangeText={setDescricao}
         />
         <Animatable.View animation="tada">
-          <NewButton onPress={saveName}>Salvar</NewButton>
+          <NewButton onPress={saveName}>Salvar 💾</NewButton>
         </Animatable.View>
-        <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
+        <NewButton onPress={() => navigation.navigate('Login')}>Sair 📤</NewButton>
       </ScrollView >
     </Animatable.View>
   );

@@ -24,7 +24,7 @@ export default function Perfil() {
         if (storedDescricao) setDescricao(storedDescricao);
 
         if (storedImg) {
-          // Aceitamos URIs de web (base64) e mobile (file:// ou content://). Renderizamos direto.
+          // Aceitamos URIs de web (base64) e mobile (file:// ou content://). Renderizamos diretamente.
           setImgUri(storedImg);
         }
       } catch (err) {
@@ -44,7 +44,7 @@ export default function Perfil() {
         />
       ) : (
         <View style={[styles.placeholder, { borderColor: theme.text }]}>
-          <Text style={{ color: theme.text }}>Sem imagem</Text>
+          <Text style={{ color: theme.text }}>Adiconar Imagem 📷</Text>
         </View>
       )}
 
