@@ -1,5 +1,5 @@
 //Configs.js
-import { StyleSheet, Text, View, TextInput, Image, Platform, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Platform, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useContext } from 'react';
 import NewButton from '../components/componets';
@@ -108,7 +108,7 @@ export default function Configs({ navigation }) {
         </Animatable.View>
         <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario</Text>
         {imgGet ? (
-          <NewButton style={{ margin: 30 }} onPress={pickImage}>
+          <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
             <Image
               source={{ uri: imgGet }}
               style={{
@@ -118,7 +118,7 @@ export default function Configs({ navigation }) {
                 borderWidth: 2,
                 borderColor: theme.text,
               }} />
-          </NewButton>
+          </TouchableOpacity>
         ) :
           (<NewButton style={{
             width: 120,
