@@ -100,7 +100,7 @@ export default function Carrinho() {
                     const updatedHistorico = [...historicoArr, ...novos];
                     await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
-                    //update Valor
+                    //Melhorar Valor
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
                     await supabase
