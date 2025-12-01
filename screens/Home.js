@@ -16,8 +16,8 @@ export default function Home({ navigation }) {
   const [_, setTime] = useState(0);
 
   async function ticketsGet() {
-    const storedEmail = await AsyncStorage.getItem('Email');
-    const res = await AsyncStorage.getItem(`tickets${storedEmail}`);
+    const storedEmail = await AsyncStorage.getItem('E-mail');
+    const res = await AsyncStorage.getItem(`Tickets${storedEmail}`);
     setTickets(parseFloat(res) || 0);
   }
 
@@ -25,8 +25,8 @@ export default function Home({ navigation }) {
     if (tickets >= 1) return
     const newTickets = (tickets ?? 0) + 1;
     setTickets(newTickets);
-    const storedEmail = await AsyncStorage.getItem('Email');
-    await AsyncStorage.setItem(`tickets${storedEmail}`, String(newTickets));
+    const storedEmail = await AsyncStorage.getItem('E-mail');
+    await AsyncStorage.setItem(`Tickets${storedEmail}`, String(newTickets));
   }
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {ativarTela == false ? <View>
         <Animatable.View animation="fadeInDown">
-          <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
+          <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>🎟️ Ticket: {tickets}{"\n"}💰Saldo: R${Valor} </Text>
         </Animatable.View>
 
         <View style={styles.row}>
@@ -58,20 +58,20 @@ export default function Home({ navigation }) {
             <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
               <FontAwesome name="dollar" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Carregar {"\n"}Creditos</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Recarregar {"\n"}Creditos</Text>
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => navigation.navigate('Cardapio')}>
               <AntDesign name="shop" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Comprar {"\n"}na Cantina</Text>
           </Animatable.View>
           <Animatable.View animation="bounceIn" delay={600} style={styles.collum}>
             <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
               <AntDesign name="qrcode" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Usar ticket {"\n"}na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Usar ticket {"\n"}na Cantina</Text>
           </Animatable.View>
         </View>
       </View> : null}
@@ -95,7 +95,7 @@ export default function Home({ navigation }) {
                 children={"Já está Pago?"}
                 onPress={async () => {
                   SetAtivarTela(false)
-                  const storedEmail = await AsyncStorage.getItem('Email');
+                  const storedEmail = await AsyncStorage.getItem('E-mail');
                   tickets == 1
                     ? (
                       await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
