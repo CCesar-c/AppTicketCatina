@@ -44,7 +44,7 @@ export default function Perfil() {
         />
       ) : (
         <View style={[styles.placeholder, { borderColor: theme.text }]}>
-          <Text style={{ color: theme.text }}>Sem imagem</Text>
+          <Text style={{ color: theme.text }}>Adiconar Imagem 📷</Text>
         </View>
       )}
 
