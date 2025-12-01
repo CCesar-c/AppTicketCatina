@@ -5,7 +5,6 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import { ScrollView } from 'react-native';
 
 
 export default function Carrinho() {
@@ -226,7 +225,7 @@ const styles = StyleSheet.create({
     buttonLeft: {
         flex: 1,
         paddingVertical: 18,
-        backgroundColor: "#28a745",
+        backgroundColor: '#5DADEC',
         justifyContent: "center",
         alignItems: "center",
         marginRight: 5,
@@ -236,7 +235,7 @@ const styles = StyleSheet.create({
     buttonRight: {
         flex: 1,
         paddingVertical: 18,
-        backgroundColor: "#dc3545",
+        backgroundColor: "gray",
         justifyContent: "center",
         alignItems: "center",
         marginLeft: 5,
