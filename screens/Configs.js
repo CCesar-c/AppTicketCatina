@@ -18,7 +18,7 @@ export default function Configs({ navigation }) {
 
   // 📸 Seleccionar imagen (compatible con Android, iOS y Web)
   const pickImage = async () => {
-    const storedEmail = await AsyncStorage.getItem('Email');
+    const storedEmail = await AsyncStorage.getItem('E-mail');
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       alert("Permissão para acessar a galeria é necessária!");
