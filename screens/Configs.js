@@ -98,7 +98,7 @@ export default function Configs({ navigation }) {
         contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={[styles.title, { color: theme.text }]}>Configurações</Text>
+        <Text style={[styles.title, { color: theme.text }]}>Configurações ⚙️</Text>
 
         <Text style={[styles.text, { color: theme.text }]}>Tema de Fundo</Text>
         <Animatable.View animation="pulse" iterationCount="infinite">
