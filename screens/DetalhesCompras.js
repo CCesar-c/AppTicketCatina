@@ -20,7 +20,7 @@ export default function DetalhesCompras() {
 
                 <Text style={[styles.text, { color: theme.text }]}>💰{Valor}$</Text>
 
-                <Text style={[styles.text, { color: theme.text }]}> Estoque: {Estoque}</Text>
+                <Text style={[styles.text, { color: theme.text }]}> Estoque: {Estoque} 📦</Text>
             </View>
         </Animatable.View>
     )
