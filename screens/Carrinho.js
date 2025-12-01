@@ -146,7 +146,7 @@ export default function Carrinho() {
         calcularTotal();
     }, [precos]);
     return (
-        <View style={{ flex: 1, height: '100%', gap: 20 }}>
+        <View style={{ flex: 1, height: '100%'}}>
             <Animatable.View
                 animation="fadeInLeft"
                 style={{ flex: 1, backgroundColor: theme.background }}
@@ -179,7 +179,11 @@ export default function Carrinho() {
                         Total: R${total}
                     </Text>
                 </View>
-                <ScrollView>
+                <ScrollView
+                    showsVerticalScrollIndicator={true}
+                    style={{ flex: 1 }}
+                    contentContainerStyle={styles.container}
+                >
                     {produtos.map((produto, index) => (
                         <View
                             key={index}
@@ -207,8 +211,7 @@ export default function Carrinho() {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexDirection: 'column',
         justifyContent: 'space-between',
         padding: 10,
     },

@@ -470,13 +470,21 @@ export default function RouterCardapio({ navigation }) {
               <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
             </NewButton>
           ),
+
         }}
       >
         <Tab.Screen
           name="Comidas"
           component={CardapioComidas}
           options={{
-
+            headerRight: () => (
+              <NewButton
+                style={{ height: 40, width: 40 }}
+                onPress={() => navigation.navigate("Carrinho")}
+              >
+                <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
+              </NewButton>
+            ),
             tabBarIcon: () => (
               <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
             ),
@@ -486,7 +494,6 @@ export default function RouterCardapio({ navigation }) {
           name="Bebidas"
           component={CardapioBebidas}
           options={{
-
             tabBarIcon: () => (
               <FontAwesome name="glass" size={20} color={theme.text} />
             ),
