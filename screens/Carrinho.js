@@ -86,7 +86,7 @@ export default function Carrinho() {
                         return;
                     }
 
-                    // build historico entries
+                    // construir entradas do historico
                     const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
                     const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
 
