@@ -361,7 +361,7 @@ function CardapioOutros({ navigation }) {
                   }
                 }}
               >
-                Adcionar ao Carrinho
+                Adicionar ao Carrinho
               </NewButton>
 
               {/* BOTÃO DETALHES */}
