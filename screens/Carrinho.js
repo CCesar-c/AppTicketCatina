@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
 import { MoneyContext } from '../contexts/ContextMoney';
+
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
+import NewButton from '../components/componets';
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
