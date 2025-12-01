@@ -156,10 +156,12 @@ export default function Carrinho() {
             </Animatable.View>
 
             {/* ÁREA INFERIOR SEPARADA */}
-            <View style={styles.bottomSection}>
+            <View style={{backgroundColor: theme.background,position: "absolute", bottom: 0, left: 0, right: 0, borderTopWidth: 2, borderColor: "gray", padding: 15}}>
 
                 {/* TOTAL */}
-                <Text style={styles.totalText}>Total: R$ {total}</Text>
+                <Text style={{
+                    color: theme.text, fontSize: 18, fontWeight: "bold", marginBottom: 10
+                }}>Total: R$ {total}</Text>
 
                 {/* BOTÕES */}
                 <View style={styles.buttonsRow}>
