@@ -108,7 +108,7 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    //clear cart
+                    //Limpar carrinho
                     await AsyncStorage.removeItem('produto');
                     await AsyncStorage.removeItem('preco');
                     await AsyncStorage.removeItem('data');
