@@ -12,7 +12,7 @@ export default function Configs({ navigation }) {
   const { theme, darkMode, mudarTema } = useContext(ThemeContext);
   const [name, setName] = useState('');
   const [turma, setTurma] = useState('');
-  
+
   const [descricao, setDescricao] = useState('');
   const [imgGet, setImg] = useState('');
 
@@ -93,78 +93,75 @@ export default function Configs({ navigation }) {
   return (
 
 
-    <Animatable.View animation="fadeIn" style={[styles.container, { backgroundColor: theme.background }]}>
-      <ScrollView
-        contentContainerStyle={[styles.container, { backgroundColor: theme.background }]}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={[styles.title, { color: theme.text }]}>Configurações ⚙️</Text>
+    <View animation="fadeIn" style={[styles.container, { backgroundColor: theme.background }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Configurações ⚙️</Text>
 
-        <Text style={[styles.text, { color: theme.text }]}>Tema de Fundo</Text>
-        <Animatable.View animation="pulse" iterationCount="infinite">
-          <NewButton onPress={mudarTema}>
-            {darkMode ? '🌙' : '🌞'}
-          </NewButton>
-        </Animatable.View>
-        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario 📷</Text>
-        {imgGet ? (
-          <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
-            <Image
-              source={{ uri: imgGet }}
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                borderWidth: 2,
-                borderColor: theme.text,
-              }} />
-          </TouchableOpacity>
-        ) :
-          (<NewButton style={{
-            width: 120,
-            height: 120,
-            borderRadius: 60,
-            borderWidth: 2,
-            borderColor: theme.text
-          }} onPress={pickImage}>
-          </NewButton>
-          )}
+      <Text style={[styles.text, { color: theme.text }]}>Tema de Fundo</Text>
+      <Animatable.View animation="pulse" iterationCount="infinite">
+        <NewButton onPress={mudarTema}>
+          {darkMode ? '🌙' : '🌞'}
+        </NewButton>
+      </Animatable.View>
+      <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario 📷</Text>
+      {imgGet ? (
+        <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
+          <Image
+            source={{ uri: imgGet }}
+            style={{
+              width: 120,
+              height: 120,
+              borderRadius: 60,
+              borderWidth: 2,
+              borderColor: theme.text,
+            }} />
+        </TouchableOpacity>
+      ) :
+        (<NewButton style={{
+          width: 120,
+          height: 120,
+          borderRadius: 60,
+          borderWidth: 2,
+          borderColor: theme.text
+        }} onPress={pickImage}>
+        </NewButton>
+        )}
 
-        <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno 🪪</Text>
-        <TextInput
-          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-          placeholder="Alterar Nome de usuário"
-          placeholderTextColor={theme.text}
-          value={name}
-          onChangeText={setName}
-        />
-        <TextInput
-          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-          placeholder="Alterar Turma do usuário"
-          placeholderTextColor={theme.text}
-          value={turma}
-          onChangeText={setTurma}
-        />
-        <TextInput
-          style={[styles.input, { color: theme.text, borderColor: theme.text }]}
-          placeholder="Alterar Descrição do usuário"
-          placeholderTextColor={theme.text}
-          value={descricao}
-          onChangeText={setDescricao}
-        />
-        <Animatable.View animation="tada">
-          <NewButton onPress={saveName}>Salvar 💾</NewButton>
-        </Animatable.View>
-        <NewButton onPress={() => navigation.navigate('Login')}>Sair 📤</NewButton>
-      </ScrollView >
-    </Animatable.View>
+      <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno 🪪</Text>
+      <TextInput
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+        placeholder="Alterar Nome de usuário"
+        placeholderTextColor={theme.text}
+        value={name}
+        onChangeText={setName}
+      />
+      <TextInput
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+        placeholder="Alterar Turma do usuário"
+        placeholderTextColor={theme.text}
+        value={turma}
+        onChangeText={setTurma}
+      />
+      <TextInput
+        style={[styles.input, { color: theme.text, borderColor: theme.text }]}
+        placeholder="Alterar Descrição do usuário"
+        placeholderTextColor={theme.text}
+        value={descricao}
+        onChangeText={setDescricao}
+      />
+
+      <NewButton onPress={saveName}>Salvar 💾</NewButton>
+
+      <NewButton onPress={() => navigation.navigate('Login')}>Sair 📤</NewButton>
+
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 10,
+    width: '100%',
+    height:'100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

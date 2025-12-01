@@ -49,7 +49,7 @@ function CardapioComidas({ navigation }) {
         contentContainerStyle={styles.container}
       >
         {result.map((item, index) => (
-          <Animatable.View
+          <View
             key={index}
             style={[styles.card, { backgroundColor: theme.cards }]}
             animation="fadeInUp"
@@ -129,7 +129,7 @@ function CardapioComidas({ navigation }) {
                 Detalhes do produto
               </NewButton>
             </View>
-          </Animatable.View>
+          </View>
         ))}
       </ScrollView>
     </View >
@@ -174,7 +174,7 @@ function CardapioBebidas({ navigation }) {
         contentContainerStyle={styles.container}
       >
         {result.map((item, index) => (
-          <Animatable.View
+          <View
             key={index}
             style={[styles.card, { backgroundColor: theme.cards }]}
             animation="fadeInUp"
@@ -254,7 +254,7 @@ function CardapioBebidas({ navigation }) {
                 Detalhes do produto
               </NewButton>
             </View>
-          </Animatable.View>
+          </View>
         ))}
       </ScrollView>
     </View >
@@ -298,7 +298,7 @@ function CardapioOutros({ navigation }) {
         contentContainerStyle={styles.container}
       >
         {result.map((item, index) => (
-          <Animatable.View
+          <View
             key={index}
             style={[styles.card, { backgroundColor: theme.cards }]}
             animation="fadeInUp"
@@ -379,7 +379,7 @@ function CardapioOutros({ navigation }) {
                 Detalhes do produto
               </NewButton>
             </View>
-          </Animatable.View>
+          </View>
         ))}
       </ScrollView>
     </View >
