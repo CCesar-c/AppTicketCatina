@@ -141,34 +141,11 @@ export default function Carrinho() {
                 {/* CABEÇALHO */}
                 <View style={{ padding: 10 }}>
                     <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R$ {Valor}</Text>
-                </View>
-
-                {/* LISTA DE ITENS */}
-                <ScrollView style={{ flex: 1, marginBottom: 150 }}>
-                    {produtos.map((produto, index) => (
-                        <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-                            <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
-                            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {precos[index]}</Text>
-                        </View>
-                    ))}
-                </ScrollView>
-            </Animatable.View>
-
-            {/* ÁREA INFERIOR SEPARADA */}
-            <View style={styles.bottomSection}>
-
-                {/* TOTAL */}
-                <Text style={styles.totalText}>Total: R$ {total}</Text>
-
-                {/* BOTÕES */}
-                <View style={styles.buttonsRow}>
-                    <TouchableOpacity style={styles.buttonBuy} onPress={Comprar}>
-                        <Text style={styles.buttonText}>Comprar</Text>
-                    </TouchableOpacity>
+                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
+                    <NewButton children={"Comprar"} onPress={Comprar} />
 
                     <TouchableOpacity
-                        style={styles.buttonClear}
+                        children={"Limpar Carrinho"}
                         onPress={async () => {
                             await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
                             setProdutos([]);
@@ -180,10 +157,10 @@ export default function Carrinho() {
                         <Text style={styles.buttonText}>Limpar</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            <Animatable.View />
         </View>
-    );
-}
+    )
+};
 
 const styles = StyleSheet.create({
     itemContainer: {
