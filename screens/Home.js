@@ -50,7 +50,7 @@ export default function Home({ navigation }) {
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       {ativarTela == false ? <View>
         <Animatable.View animation="fadeInDown">
-          <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
+          <Text style={{ fontSize: 24, margin: 10, color: theme.text }}>🎟️ Ticket: {tickets}{"\n"}Saldo: R${Valor} </Text>
         </Animatable.View>
 
         <View style={styles.row}>
