@@ -58,7 +58,7 @@ export default function Home({ navigation }) {
             <NewButton style={styles.button} onPress={() => { navigation.navigate('Creditos') }}>
               <FontAwesome name="dollar" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Carregar {"\n"}Creditos</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Recarregar {"\n"}Creditos</Text>
           </Animatable.View>
 
           <Animatable.View animation="bounceIn" delay={450} style={styles.collum}>
