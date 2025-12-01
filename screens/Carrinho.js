@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import { ScrollView } from 'react-native';  
+import { ScrollView } from 'react-native';
 
 
 export default function Carrinho() {
@@ -81,6 +81,11 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
+                    if (produtosArr.length == 0) {
+                        alert("CARRINHO ESTA VAZIO!!")
+                        return;
+                    }
+
                     // build historico entries
                     const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
                     const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
@@ -146,7 +151,7 @@ export default function Carrinho() {
         calcularTotal();
     }, [precos]);
     return (
-        <View style={{ flex: 1, height: '100%'}}>
+        <View style={{ flex: 1, height: '100%' }}>
             <Animatable.View
                 animation="fadeInLeft"
                 style={{ flex: 1, backgroundColor: theme.background }}
