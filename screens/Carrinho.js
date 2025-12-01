@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
 import { MoneyContext } from '../contexts/ContextMoney';
-
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import NewButton from '../components/componets';
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
@@ -31,7 +29,7 @@ export default function Carrinho() {
             if (dataStorage) setdata(dataStorage);
 
         } catch (error) {
-            console.error('Erro ao carregar Histórico:', error);
+            console.error('Erro ao carregar histórico:', error);
         }
     };
 
@@ -52,7 +50,7 @@ export default function Carrinho() {
                 .eq('Nome', NomeProduto);
 
         } catch (error) {
-            console.error('Erro ao atualizar Estoque:', error);
+            console.error('Erro ao atualizar estoque:', error);
         }
     }
 
@@ -60,17 +58,17 @@ export default function Carrinho() {
         (async () => {
             if (Valor >= total) {
                 try {
-                    const storedEmail = await AsyncStorage.getItem('E-mail');
-                    const produtosStorage = await AsyncStorage.getItem('Produto');
-                    const precosStorage = await AsyncStorage.getItem('Preco');
-                    const tabelasStorage = await AsyncStorage.getItem('Tabela');
+                    const storedEmail = await AsyncStorage.getItem('Email');
+                    const produtosStorage = await AsyncStorage.getItem('produto');
+                    const precosStorage = await AsyncStorage.getItem('preco');
+                    const tabelasStorage = await AsyncStorage.getItem('tabela');
 
                     const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
                     if (produtosArr.length === 0) {
-                        alert("Carrinho está Vazio!!");
+                        alert("Carrinho está vazio!");
                         return;
                     }
 
@@ -89,11 +87,11 @@ export default function Carrinho() {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
-                    const historicoStorage = await AsyncStorage.getItem(`Historico${storedEmail}`);
+                    const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
 
-                    await AsyncStorage.setItem(`Historico${storedEmail}`, JSON.stringify(updatedHistorico));
+                    await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
 
@@ -102,21 +100,21 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    await AsyncStorage.multiRemove(["Produto", "Preco", "Data", "Tabela"]);
+                    await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
 
                     setProdutos([]);
                     setPrecos([]);
                     setdata([]);
                     setTotal(0);
 
-                    alert('Compra Concluída');
+                    alert('Compra concluída');
 
                 } catch (error) {
-                    console.error('Erro ao confirmar Compra:', error);
-                    alert('Erro ao confirmar Compra');
+                    console.error('Erro ao confirmar compra:', error);
+                    alert('Erro ao confirmar compra');
                 }
             } else {
-                alert("Valor Insuficiente!!");
+                alert("Valor insuficiente!!");
             }
         })();
     }
@@ -143,26 +141,51 @@ export default function Carrinho() {
                 {/* CABEÇALHO */}
                 <View style={{ padding: 10 }}>
                     <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
-                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
-                    <NewButton children={"Comprar"} onPress={Comprar} />
+                    <Text style={[styles.text, { color: theme.text }]}>Saldo: R$ {Valor}</Text>
+                </View>
+
+                {/* LISTA DE ITENS */}
+                <ScrollView style={{ flex: 1, marginBottom: 150 }}>
+                    {produtos.map((produto, index) => (
+                        <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
+                            <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
+                            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {precos[index]}</Text>
+                        </View>
+                    ))}
+                </ScrollView>
+            </Animatable.View>
+
+            {/* ÁREA INFERIOR SEPARADA */}
+            <View style={{backgroundColor: theme.background,position: "absolute", bottom: 0, left: 0, right: 0, borderTopWidth: 2, borderColor: "gray", padding: 15}}>
+
+                {/* TOTAL */}
+                <Text style={{
+                    color: theme.text, fontSize: 18, fontWeight: "bold", marginBottom: 10
+                }}>Total: R$ {total}</Text>
+
+                {/* BOTÕES */}
+                <View style={styles.buttonsRow}>
+                    <TouchableOpacity style={styles.buttonBuy} onPress={Comprar}>
+                        <Text style={styles.buttonText}>Comprar</Text>
+                    </TouchableOpacity>
 
                     <TouchableOpacity
-                        children={"Limpar Carrinho"}
+                        style={styles.buttonClear}
                         onPress={async () => {
-                            await AsyncStorage.multiRemove(["Produto", "Preco", "Data", "Tabela"]);
+                            await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
                             setProdutos([]);
                             setPrecos([]);
                             setdata([]);
                             setTotal(0);
                         }}
                     >
-                        <Text style={styles.buttonText}>Limpar 🗑️</Text>
+                        <Text style={styles.buttonText}>Limpar</Text>
                     </TouchableOpacity>
                 </View>
-            </Animatable.View >
+            </View>
         </View>
-    )
-};
+    );
+}
 
 const styles = StyleSheet.create({
     itemContainer: {
