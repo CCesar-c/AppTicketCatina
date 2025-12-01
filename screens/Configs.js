@@ -58,7 +58,7 @@ export default function Configs({ navigation }) {
 
   // 💾 Guardar os dados de usuario
   async function saveName() {
-    const storedEmail = await AsyncStorage.getItem('Email');
+    const storedEmail = await AsyncStorage.getItem('E-mail');
     if (!name || !turma || !descricao) {
       alert("Por favor, Preencher todos os campos.");
       return;
