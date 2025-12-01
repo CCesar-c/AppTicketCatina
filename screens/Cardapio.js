@@ -437,7 +437,7 @@ function Ranking() {
               resizeMode="contain"
             />
             <Text style={[styles.text, { color: theme.text }]}>
-              Top: {(index == 0 ? '1 🏆' : (index == 1 ? '2 🥈': (index == 2 ? '3 🥉' : index + 1)) )} {"\n"} Nome: {item.Nome} {"\n"} Vendas: {item.Vendas}
+              Top: {(index == 0 ? '1 🏆' : (index == 1 ? '2 🥈' : (index == 2 ? '3 🥉' : index + 1)))} {"\n"} Nome: {item.Nome} {"\n"} Vendas: {item.Vendas}
             </Text>
           </Animatable.View>
         ))}
@@ -462,7 +462,6 @@ export default function RouterCardapio({ navigation }) {
           headerTitleStyle: { color: theme.text },
           headerStyle: { backgroundColor: theme.background, },
           tabBarStyle: { backgroundColor: theme.background, },
-
           headerLeft: () => (
             <NewButton
               style={{ height: 40, width: 40 }}
@@ -471,25 +470,13 @@ export default function RouterCardapio({ navigation }) {
               <FontAwesome name="arrow-left" size={20} color={theme.colorIcon} />
             </NewButton>
           ),
-          headerRight: () => (
-            <NewButton
-              style={{
-                height: 40,
-                width: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: 10,
-              }}
-              onPress={() => navigation.navigate("Carrinho")}>
-              <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
-            </NewButton>
-          ),
         }}
       >
         <Tab.Screen
           name="Comidas"
           component={CardapioComidas}
           options={{
+
             tabBarIcon: () => (
               <MaterialCommunityIcons name="food-drumstick" size={20} color={theme.text} />
             ),
@@ -499,6 +486,7 @@ export default function RouterCardapio({ navigation }) {
           name="Bebidas"
           component={CardapioBebidas}
           options={{
+
             tabBarIcon: () => (
               <FontAwesome name="glass" size={20} color={theme.text} />
             ),
@@ -508,6 +496,7 @@ export default function RouterCardapio({ navigation }) {
           name="Outros"
           component={CardapioOutros}
           options={{
+
             tabBarIcon: () => (
               <FontAwesome name="ellipsis-h" size={20} color={theme.text} />
             ),
@@ -522,11 +511,16 @@ export default function RouterCardapio({ navigation }) {
             ),
           }}
         />
-        <Tab.Screen  name="Carrinho" component={Carrinho} /> 
+        <Tab.Screen name="Carrinho" component={Carrinho} options={{
+          tabBarIcon: () => (
+            <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
+          ),
+        }} />
       </Tab.Navigator>
     </FoodProvider>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

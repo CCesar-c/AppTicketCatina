@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
+import { ScrollView } from 'react-native-web';
 
 
 export default function Carrinho() {
@@ -80,10 +81,6 @@ export default function Carrinho() {
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
-                    if (produtosArr.length >= 6) {
-                        return;
-                    }
-
                     // build historico entries
                     const fecha = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
                     const novos = produtosArr.map((p, i) => ({ produto: p, preco: precosArr[i], data: fecha }));
@@ -156,30 +153,10 @@ export default function Carrinho() {
             >
 
                 {/* CABEÇALHO */}
-                <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
+
                 <View style={{ flexDirection: 'row', gap: 10, padding: 10 }} >
+                    <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
                     <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
-                </View>
-                {produtos.map((produto, index) => (
-                    <View
-                        key={index}
-                        style={[
-                            styles.itemContainer,
-                            { backgroundColor: theme.background, flexDirection: 'row', gap: 10, padding: 10 }
-
-                        ]}
-                    >
-                        <Text style={[styles.text, { color: theme.text }]}>
-                            Produto: {produto}
-                        </Text>
-
-                        <Text style={[styles.text, { color: theme.text }]}>
-                            Preço: R$ {precos[index]}
-                        </Text>
-                    </View>
-                ))}
-                {/* ⚠️ ÁREA FIXA — NÃO DENTRO DO SCROLL */}
-                <View style={{ flexDirection: 'column', gap: 10, padding: 10, justifyContent: 'center' }}>
                     <NewButton children={"Comprar"} onPress={Comprar} />
 
                     <NewButton
@@ -202,7 +179,26 @@ export default function Carrinho() {
                         Total: R${total}
                     </Text>
                 </View>
+                <ScrollView>
+                    {produtos.map((produto, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.itemContainer,
+                                { backgroundColor: theme.background, flexDirection: 'row', gap: 10, padding: 10 }
 
+                            ]}
+                        >
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Produto: {produto}
+                            </Text>
+
+                            <Text style={[styles.text, { color: theme.text }]}>
+                                Preço: R$ {precos[index]}
+                            </Text>
+                        </View>
+                    ))}
+                </ScrollView>
             </Animatable.View>
         </View>
 
