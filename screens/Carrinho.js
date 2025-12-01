@@ -147,7 +147,7 @@ export default function Carrinho() {
                     <TouchableOpacity
                         children={"Limpar Carrinho"}
                         onPress={async () => {
-                            await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
+                            await AsyncStorage.multiRemove(["Produto", "Preco", "Data", "Tabela"]);
                             setProdutos([]);
                             setPrecos([]);
                             setdata([]);
