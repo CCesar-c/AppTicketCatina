@@ -130,7 +130,7 @@ export default function Configs({ navigation }) {
           </NewButton>
           )}
 
-        <Text style={[styles.text, { color: theme.text }]}>Infos do Aluno</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno</Text>
         <TextInput
           style={[styles.input, { color: theme.text, borderColor: theme.text }]}
           placeholder="Alterar Nome de usuário"
