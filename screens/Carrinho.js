@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
 import { MoneyContext } from '../contexts/ContextMoney'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import { ScrollView } from 'react-native';
 
 
 export default function Carrinho() {
@@ -244,10 +243,45 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: 100,
         backgroundColor: "white",
-        padding: 10,
-        borderRadius: 5,
-        margin: 10,
-        borderWidth: 1,
-        borderColor: "black",
+        borderTopWidth: 2,
+        borderColor: "gray",
     },
+
+    totalText: {
+        color: "black",
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+
+    buttonsRow: {
+        flexDirection: "row",
+        width: "100%",
+    },
+
+    buttonLeft: {
+        flex: 1,
+        paddingVertical: 18,
+        backgroundColor: '#5DADEC',
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: 5,
+        borderRadius: 5,
+    },
+
+    buttonRight: {
+        flex: 1,
+        paddingVertical: 18,
+        backgroundColor: "gray",
+        justifyContent: "center",
+        alignItems: "center",
+        marginLeft: 5,
+        borderRadius: 5,
+    },
+
+    buttonText: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
+    }
 });
