@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NewButton from '../components/componets';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
-import { ScrollView } from 'react-native-web';
+import { ScrollView } from 'react-native';
 
 
 export default function Carrinho() {
