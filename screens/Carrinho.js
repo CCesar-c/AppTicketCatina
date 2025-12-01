@@ -87,11 +87,11 @@ export default function Carrinho() {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
-                    const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
+                    const historicoStorage = await AsyncStorage.getItem(`Historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
 
-                    await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
+                    await AsyncStorage.setItem(`Historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
 
@@ -100,17 +100,17 @@ export default function Carrinho() {
                         .update({ money: novoValor })
                         .eq("Emails", storedEmail);
 
-                    await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
+                    await AsyncStorage.multiRemove(["Produto", "Preco", "Data", "Tabela"]);
 
                     setProdutos([]);
                     setPrecos([]);
                     setdata([]);
                     setTotal(0);
 
-                    alert('Compra concluída');
+                    alert('Compra Concluída');
 
                 } catch (error) {
-                    console.error('Erro ao confirmar compra:', error);
+                    console.error('Erro ao confirmar Compra:', error);
                     alert('Erro ao confirmar compra');
                 }
             } else {
