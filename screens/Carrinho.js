@@ -115,7 +115,7 @@ export default function Carrinho() {
                     await AsyncStorage.removeItem('tabela');
 
 
-                    // update local state
+                    //atualizar estado local
                     setProdutos([]);
                     setPrecos([]);
                     setdata([]);
