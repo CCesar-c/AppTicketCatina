@@ -38,10 +38,10 @@ export default function Configs({ navigation }) {
         let finalUri = '';
 
         if (Platform.OS === 'web') {
-          // 🌐 WEB: guardamos la imagen como Base64
+          // 🌐 WEB: guardamos as imagens como Base64
           finalUri = `data:image/jpeg;base64,${result.assets[0].base64}`;
         } else {
-          // 📱 MÓVIL: ao invés de copiar (pode retornar content:// em Android), salvamos a URI diretamente
+          // 📱 Mobile: ao invés de copiar (pode retornar content:// em Android), salvamos a URI diretamente
           finalUri = result.assets[0].uri;
         }
 
@@ -56,7 +56,7 @@ export default function Configs({ navigation }) {
     }
   };
 
-  // 💾 Guardar los datos de usuario
+  // 💾 Guardar os dados de usuario
   async function saveName() {
     const storedEmail = await AsyncStorage.getItem('Email');
     if (!name || !turma || !descricao) {
