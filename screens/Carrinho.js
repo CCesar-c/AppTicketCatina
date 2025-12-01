@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ThemeContext } from '../contexts/themeContext';
-import { MoneyContext } from '../contexts/ContextMoney'
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { MoneyContext } from '../contexts/ContextMoney';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
@@ -144,7 +144,7 @@ export default function Carrinho() {
                     <Text style={[styles.text, { color: theme.text }]}>Saldo: R${Valor}</Text>
                     <NewButton children={"Comprar"} onPress={Comprar} />
 
-                    <NewButton
+                    <TouchableOpacity
                         children={"Limpar Carrinho"}
                         onPress={async () => {
                             await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
@@ -157,10 +157,10 @@ export default function Carrinho() {
                         <Text style={styles.buttonText}>Limpar</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            <Animatable.View />
         </View>
-    );
-}
+    )
+};
 
 const styles = StyleSheet.create({
     itemContainer: {
