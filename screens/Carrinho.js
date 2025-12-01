@@ -29,7 +29,7 @@ export default function Carrinho() {
             if (dataStorage) setdata(dataStorage);
 
         } catch (error) {
-            console.error('Erro ao carregar histórico:', error);
+            console.error('Erro ao carregar Histórico:', error);
         }
     };
 
@@ -50,7 +50,7 @@ export default function Carrinho() {
                 .eq('Nome', NomeProduto);
 
         } catch (error) {
-            console.error('Erro ao atualizar estoque:', error);
+            console.error('Erro ao atualizar Estoque:', error);
         }
     }
 
@@ -58,17 +58,17 @@ export default function Carrinho() {
         (async () => {
             if (Valor >= total) {
                 try {
-                    const storedEmail = await AsyncStorage.getItem('Email');
-                    const produtosStorage = await AsyncStorage.getItem('produto');
-                    const precosStorage = await AsyncStorage.getItem('preco');
-                    const tabelasStorage = await AsyncStorage.getItem('tabela');
+                    const storedEmail = await AsyncStorage.getItem('E-mail');
+                    const produtosStorage = await AsyncStorage.getItem('Produto');
+                    const precosStorage = await AsyncStorage.getItem('Preco');
+                    const tabelasStorage = await AsyncStorage.getItem('Tabela');
 
                     const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
                     const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
                     const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
 
                     if (produtosArr.length === 0) {
-                        alert("Carrinho está vazio!");
+                        alert("Carrinho está Vazio!!");
                         return;
                     }
 
