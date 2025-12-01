@@ -17,7 +17,7 @@ export default function Home({ navigation }) {
 
   async function ticketsGet() {
     const storedEmail = await AsyncStorage.getItem('E-mail');
-    const res = await AsyncStorage.getItem(`tickets${storedEmail}`);
+    const res = await AsyncStorage.getItem(`Tickets${storedEmail}`);
     setTickets(parseFloat(res) || 0);
   }
 
@@ -25,8 +25,8 @@ export default function Home({ navigation }) {
     if (tickets >= 1) return
     const newTickets = (tickets ?? 0) + 1;
     setTickets(newTickets);
-    const storedEmail = await AsyncStorage.getItem('Email');
-    await AsyncStorage.setItem(`tickets${storedEmail}`, String(newTickets));
+    const storedEmail = await AsyncStorage.getItem('E-mail');
+    await AsyncStorage.setItem(`Tickets${storedEmail}`, String(newTickets));
   }
 
   useEffect(() => {
