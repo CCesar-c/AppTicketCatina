@@ -512,7 +512,7 @@ export default function RouterCardapio({ navigation }) {
         />
         <Tab.Screen name="Carrinho" component={Carrinho} options={{
           tabBarIcon: () => (
-            <FontAwesome name="shopping-cart" size={22} color={theme.colorIcon} />
+            <FontAwesome name="shopping-cart" size={22} color={theme.text} />
           ),
         }} />
       </Tab.Navigator>
