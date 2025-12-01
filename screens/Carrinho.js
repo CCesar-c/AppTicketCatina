@@ -154,7 +154,7 @@ export default function Carrinho() {
                             setTotal(0);
                         }}
                     >
-                        <Text style={styles.buttonText}>Limpar</Text>
+                        <Text style={styles.buttonText}>Limpar 🗑️</Text>
                     </TouchableOpacity>
                 </View>
             </Animatable.View >
