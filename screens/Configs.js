@@ -106,7 +106,7 @@ export default function Configs({ navigation }) {
             {darkMode ? '🌙' : '🌞'}
           </NewButton>
         </Animatable.View>
-        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario</Text>
+        <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario 📷</Text>
         {imgGet ? (
           <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
             <Image
