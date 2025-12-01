@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Animatable from 'react-native-animatable';
 import { supabase } from '../Back-end/supabase';
+import { ScrollView } from 'react-native';
+
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
