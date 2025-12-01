@@ -145,7 +145,7 @@ export default function Carrinho() {
                 </View>
 
                 {/* LISTA DE ITENS */}
-                <ScrollView style={{ flex: 1, marginBottom: 150 }}>
+                <ScrollView style={{ flex: 1, marginBottom: 150, backgroundColor:theme.background }}>
                     {produtos.map((produto, index) => (
                         <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
                             <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
