@@ -70,7 +70,7 @@ export default function Carrinho() {
         (async () => {
             if (Valor >= total) {
                 try {
-                    // read current cart
+                    // leia o carrinho atual
                     const storedEmail = await AsyncStorage.getItem('Email');
 
                     const produtosStorage = await AsyncStorage.getItem('produto');
@@ -94,7 +94,7 @@ export default function Carrinho() {
                         await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
                     }
 
-                    //  append to existing historico
+                    // acrescentar ao histórico existente
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
                     const historicoArr = historicoStorage ? JSON.parse(historicoStorage) : [];
                     const updatedHistorico = [...historicoArr, ...novos];
