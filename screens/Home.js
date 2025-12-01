@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
   const [_, setTime] = useState(0);
 
   async function ticketsGet() {
-    const storedEmail = await AsyncStorage.getItem('Email');
+    const storedEmail = await AsyncStorage.getItem('E-mail');
     const res = await AsyncStorage.getItem(`tickets${storedEmail}`);
     setTickets(parseFloat(res) || 0);
   }
