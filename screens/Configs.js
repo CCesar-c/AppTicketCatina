@@ -60,7 +60,7 @@ export default function Configs({ navigation }) {
   async function saveName() {
     const storedEmail = await AsyncStorage.getItem('Email');
     if (!name || !turma || !descricao) {
-      alert("Por favor, preencha todos os campos.");
+      alert("Por favor, Preencher todos os campos.");
       return;
     }
     await AsyncStorage.setItem(`@storage_Name${storedEmail}`, name);
