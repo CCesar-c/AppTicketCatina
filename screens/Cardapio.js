@@ -111,7 +111,7 @@ function CardapioComidas({ navigation }) {
                   }
                 }}
               >
-                Adcionar ao Carrinho
+                Adicionar ao Carrinho
               </NewButton>
 
               {/* BOTÃO DETALHES */}
