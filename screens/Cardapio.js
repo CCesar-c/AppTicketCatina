@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MoneyContext } from '../contexts/ContextMoney';
 import { FoodContext, FoodProvider } from '../contexts/ContextFoodSB';
 import * as Animatable from 'react-native-animatable';
+import Carrinho from './Carrinho';
 
 function CardapioComidas({ navigation }) {
   const { Valor } = useContext(MoneyContext);
@@ -521,6 +522,7 @@ export default function RouterCardapio({ navigation }) {
             ),
           }}
         />
+        <Tab.Screen  name="Carrinho" component={Carrinho} /> 
       </Tab.Navigator>
     </FoodProvider>
   );

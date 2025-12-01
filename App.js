@@ -30,7 +30,7 @@ function RootNavigator() {
         <Stack.Screen name="RouterAdmin" component={RouterAdmin} options={{ headerShown: false }} />
         <Stack.Screen name="Cardapio" component={RouterCardapio} options={{ headerShown: false }} />
         <Stack.Screen name="Creditos" component={RouterCreditos} options={{ headerShown: false }} />
-        <Stack.Screen name="Carrinho" component={Carrinho} />
+        
 
       </Stack.Navigator >
     </NavigationContainer >
