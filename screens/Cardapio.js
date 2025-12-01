@@ -437,7 +437,7 @@ function Ranking() {
               resizeMode="contain"
             />
             <Text style={[styles.text, { color: theme.text }]}>
-              Top: {(index == 0 ? '1 🏆' : (index == 1 ? '2 🥈' : (index == 2 ? '3 🥉' : index + 1)))} {"\n"} Nome: {item.Nome} {"\n"} Vendas: {item.Vendas}
+              Classificação: {(index == 0 ? '1 🏆' : (index == 1 ? '2 🥈' : (index == 2 ? '3 🥉' : index + 1)))} {"\n"} Nome: {item.Nome} {"\n"} Vendas: {item.Vendas}
             </Text>
           </Animatable.View>
         ))}
