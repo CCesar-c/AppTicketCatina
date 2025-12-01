@@ -153,7 +153,7 @@ export default function Configs({ navigation }) {
           onChangeText={setDescricao}
         />
         <Animatable.View animation="tada">
-          <NewButton onPress={saveName}>Salvar</NewButton>
+          <NewButton onPress={saveName}>Salvar 💾</NewButton>
         </Animatable.View>
         <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
       </ScrollView >
