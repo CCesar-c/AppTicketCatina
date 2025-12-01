@@ -16,7 +16,7 @@ export default function Configs({ navigation }) {
   const [descricao, setDescricao] = useState('');
   const [imgGet, setImg] = useState('');
 
-  // 📸 Seleccionar imagen (compatible con Android, iOS y Web)
+  // 📸 Selecionar imagem (Compativel com Android, iOS e Web)
   const pickImage = async () => {
     const storedEmail = await AsyncStorage.getItem('E-mail');
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
