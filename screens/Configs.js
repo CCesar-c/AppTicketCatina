@@ -69,7 +69,7 @@ export default function Configs({ navigation }) {
     alert("✅ Dados salvos com sucesso!");
   }
 
-  // 📦 Cargar los datos guardados
+  // 📦 Carregar os dados guardados
   useEffect(() => {
     (async () => {
       const storedEmail = await AsyncStorage.getItem('Email');
