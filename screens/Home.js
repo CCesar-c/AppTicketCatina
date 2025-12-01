@@ -71,7 +71,7 @@ export default function Home({ navigation }) {
             <NewButton style={styles.button} onPress={() => SetAtivarTela(true)}>
               <AntDesign name="qrcode" size={20} color={`${theme.colorIcon}`} />
             </NewButton>
-            <Text style={[styles.text, { color: theme.text }]}>Usar ticket {"\n"}na cantina</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Usar ticket {"\n"}na Cantina</Text>
           </Animatable.View>
         </View>
       </View> : null}
