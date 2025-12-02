@@ -99,7 +99,7 @@ export default function Home({ navigation }) {
                   tickets == 1
                     ? (
                       await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
-                      alert("Comida adquirida\n-Biscoito creme cracer\n-Nescou com Agua de esgoto")
+                      alert("Comida adquirida\n-Biscoito creme craquer\n-Nescau com Agua")
                     )
                     : alert("Não tem Ticket disponível..")
                 }}
