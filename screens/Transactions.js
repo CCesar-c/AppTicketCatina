@@ -21,10 +21,23 @@ export default function Transactions() {
     }
   };
 
-  function Limpar() {
-    AsyncStorage.removeItem('historico');
+async function Limpar() {
+  try {
+    const storedEmail = await AsyncStorage.getItem("Email");
+    console.log("Email usado para limpar:", storedEmail);
+
+    const chave = `historico${storedEmail}`;
+    console.log("Limpando chave:", chave);
+
+    await AsyncStorage.removeItem(chave);
+
     setHistorico([]);
+
+    console.log("Apagado com sucesso!");
+  } catch (error) {
+    console.log("Erro ao limpar:", error);
   }
+}
 
   useEffect(() => {
     carregarHistorico();
@@ -44,9 +57,9 @@ export default function Transactions() {
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={[styles.itemContainer, { backgroundColor: theme.background }]}>
-            <Text style={[styles.text, { color: theme.text }]}>Produto: {item.produto}</Text>
-            <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {item.preco}</Text>
-            <Text style={[styles.text, { color: theme.text }]}>Horario: {item.data}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Produto:{"\n"} {item.produto}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Preço: {"\n"} R$  {item.preco}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>Horario: {"\n"} {item.data}</Text>
           </View>
         )}
       />
@@ -64,7 +77,7 @@ const styles = StyleSheet.create({
 
   },
   itemContainer: {
-    width:'100%',
+    width: '100%',
     backgroundColor: '#f8f9fa',
     padding: 15,
     marginVertical: 5,

@@ -116,16 +116,17 @@ export default function Configs({ navigation }) {
             }} />
         </TouchableOpacity>
       ) :
-        (<NewButton style={{
+        (<TouchableOpacity style={{
           width: 120,
           height: 120,
           borderRadius: 60,
           borderWidth: 2,
           borderColor: theme.text
         }} onPress={pickImage}>
-        </NewButton>
+        </TouchableOpacity>
         )}
 
+        <View style={{ gap: 15,  margin: 15, alignItems: 'center' }}>
       <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno 🪪</Text>
       <TextInput
         style={[styles.input, { color: theme.text, borderColor: theme.text }]}
@@ -152,7 +153,7 @@ export default function Configs({ navigation }) {
       <NewButton onPress={saveName}>Salvar 💾</NewButton>
 
       <NewButton onPress={() => navigation.navigate('Login')}>Sair 📤</NewButton>
-
+</View>
     </View>
   );
 }
