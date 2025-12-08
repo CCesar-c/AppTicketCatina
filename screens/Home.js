@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
   const [_, setTime] = useState(0);
 
   async function ticketsGet() {
-    const storedEmail = await AsyncStorage.getItem('E-mail');
+    const storedEmail = await AsyncStorage.getItem('Email');
     const res = await AsyncStorage.getItem(`Tickets${storedEmail}`);
     setTickets(parseFloat(res) || 0);
   }
@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
     if (tickets >= 1) return
     const newTickets = (tickets ?? 0) + 1;
     setTickets(newTickets);
-    const storedEmail = await AsyncStorage.getItem('E-mail');
+    const storedEmail = await AsyncStorage.getItem('Email');
     await AsyncStorage.setItem(`Tickets${storedEmail}`, String(newTickets));
   }
 
@@ -99,7 +99,7 @@ export default function Home({ navigation }) {
                   tickets == 1
                     ? (
                       await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
-                      alert("Comida adquirida\n-Biscoito creme craquer\n-Nescau com Agua")
+                      alert("Comida adquirida\n-Bolacha Club Social\n-copo de suco tang de uva")
                     )
                     : alert("Não tem Ticket disponível..")
                 }}
