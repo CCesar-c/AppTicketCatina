@@ -151,9 +151,9 @@ export default function Configs({ navigation }) {
         onChangeText={setDescricao}
       />
 
-      <NewButton onPress={() => {saveName}}>Salvar </NewButton>
+      <NewButton onPress={() => {saveName()}}>Salvar</NewButton>
 
-      <NewButton onPress={() => navigation.navigate('Login')}>Sair </NewButton>
+      <NewButton onPress={() => navigation.navigate('Login')}>Sair</NewButton>
 </View>
     </View>
   );

@@ -9,7 +9,7 @@ import Logo from '../assets/Cantina_Tickect_ja.png'
 
 export default function Login({ navigation }) {
   const { theme } = useContext(ThemeContext);
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [dataId, setDataid] = useState(0)
@@ -25,22 +25,23 @@ export default function Login({ navigation }) {
         console.log(error);
     }
 
-    async function loadData() {
-      const storedName = await AsyncStorage.getItem(`@storage_Name`);
+    // async function loadData() {
+    //   const storedName = await AsyncStorage.getItem(`@storage_Name`);
 
-      if (storedName) setName(storedName);
-    }
-    loadData();
+    //   // if (storedName) setName(storedName);
+    // }
+    // loadData();
     obtenerId();
   }, []);
 
   async function storeData() {
     // Salva nome associado ao email para que o Perfil/Configs consigam ler pelo mesmo identificador
-    if (email && name) {
+    if (email) {
       await AsyncStorage.setItem(`@storage_Name${email}`, name);
-    } else if (name) {
-      await AsyncStorage.setItem(`@storage_Name`, name);
     }
+    // } else if (name) {
+    //   await AsyncStorage.setItem(`@storage_Name`, name);
+    // }
     await AsyncStorage.setItem("Email", email);
   }
 
@@ -90,13 +91,13 @@ export default function Login({ navigation }) {
         </Image>
         <Text style={[styles.title, { color: theme.text }]}>Login</Text>
 
-        <TextInput
+        {/* <TextInput
           style={[styles.input, { color: theme.text }]}
           placeholder="Digite Seu Nome"
           value={name}
           onChangeText={setName}
           keyboardType="default"
-        />
+        /> */}
         <TextInput
 
           style={[styles.input, { color: theme.text }]}
