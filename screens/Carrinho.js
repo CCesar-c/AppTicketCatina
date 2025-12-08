@@ -9,7 +9,8 @@ import { supabase } from '../Back-end/supabase';
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
     const { Valor } = useContext(MoneyContext);
-
+    
+    const [_, setTime] = useState(0);
     const [produtos, setProdutos] = useState([]);
     const [precos, setPrecos] = useState([]);
     const [tabelas, setTabelas] = useState([]);
@@ -132,9 +133,13 @@ export default function Carrinho() {
         const soma = precos.reduce((acc, curr) => acc + parseFloat(curr), 0);
         setTotal(soma);
     }, [precos]);
-
     useEffect(() => {
         carregarHistorico();
+        const interval = setInterval(() => {
+            setTime(prev => prev + 1);
+            carregarHistorico();
+        }, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     return (
