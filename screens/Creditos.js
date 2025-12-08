@@ -126,6 +126,7 @@ function PaypixCC() {
         keyboardType="numeric"
         maxLength={15}
         style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
         onChangeText={(e) => {
           // Asegúrate de permitir decimales con coma o punto
           const sanitized = e.replace(',', '.');
@@ -144,6 +145,7 @@ function PaypixCC() {
               value={generatePixCode()}
               editable={false}
               style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+              
             />
           </View>
 
@@ -218,6 +220,7 @@ function PayCredito() {
           keyboardType="default"
           maxLength={30}
           style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
           onChangeText={setCardName}
           value={cardName}
         />
@@ -227,6 +230,7 @@ function PayCredito() {
           keyboardType="numeric"
           maxLength={16}
           style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
           onChangeText={(v) => setCardNumber(v.replace(/\D/g, ''))}
           value={cardNumber}
         />
@@ -236,6 +240,7 @@ function PayCredito() {
           keyboardType="numeric"
           maxLength={4}
           style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
           onChangeText={(v) => setExpiry(v.replace(/\D/g, ''))}
           value={expiry}
         />
@@ -245,6 +250,7 @@ function PayCredito() {
           keyboardType="numeric"
           maxLength={3}
           style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
           onChangeText={(v) => setCvc(v.replace(/\D/g, ''))}
           value={cvc}
         />
@@ -254,6 +260,7 @@ function PayCredito() {
           keyboardType="numeric"
           maxLength={15}
           style={[styles.input, { backgroundColor: theme.buttonBackground, color: 'white' }]}
+          placeholderTextColor="white"
           onChangeText={(e) => {
             const sanitized = e.replace(',', '.');
             setDepositarV(Number(sanitized));
@@ -303,7 +310,7 @@ function Historico() {
         numColumns={1}
         renderItem={({ item }) => (
           <View style={[styles.itemContainer, { backgroundColor: theme.background }]} >
-            <Text children={`PedidoID: ${item.PedidoID} Valor: ${item.Valor} Type: ${item.Type} Data: ${item.Data} CodeUnique: ${item.unique}`} style={[styles.text, { color: theme.text }]} />
+            <Text children={`PedidoID: ${item.PedidoID} \n Valor: ${item.Valor} \n Type: ${item.Type} \n Data: ${item.Data} \n CodeUnique: ${item.unique}`} style={[styles.text, { color: theme.text }]} />
           </View>
         )}
       />

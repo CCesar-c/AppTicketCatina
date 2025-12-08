@@ -8,31 +8,29 @@ import { supabase } from '../Back-end/supabase';
 
 export default function Carrinho() {
     const { theme } = useContext(ThemeContext);
-    const [produtos, setProdutos] = useState([]);
-    const [precos, setPrecos] = useState([]);
-    const [data, setdata] = useState([]);
-    const [tabelas, setTabelas] = useState([]);
-    const [_, setTime] = useState(0);
-    const [total, setTotal] = useState(0);
     const { Valor } = useContext(MoneyContext);
 
+    const [produtos, setProdutos] = useState([]);
+    const [precos, setPrecos] = useState([]);
+    const [tabelas, setTabelas] = useState([]);
+    const [total, setTotal] = useState(0);
+
+    // Carregar itens do carrinho do AsyncStorage
     const carregarHistorico = async () => {
         try {
             const produtosStorage = await AsyncStorage.getItem('produto');
             const precosStorage = await AsyncStorage.getItem('preco');
-            const dataStorage = await AsyncStorage.getItem('data');
             const tabelasStorage = await AsyncStorage.getItem('tabela');
 
-            if (tabelasStorage) setTabelas(JSON.parse(tabelasStorage));
-            if (produtosStorage) setProdutos(JSON.parse(produtosStorage));
-            if (precosStorage) setPrecos(JSON.parse(precosStorage));
-            if (dataStorage) setdata(dataStorage);
-
+            setProdutos(produtosStorage ? JSON.parse(produtosStorage) : []);
+            setPrecos(precosStorage ? JSON.parse(precosStorage) : []);
+            setTabelas(tabelasStorage ? JSON.parse(tabelasStorage) : []);
         } catch (error) {
             console.error('Erro ao carregar histórico:', error);
         }
     };
 
+    // Atualizar produto no supabase (Vendas e Estoque)
     async function AtualizarProdutos(NomeProduto, NomeTabela) {
         try {
             const { data: produtoAtual } = await supabase
@@ -48,26 +46,19 @@ export default function Carrinho() {
                     Estoque: produtoAtual.Estoque - 1
                 })
                 .eq('Nome', NomeProduto);
-
         } catch (error) {
             console.error('Erro ao atualizar estoque:', error);
         }
     }
 
+    // Comprar todos os itens
     function Comprar() {
         (async () => {
             if (Valor >= total) {
                 try {
                     const storedEmail = await AsyncStorage.getItem('Email');
-                    const produtosStorage = await AsyncStorage.getItem('produto');
-                    const precosStorage = await AsyncStorage.getItem('preco');
-                    const tabelasStorage = await AsyncStorage.getItem('tabela');
 
-                    const produtosArr = produtosStorage ? JSON.parse(produtosStorage) : [];
-                    const precosArr = precosStorage ? JSON.parse(precosStorage) : [];
-                    const tabelasArr = tabelasStorage ? JSON.parse(tabelasStorage) : [];
-
-                    if (produtosArr.length === 0) {
+                    if (produtos.length === 0) {
                         alert("Carrinho está vazio!");
                         return;
                     }
@@ -77,14 +68,14 @@ export default function Carrinho() {
                         timeStyle: 'medium'
                     });
 
-                    const novos = produtosArr.map((p, i) => ({
+                    const novos = produtos.map((p, i) => ({
                         produto: p,
-                        preco: precosArr[i],
+                        preco: precos[i],
                         data: fecha
                     }));
 
-                    for (let i = 0; i < produtosArr.length; i++) {
-                        await AtualizarProdutos(produtosArr[i], tabelasArr[i]);
+                    for (let i = 0; i < produtos.length; i++) {
+                        await AtualizarProdutos(produtos[i], tabelas[i]);
                     }
 
                     const historicoStorage = await AsyncStorage.getItem(`historico${storedEmail}`);
@@ -94,21 +85,16 @@ export default function Carrinho() {
                     await AsyncStorage.setItem(`historico${storedEmail}`, JSON.stringify(updatedHistorico));
 
                     const novoValor = parseFloat(Valor) - parseFloat(total || 0);
+                    await supabase.from("users").update({ money: novoValor }).eq("Emails", storedEmail);
 
-                    await supabase
-                        .from("users")
-                        .update({ money: novoValor })
-                        .eq("Emails", storedEmail);
-
-                    await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
+                    await AsyncStorage.multiRemove(["produto", "preco", "tabela"]);
 
                     setProdutos([]);
                     setPrecos([]);
-                    setdata([]);
+                    setTabelas([]);
                     setTotal(0);
 
                     alert('Compra concluída');
-
                 } catch (error) {
                     console.error('Erro ao confirmar compra:', error);
                     alert('Erro ao confirmar compra');
@@ -119,51 +105,65 @@ export default function Carrinho() {
         })();
     }
 
-    useEffect(() => {
-        carregarHistorico();
-        const interval = setInterval(() => {
-            setTime(prev => prev + 1);
-            carregarHistorico();
-        }, 5000);
+    // Remover item específico
+    const removerItem = async (index) => {
+        try {
+            const novosProdutos = produtos.filter((_, i) => i !== index);
+            const novosPrecos = precos.filter((_, i) => i !== index);
+            const novasTabelas = tabelas.filter((_, i) => i !== index);
 
-        return () => clearInterval(interval);
-    }, []);
+            setProdutos(novosProdutos);
+            setPrecos(novosPrecos);
+            setTabelas(novasTabelas);
 
+            await AsyncStorage.setItem('produto', JSON.stringify(novosProdutos));
+            await AsyncStorage.setItem('preco', JSON.stringify(novosPrecos));
+            await AsyncStorage.setItem('tabela', JSON.stringify(novasTabelas));
+
+            const soma = novosPrecos.reduce((acc, curr) => acc + parseFloat(curr), 0);
+            setTotal(soma);
+        } catch (error) {
+            console.error('Erro ao remover item:', error);
+        }
+    };
+
+    // Atualiza total sempre que precos mudarem
     useEffect(() => {
         const soma = precos.reduce((acc, curr) => acc + parseFloat(curr), 0);
         setTotal(soma);
     }, [precos]);
 
+    useEffect(() => {
+        carregarHistorico();
+    }, []);
+
     return (
         <View style={{ flex: 1 }}>
             <Animatable.View animation="fadeInLeft" style={{ flex: 1, backgroundColor: theme.background }}>
-
-                {/* CABEÇALHO */}
                 <View style={{ padding: 10 }}>
                     <Text style={[styles.title, { color: theme.text }]}>Carrinho</Text>
                     <Text style={[styles.text, { color: theme.text }]}>Saldo: R$ {Valor}</Text>
                 </View>
 
-                {/* LISTA DE ITENS */}
-                <ScrollView style={{ flex: 1, marginBottom: 150, backgroundColor:theme.background }}>
+                <ScrollView style={{ flex: 1, marginBottom: 150, backgroundColor: theme.background }}>
                     {produtos.map((produto, index) => (
                         <View key={index} style={[styles.itemContainer, { backgroundColor: theme.background }]}>
                             <Text style={[styles.text, { color: theme.text }]}>Produto: {produto}</Text>
                             <Text style={[styles.text, { color: theme.text }]}>Preço: R$ {precos[index]}</Text>
+                            <TouchableOpacity
+                                onPress={() => removerItem(index)}
+                                style={{ backgroundColor: 'red', padding: 3, borderRadius: 5 }}
+                            >
+                                <Text style={{ color: 'white' }}>Remover</Text>
+                            </TouchableOpacity>
                         </View>
                     ))}
                 </ScrollView>
             </Animatable.View>
 
-            {/* ÁREA INFERIOR SEPARADA */}
-            <View style={{backgroundColor: theme.background,position: "absolute", bottom: 0, left: 0, right: 0, borderTopWidth: 2, borderColor: "gray", padding: 15}}>
+            <View style={{ backgroundColor: theme.background, position: "absolute", bottom: 0, left: 0, right: 0, borderTopWidth: 2, borderColor: "gray", padding: 15 }}>
+                <Text style={{ color: theme.text, fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Total: R$ {total}</Text>
 
-                {/* TOTAL */}
-                <Text style={{
-                    color: theme.text, fontSize: 18, fontWeight: "bold", marginBottom: 10
-                }}>Total: R$ {total}</Text>
-
-                {/* BOTÕES */}
                 <View style={styles.buttonsRow}>
                     <TouchableOpacity style={styles.buttonBuy} onPress={Comprar}>
                         <Text style={styles.buttonText}>Comprar</Text>
@@ -172,10 +172,10 @@ export default function Carrinho() {
                     <TouchableOpacity
                         style={styles.buttonClear}
                         onPress={async () => {
-                            await AsyncStorage.multiRemove(["produto", "preco", "data", "tabela"]);
+                            await AsyncStorage.multiRemove(["produto", "preco", "tabela"]);
                             setProdutos([]);
                             setPrecos([]);
-                            setdata([]);
+                            setTabelas([]);
                             setTotal(0);
                         }}
                     >
@@ -199,40 +199,17 @@ const styles = StyleSheet.create({
         borderColor: "#dee2e6",
         justifyContent: "space-between"
     },
-
     text: {
         fontSize: 16
     },
-
     title: {
         fontSize: 24,
         fontWeight: "bold"
     },
-
-    /* ÁREA DIFERENCIADA INFERIOR */
-    bottomSection: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: "#f1f1f1",
-        borderTopWidth: 2,
-        borderColor: "#ccc",
-        padding: 15
-    },
-
-    totalText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10
-    },
-
     buttonsRow: {
         flexDirection: "row",
         width: "100%"
     },
-
     buttonBuy: {
         flex: 1,
         paddingVertical: 18,
@@ -242,7 +219,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginRight: 5
     },
-
     buttonClear: {
         flex: 1,
         paddingVertical: 18,
@@ -252,7 +228,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginLeft: 5
     },
-
     buttonText: {
         color: "white",
         fontSize: 18,

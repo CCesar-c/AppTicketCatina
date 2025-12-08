@@ -15,9 +15,6 @@ function AdminHome() {
   const { theme } = useContext(ThemeContext);
   const [result, setResult] = useState([]);
   const [fotos, setFotos] = useState([]);
-  // const [comidas, setComidas] = useState([]);
-  // const [bebidas, setBebidas] = useState([]);
-  // const [outros, setOutros] = useState([]);
 
   const tupdate = async (nombre, estado) => {
     try {
@@ -56,10 +53,6 @@ function AdminHome() {
             url: publicUrl.publicUrl
           };
         });
-
-        // setComidas(comiData);
-        // setBebidas(bebiData);
-        // setOutros(outrosData);
         setFotos(cadaFoto);
 
         setResult([...comiData, ...bebiData, ...outrosData]);
@@ -174,11 +167,18 @@ function CreateNewFood() {
   }
   return (
     <View style={[{ backgroundColor: theme.background, alignItems: 'center', justifyContent: 'center', flex: 1, gap: 20 }]} >
-      <Text style={[{ color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar uma nova comidas</Text>
+      <Text style={[{ color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar Nova Comida</Text>
 
       <View style={{ flexDirection: 'column', gap: 20, alignItems: 'center' }} >
-        <TextInput placeholder='Nome da comida' style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} onChangeText={setNome} />
-        <TextInput placeholder='Valor da comida em R$' style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} onChangeText={setValor} />
+        <TextInput placeholder='Nome da comida' placeholderTextColor="white"
+          style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]}
+          onChangeText={setNome} />
+
+        <TextInput placeholder='Valor da comida (R$) '
+          placeholderTextColor="white" // ✅ placeholder branco
+          style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]}
+          onChangeText={setValor} />
+
         <NewButton children={`Disponivel?: ${checked ? '✅' : '❌'} `} onPress={() => {
           setChecked(!checked)
         }} />
@@ -208,12 +208,22 @@ function AdicionarUser() {
   const [senha, setSenha] = useState('');
   const [checked, setChecked] = useState(false);
   return (
-    <View style={[styles.container, { backgroundColor: theme.background, color: theme.text , gap: 20, flexDirection: 'column', justifyContent: 'center', flex: 1, alignItems: 'center', flexWrap: 'nowrap' }]} >
+    <View style={[styles.container, { backgroundColor: theme.background, color: theme.text, gap: 20, flexDirection: 'column', justifyContent: 'center', flex: 1, alignItems: 'center', flexWrap: 'nowrap' }]} >
       <Text style={[styles.text, { color: theme.text, fontSize: 30, fontWeight: 'bold', }]} >Adicionar Novo usuario </Text>
-      <TextInput placeholder='Nome do novo usuario' onChangeText={setNome} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-      <TextInput placeholder='Email do novo usuario' onChangeText={setEmail} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
-      <TextInput placeholder='Senha do novo usuario' onChangeText={setSenha} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10,  }]} />
-      <NewButton style={[{color: theme.text}]} children={`Administrador?: ${checked ? '✅' : '❌'} `} onPress={() => {
+      <TextInput placeholder='Nome do novo usuario'
+        onChangeText={setNome}
+        placeholderTextColor="white"
+        style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
+        
+      <TextInput placeholder='Email do novo usuario'
+        placeholderTextColor="white"
+        onChangeText={setEmail} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10 }]} />
+
+      <TextInput placeholder='Senha do novo usuario'
+        placeholderTextColor="white"
+        onChangeText={setSenha} style={[{ backgroundColor: theme.buttonBackground, color: 'white', padding: 10, borderRadius: 10, }]} />
+
+      <NewButton style={[{ color: theme.text }]} children={`Administrador?: ${checked ? '✅' : '❌'} `} onPress={() => {
         setChecked(!checked)
       }} />
       <NewButton onPress={async () => {
@@ -228,10 +238,10 @@ function AdicionarUser() {
         } catch (error) {
           console.log("Error: " + error)
         }
-          setNome('')
-          setEmail('')
-          setSenha('')
-          alert("Usuario criado com sucesso");
+        setNome('')
+        setEmail('')
+        setSenha('')
+        alert("Usuario criado com sucesso");
       }} >
         {"Criar usuario"}
       </NewButton>
@@ -244,22 +254,22 @@ export default function RouterAdmin() {
   const Tab = createDrawerNavigator();
   return (
     <FoodProvider >
-  
-        <Tab.Navigator initialRouteName='Comidas'
-          screenOptions={{
-            headerStyle: { backgroundColor: theme.background },
-            headerTintColor: theme.text,
-            drawerStyle: { backgroundColor: theme.background },
-            drawerActiveTintColor: theme.text,
-            drawerInactiveTintColor: theme.text,
-          }}
-        >
-          <Tab.Screen name='Comidas' component={AdminHome} />
-          <Tab.Screen name='Nova Comida' component={CreateNewFood} />
-          <Tab.Screen name='Adicionar User' component={AdicionarUser} />
-          <Tab.Screen name='Perfil' component={Perfil} />
-          <Tab.Screen name='Configurações' component={Configs} />
-        </Tab.Navigator>
+
+      <Tab.Navigator initialRouteName='Comidas'
+        screenOptions={{
+          headerStyle: { backgroundColor: theme.background },
+          headerTintColor: theme.text,
+          drawerStyle: { backgroundColor: theme.background },
+          drawerActiveTintColor: theme.text,
+          drawerInactiveTintColor: theme.text,
+        }}
+      >
+        <Tab.Screen name='Comidas' component={AdminHome} />
+        <Tab.Screen name='Nova Comida' component={CreateNewFood} />
+        <Tab.Screen name='Adicionar User' component={AdicionarUser} />
+        <Tab.Screen name='Perfil' component={Perfil} />
+        <Tab.Screen name='Configurações' component={Configs} />
+      </Tab.Navigator>
 
     </FoodProvider>
   )
@@ -275,7 +285,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    width: 200,
+    width: 175,
     marginBottom: 15,
     padding: 10,
     borderRadius: 10,

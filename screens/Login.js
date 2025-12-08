@@ -35,7 +35,12 @@ export default function Login({ navigation }) {
   }, []);
 
   async function storeData() {
-    if (name) await AsyncStorage.setItem(`@storage_Name`, name);
+    // Salva nome associado ao email para que o Perfil/Configs consigam ler pelo mesmo identificador
+    if (email && name) {
+      await AsyncStorage.setItem(`@storage_Name${email}`, name);
+    } else if (name) {
+      await AsyncStorage.setItem(`@storage_Name`, name);
+    }
     await AsyncStorage.setItem("Email", email);
   }
 
@@ -96,6 +101,7 @@ export default function Login({ navigation }) {
 
           style={[styles.input, { color: theme.text }]}
           placeholder="Digite Seu Email"
+          placeholderTextColor="white"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -103,6 +109,7 @@ export default function Login({ navigation }) {
         <TextInput
           style={[styles.input, { color: theme.text }]}
           placeholder="Digite Sua Senha"
+          placeholderTextColor="white"
           value={pass}
           onChangeText={setPass}
           secureTextEntry
@@ -122,6 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingBottom: 110,
   },
   input: {
     height: 40,

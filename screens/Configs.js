@@ -18,7 +18,7 @@ export default function Configs({ navigation }) {
 
   // 📸 Selecionar imagem (Compativel com Android, iOS e Web)
   const pickImage = async () => {
-    const storedEmail = await AsyncStorage.getItem('E-mail');
+    const storedEmail = await AsyncStorage.getItem('Email');
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       alert("Permissão para acessar a galeria é necessária!");
@@ -58,7 +58,7 @@ export default function Configs({ navigation }) {
 
   // 💾 Guardar os dados de usuario
   async function saveName() {
-    const storedEmail = await AsyncStorage.getItem('E-mail');
+    const storedEmail = await AsyncStorage.getItem('Email');
     if (!name || !turma || !descricao) {
       alert("Por favor, Preencher todos os campos.");
       return;
@@ -102,7 +102,7 @@ export default function Configs({ navigation }) {
           {darkMode ? '🌙' : '🌞'}
         </NewButton>
       </Animatable.View>
-      <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario 📷</Text>
+      <Text style={[styles.text, { color: theme.text }]}>Foto De Usuario </Text>
       {imgGet ? (
         <TouchableOpacity style={{ margin: 30 }} onPress={pickImage}>
           <Image
@@ -123,11 +123,12 @@ export default function Configs({ navigation }) {
           borderWidth: 2,
           borderColor: theme.text
         }} onPress={pickImage}>
+          <Text style={{ color: theme.text, alignSelf: 'center', marginTop: 45 }}>Adicionar Foto</Text>
         </TouchableOpacity>
         )}
 
         <View style={{ gap: 15,  margin: 15, alignItems: 'center' }}>
-      <Text style={[styles.text, { color: theme.text }]}>Infor do Aluno 🪪</Text>
+      <Text style={[styles.text, { color: theme.text }]}>Info do Aluno </Text>
       <TextInput
         style={[styles.input, { color: theme.text, borderColor: theme.text }]}
         placeholder="Alterar Nome de usuário"
@@ -150,9 +151,9 @@ export default function Configs({ navigation }) {
         onChangeText={setDescricao}
       />
 
-      <NewButton onPress={saveName}>Salvar 💾</NewButton>
+      <NewButton onPress={saveName}>Salvar </NewButton>
 
-      <NewButton onPress={() => navigation.navigate('Login')}>Sair 📤</NewButton>
+      <NewButton onPress={() => navigation.navigate('Login')}>Sair </NewButton>
 </View>
     </View>
   );
