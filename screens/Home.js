@@ -98,7 +98,7 @@ export default function Home({ navigation }) {
                   const storedEmail = await AsyncStorage.getItem('E-mail');
                   tickets == 1
                     ? (
-                      await AsyncStorage.setItem(`tickets${storedEmail}`, String(tickets - 1)),
+                      await AsyncStorage.setItem(`Tickets${storedEmail}`, String(tickets - 1)),
                       alert("Comida adquirida\n-Bolacha Club Social\n-copo de suco tang de uva")
                     )
                     : alert("Não tem Ticket disponível..")
